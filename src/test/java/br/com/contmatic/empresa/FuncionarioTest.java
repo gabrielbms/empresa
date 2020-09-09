@@ -34,7 +34,9 @@ public class FuncionarioTest {
 
 	private static Funcionario funcionario;
 
-	private static Funcionario funcionarioCompleto;
+	private static Funcionario funcionarioSemEndereco;
+	
+	private static Funcionario funcionarioComEndereco;
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -50,7 +52,8 @@ public class FuncionarioTest {
 		salario = BigDecimal.valueOf(1500.00);
 		Endereco endereco = new Endereco("04508010", 274);
 		funcionario = new Funcionario(cpf, nome, salario);
-		funcionarioCompleto = new Funcionario(cpf, nome, idade, telefone, endereco, salario);
+		funcionarioSemEndereco = new Funcionario(cpf, nome, idade, telefone, salario);
+		funcionarioComEndereco = new Funcionario(cpf, nome, idade, telefone, endereco, salario);
 	}
 
 	@Test
@@ -70,12 +73,12 @@ public class FuncionarioTest {
 
 	@Test
 	public void nao_deve_aceitar_telefone_nulo() {
-		assertNotNull(funcionarioCompleto.getTelefone());
+		assertNotNull(funcionarioSemEndereco.getTelefone());
 	}
 
 	@Test
 	public void nao_deve_aceitar_endereco_nulo() {
-		assertNotNull(funcionarioCompleto.getEndereco());
+		assertNotNull(funcionarioComEndereco.getEndereco());
 	}
 
 	@Test
@@ -131,7 +134,7 @@ public class FuncionarioTest {
 
 	@Test
 	public void nao_deve_aceitar_espacos_em_branco_no_telefone() {
-		assertFalse(funcionarioCompleto.getTelefone().trim().isEmpty());
+		assertFalse(funcionarioComEndereco.getTelefone().trim().isEmpty());
 	}
 
 	@Test
@@ -186,18 +189,16 @@ public class FuncionarioTest {
 	public void deve_retornar_false_no_equals_com_funcionario_e_um_numero_aleatorio() {
 		assertFalse(funcionario.equals(new Object()));
 	}
-
+	
 	@Test
 	public void toString_deve_retornar_null() {
-		Funcionario funcionarioNull = new Funcionario(null, null, 0, null, null, new BigDecimal("0"));
-		assertThat(funcionarioNull.toString(), containsString("salario"));
+		funcionarioComEndereco = new Funcionario(null, null, 0, null, null, new BigDecimal("0"));
+		assertThat(funcionarioComEndereco.toString(), containsString("salario"));
 	}
-
+	
 	@Test
-	public void toString_deve_retornar_nulla() {
-		Funcionario funcionarioNull = new Funcionario("43701888817", "Gabriel Bueno", 25, "41108521",
-				(new Endereco("04508010", 274)), new BigDecimal("0"));
-		assertThat(funcionarioNull.toString(), containsString("salario"));
+	public void toString_deve_retornar_preenchido() {
+		assertThat(funcionarioComEndereco.toString(), containsString("salario"));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

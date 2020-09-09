@@ -13,18 +13,22 @@ public class Empresa {
 	private String telefone;
 
 	private Endereco endereco;
+	
+	public Empresa(String cnpj) {
+		this.setCnpj(cnpj);
+	}
 
 	public Empresa(String cnpj, String nome, String telefone) {
 		this.setCnpj(cnpj);
-		this.nome = nome;
-		this.telefone = telefone;
+		this.setNome(nome);
+		this.setTelefone(telefone);
 	}
 
 	public Empresa(String cnpj, String nome, String telefone, Endereco endereco) {
 		this.cnpj = cnpj;
-		this.nome = nome;
-		this.telefone = telefone;
-		this.endereco = endereco;
+		this.setNome(nome);
+		this.setTelefone(telefone);
+		this.setEndereco(endereco);
 	}
 
 	public String getCnpj() {

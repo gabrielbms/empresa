@@ -8,6 +8,8 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
+import java.math.BigDecimal;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -26,8 +28,6 @@ public class FornecedorTest {
 
 	private String telefone;
 
-	private String produto;
-
 	private static Fornecedor fornecedor;
 
 	@BeforeClass
@@ -40,8 +40,8 @@ public class FornecedorTest {
 		cnpj = "97904702000131";
 		nome = "CA peças LTDA";
 		telefone = "25871235";
+		Produto produto = new Produto(1, "placa mãe", 1, BigDecimal.valueOf(500.00));
 		Endereco endereco = new Endereco("02708010", 21);
-		produto = "5 placas mães";
 		fornecedor = new Fornecedor(cnpj, nome, telefone, produto, endereco);
 	}
 
@@ -50,7 +50,7 @@ public class FornecedorTest {
 		assertNotNull(fornecedor.getCnpj());
 	}
 
-	@Test //
+	@Test
 	public void nao_deve_aceitar_nome_nulo() {
 		fornecedor.setNome("CA peças LTDA");
 		assertNotNull(fornecedor.getNome());
@@ -97,8 +97,8 @@ public class FornecedorTest {
 
 	@Test
 	public void deve_testar_o_getProduto_esta_funcionando_corretamente() {
-		fornecedor.setProduto("5 placas mães");
-		assertThat(fornecedor.getProduto(), is("5 placas mães"));
+		fornecedor.setProduto(new Produto(1, "5 placas mães", 1, BigDecimal.valueOf(500.00)));
+		assertThat(fornecedor.getProduto().getNome(), is("5 placas mães"));
 	}
 
 	@Test
@@ -114,11 +114,6 @@ public class FornecedorTest {
 	@Test
 	public void nao_deve_aceitar_espacos_em_branco_no_telefone() {
 		assertFalse(fornecedor.getTelefone().trim().isEmpty());
-	}
-
-	@Test
-	public void nao_deve_aceitar_espacos_em_branco_no_produto() {
-		assertFalse(fornecedor.getProduto().trim().isEmpty());
 	}
 
 	@Test
@@ -173,13 +168,7 @@ public class FornecedorTest {
 	public void deve_retornar_false_no_equals_com_a_fornecedor_e_um_numero_aleatorio() {
 		assertFalse(fornecedor.equals(new Object()));
 	}
-
-	@Test
-	public void toString_deve_retornar_null() {
-		Fornecedor fornecedorNull = new Fornecedor(null, null);
-		assertThat(fornecedorNull.toString(), containsString(""));
-	}
-
+	
 	@Test
 	public void toString_deve_retornar_valores_preenchidos() {
 		Fornecedor fornecedorPreenchido = new Fornecedor("97904702000131", "CA peças LTDA");
@@ -245,33 +234,12 @@ public class FornecedorTest {
 	public void deve_testar_exception_do_setTelefone_tamanho_maior() {
 		fornecedor.setTelefone("1234567890");
 	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setProduto_null() {
-		fornecedor.setProduto(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setProduto_vazio() {
-		fornecedor.setProduto(" ");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setProduto_tamanho_menor() {
-		fornecedor.setProduto("a");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setProduto_tamanho_maior() {
-		fornecedor.setProduto("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcaabcabcabcabcabcabcabcabcabcabcabbcabxc");
-	}
 
 	@After
 	public void tearDown() {
 		cnpj = null;
 		nome = null;
 		telefone = null;
-		produto = null;
 	}
 
 	@AfterClass

@@ -10,21 +10,21 @@ public class Fornecedor {
 
 	private String telefone;
 
-	private String produto;
+	private Produto produto;
 
 	private Endereco endereco;
 
 	public Fornecedor(String cnpj, String nome) {
 		this.cnpj = cnpj;
-		this.nome = nome;
+		this.setNome(nome);
 	}
 
-	public Fornecedor(String cnpj, String nome, String telefone, String produto, Endereco endereco) {
-		this.cnpj = cnpj;
-		this.nome = nome;
-		this.telefone = telefone;
-		this.produto = produto;
-		this.endereco = endereco;
+	public Fornecedor(String cnpj, String nome, String telefone, Produto produto, Endereco endereco) {
+		this.setCnpj(cnpj);
+		this.setNome(nome);
+		this.setTelefone(telefone);
+		this.setProduto(produto);
+		this.setEndereco(endereco);		
 	}
 
 	public String getCnpj() {
@@ -60,14 +60,11 @@ public class Fornecedor {
 		this.telefone = telefone;
 	}
 
-	public String getProduto() {
+	public Produto getProduto() {
 		return produto;
 	}
 
-	public void setProduto(String produto) {
-		if (produto == null || produto.trim().isEmpty() || produto.length() < 2 || produto.length() > 50) {
-			throw new IllegalArgumentException("O produto foi preenchido incorretamente.");
-		}
+	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
 

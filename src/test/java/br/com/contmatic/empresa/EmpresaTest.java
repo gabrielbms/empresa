@@ -26,6 +26,8 @@ public class EmpresaTest {
 	private String telefone;
 
 	private Empresa empresa;
+	
+	Endereco endereco = new Endereco("03208070", 85);
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -43,6 +45,7 @@ public class EmpresaTest {
 
 	@Test
 	public void nao_deve_aceitar_cnpj_nulo() {
+		Empresa empresa = new Empresa("35667373000103");
 		assertNotNull(empresa.getCnpj());
 	}
 
@@ -109,7 +112,7 @@ public class EmpresaTest {
 
 	@Test
 	public void deve_retornar_false_no_hashCode_com_uma_empresa_de_cnpj_null() {
-		Empresa Empresa2 = new Empresa(null, "GB Conserto de computadores", "41108521");
+		Empresa Empresa2 = new Empresa(null, "GB Conserto de computadores", "41108521", endereco);
 		assertFalse(empresa.hashCode() == Empresa2.hashCode());
 	}
 
@@ -121,7 +124,7 @@ public class EmpresaTest {
 
 	@Test
 	public void deve_retornar_false_no_equals_com_um_empresa_de_cnpj_null() {
-		Empresa empresa2 = new Empresa(null, "GB Conserto de computadores", "41108521");
+		Empresa empresa2 = new Empresa(null, "GB Conserto de computadores", "41108521", endereco);
 		assertFalse(empresa.equals(empresa2) & empresa2.equals(empresa));
 	}
 
@@ -137,8 +140,8 @@ public class EmpresaTest {
 
 	@Test
 	public void deve_retornar_true_no_equals_comparando_dois_empresas_de_cnpj_null() {
-		Empresa empresa1 = new Empresa(null, "GB Conserto de computadores", "41108521");
-		Empresa empresa2 = new Empresa(null, "GB Conserto de computadores", "41108521");
+		Empresa empresa1 = new Empresa(null, "GB Conserto de computadores", "41108521", endereco);
+		Empresa empresa2 = new Empresa(null, "GB Conserto de computadores", "41108521", endereco);
 		assertTrue(empresa1.equals(empresa2));
 	}
 
@@ -152,12 +155,6 @@ public class EmpresaTest {
 	@Test
 	public void deve_retornar_false_no_equals_com_a_empresa_e_um_numero_aleatorio() {
 		assertFalse(empresa.equals(new Object()));
-	}
-
-	@Test
-	public void toString_deve_retornar_null() {
-		Empresa empresaNull = new Empresa(null, null, null, null);
-		assertThat(empresaNull.toString(), containsString(""));
 	}
 
 	@Test

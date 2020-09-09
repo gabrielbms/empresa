@@ -26,8 +26,6 @@ public class ClienteTest {
 
 	private String nome;
 
-	private String telefone;
-
 	private BigDecimal boleto;
 
 	private static Cliente cliente;
@@ -41,9 +39,13 @@ public class ClienteTest {
 	public void setUp() {
 		cpf = "43701888818";
 		nome = "Gabriel";
-		telefone = "27219389";
 		boleto = BigDecimal.valueOf(250.00);
-		cliente = new Cliente(cpf, nome, telefone, boleto);
+		cliente = new Cliente(cpf, nome, boleto);
+	}
+	
+	@Test
+	public void deve_testar_regex_do_setCpf() {
+		cliente.setCpf("aaaaaaaaaaa");;
 	}
 
 	@Test
@@ -103,6 +105,7 @@ public class ClienteTest {
 
 	@Test
 	public void nao_deve_aceitar_espacos_em_branco_no_telefone() {
+		cliente.setTelefone("123456788");
 		assertFalse(cliente.getTelefone().trim().isEmpty());
 	}
 
@@ -241,7 +244,6 @@ public class ClienteTest {
 	public void tearDown() {
 		cpf = null;
 		nome = null;
-		telefone = null;
 		boleto = ZERO;
 	}
 

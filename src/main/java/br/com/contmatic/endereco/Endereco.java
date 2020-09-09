@@ -15,10 +15,12 @@ public class Endereco {
 	private String cidade;
 
 	private String estado;
+	
+	private static final int CEP_SIZE = 8;
 
 	public Endereco(String cep, Integer numero) {
-		this.cep = cep;
-		this.numero = numero;
+		this.setCep(cep);
+		this.setNumero(numero);
 	}
 
 	public Endereco(String cep, String rua, Integer numero, String complemento, String bairro, String cidade,
@@ -37,6 +39,9 @@ public class Endereco {
 	}
 
 	public void setCep(String cep) {
+		if (cep == null || cep.trim().isEmpty() || cep.length() < CEP_SIZE || cep.length() > CEP_SIZE) {
+			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
+		}
 		this.cep = cep;
 	}
 
@@ -53,6 +58,9 @@ public class Endereco {
 	}
 
 	public void setNumero(Integer numero) {
+		if (numero == null || numero < 1) {
+			throw new IllegalArgumentException("O numero foi preenchido incorretamente.");
+		}
 		this.numero = numero;
 	}
 

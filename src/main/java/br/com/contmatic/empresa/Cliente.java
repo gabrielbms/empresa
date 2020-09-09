@@ -1,17 +1,27 @@
 package br.com.contmatic.empresa;
 
 import java.math.BigDecimal;
+import javax.validation.constraints.Pattern;
+import br.com.contmatic.util.RegexType;
+import br.com.contmatic.util.Constantes;
 
 public class Cliente {
 
+	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.CPF_INVALIDO)
 	private String cpf;
-
+	
 	private String nome;
 
 	private String telefone;
 
 	private BigDecimal boleto;
 
+	public Cliente(String cpf, String nome, BigDecimal boleto) {
+		this.setCpf(cpf);
+		this.setNome(nome);
+		this.setBoleto(boleto);
+	}
+	
 	public Cliente(String cpf, String nome, String telefone, BigDecimal boleto) {
 		this.cpf = cpf;
 		this.nome = nome;

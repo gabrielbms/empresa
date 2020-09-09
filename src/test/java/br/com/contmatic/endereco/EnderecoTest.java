@@ -15,8 +15,6 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import br.com.contmatic.endereco.Endereco;
-
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EnderecoTest {
 
@@ -171,7 +169,7 @@ public class EnderecoTest {
 
 	@Test
 	public void deve_retornar_false_no_hashCode_com_um_endereco_de_cep_null() {
-		Endereco endereco2 = new Endereco(null, 777);
+		Endereco endereco2 = new Endereco(null, rua, numero, complemento, bairro, cidade, estado);
 		assertFalse(endereco.hashCode() == endereco2.hashCode());
 	}
 
@@ -182,9 +180,9 @@ public class EnderecoTest {
 	}
 
 	@Test
-	public void deve_retornar_false_no_equals_com_um_endereco_de_cpf_null() {
-		Endereco endereco2 = new Endereco(null, 777);
-		assertFalse(endereco.equals(endereco2) & endereco2.equals(endereco));
+	public void deve_retornar_false_no_equals_com_um_endereco_de_cep_null() {
+		Endereco endereco2 = new Endereco(null, rua, numero, complemento, bairro, cidade, estado);
+		assertFalse(enderecoCompleto.equals(endereco2) & endereco2.equals(enderecoCompleto));
 	}
 
 	@Test
@@ -199,8 +197,8 @@ public class EnderecoTest {
 
 	@Test
 	public void deve_retornar_true_no_equals_comparando_dois_enderecos_de_cep_null() {
-		Endereco endereco1 = new Endereco(null, 777);
-		Endereco endereco2 = new Endereco(null, 767);
+		Endereco endereco1 = new Endereco(null, rua, numero, complemento, bairro, cidade, estado);
+		Endereco endereco2 = new Endereco(null, rua, numero, complemento, bairro, cidade, estado);
 		assertTrue(endereco1.equals(endereco2));
 	}
 
@@ -227,6 +225,31 @@ public class EnderecoTest {
 		Endereco enderecoPreenchido = new Endereco("03806040", "Rua Joseph pequeno Joseph", 777,
 				"Rua Joseph pequeno Joseph", "Jardim Santo Eduardo", "São Paulo", "SP");
 		assertThat(enderecoPreenchido.toString(), containsString(""));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCep_nullo() {
+		endereco.setCep(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCep_vazio() {
+		endereco.setCep(" ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCep_tamanho_menor() {
+		endereco.setCep("1234567");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCep_tamanho_maio() {
+		endereco.setCep("123456789");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNumero() {
+		endereco.setNumero(0);
 	}
 
 	@Ignore
