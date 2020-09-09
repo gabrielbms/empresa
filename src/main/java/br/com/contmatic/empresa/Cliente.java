@@ -23,11 +23,11 @@ public class Cliente {
 		return cpf;
 	}
 
-	public void setCpf(String setCpf) {
-		if (setCpf == null || setCpf.trim().isEmpty()) {
-			throw new IllegalArgumentException("Dados não preenchidos corretamente");
+	public void setCpf(String cpf) {
+		if (cpf == null || cpf.trim().isEmpty() || cpf.length() < 11 || cpf.length() > 11) {
+			throw new IllegalArgumentException("O CPF foi preenchido incorretamente.");
 		}
-		this.cpf = setCpf;
+		this.cpf = cpf;
 	}
 
 	public String getNome() {
@@ -35,6 +35,9 @@ public class Cliente {
 	}
 
 	public void setNome(String nome) {
+		if (nome == null || nome.trim().isEmpty() || nome.length() < 2 || nome.length() > 60) {
+			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
+		}
 		this.nome = nome;
 	}
 
@@ -43,6 +46,9 @@ public class Cliente {
 	}
 
 	public void setTelefone(String telefone) {
+		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < 8 || telefone.length() > 9) {
+			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
+		}
 		this.telefone = telefone;
 	}
 
@@ -51,7 +57,11 @@ public class Cliente {
 	}
 
 	public void setBoleto(BigDecimal boleto) {
-		this.boleto = boleto;
+		if (boleto.doubleValue() >= 1) {
+			this.boleto = boleto;
+		} else {
+			throw new IllegalArgumentException("Boleto não pode ser menor que um.");
+		}
 	}
 
 	@Override

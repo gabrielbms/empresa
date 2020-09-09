@@ -32,6 +32,9 @@ public class Fornecedor {
 	}
 
 	public void setCnpj(String cnpj) {
+		if (cnpj == null || cnpj.trim().isEmpty() || cnpj.length() < 14 || cnpj.length() > 14) {
+			throw new IllegalArgumentException("O CNPJ foi preenchido incorretamente.");
+		}
 		this.cnpj = cnpj;
 	}
 
@@ -40,6 +43,9 @@ public class Fornecedor {
 	}
 
 	public void setNome(String nome) {
+		if (nome == null || nome.trim().isEmpty() || nome.length() < 2 || nome.length() > 80) {
+			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
+		}
 		this.nome = nome;
 	}
 
@@ -48,6 +54,9 @@ public class Fornecedor {
 	}
 
 	public void setTelefone(String telefone) {
+		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < 8 || telefone.length() > 9) {
+			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
+		}
 		this.telefone = telefone;
 	}
 
@@ -56,6 +65,9 @@ public class Fornecedor {
 	}
 
 	public void setProduto(String produto) {
+		if (produto == null || produto.trim().isEmpty() || produto.length() < 2 || produto.length() > 50) {
+			throw new IllegalArgumentException("O produto foi preenchido incorretamente.");
+		}
 		this.produto = produto;
 	}
 

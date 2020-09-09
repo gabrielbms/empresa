@@ -6,6 +6,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -13,9 +14,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
-import br.com.contmatic.empresa.Fornecedor;
 import br.com.contmatic.endereco.Endereco;;
 
 @FixMethodOrder(NAME_ASCENDING)
@@ -80,7 +79,7 @@ public class FornecedorTest {
 
 	@Test
 	public void deve_testar_o_getNome_esta_funcionando_corretamente() {
-		fornecedor.setCnpj("CA peças LTDA");
+		fornecedor.setNome("CA peças LTDA");
 		assertThat(fornecedor.getNome(), containsString("CA peças LTDA"));
 	}
 
@@ -185,6 +184,86 @@ public class FornecedorTest {
 	public void toString_deve_retornar_valores_preenchidos() {
 		Fornecedor fornecedorPreenchido = new Fornecedor("97904702000131", "CA peças LTDA");
 		assertThat(fornecedorPreenchido.toString(), containsString(""));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_null() {
+		fornecedor.setCnpj(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_vazio() {
+		fornecedor.setCnpj(" ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_tamanho_menor() {
+		fornecedor.setCnpj("1313131313131");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_tamanho_maior() {
+		fornecedor.setCnpj("151515151515151");
+	}
+		
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_null() {
+		fornecedor.setNome(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_vazio() {
+		fornecedor.setNome(" ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_tamanho_menor() {
+		fornecedor.setNome("a");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_tamanho_maior() {
+		fornecedor.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcaabcabcabcabcabcabcabcabcabcabcabbcabxc");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setTelefone_null() {
+		fornecedor.setTelefone(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setTelefone_vazio() {
+		fornecedor.setTelefone(" ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setTelefone_tamanho_menor() {
+		fornecedor.setTelefone("1234567");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setTelefone_tamanho_maior() {
+		fornecedor.setTelefone("1234567890");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setProduto_null() {
+		fornecedor.setProduto(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setProduto_vazio() {
+		fornecedor.setProduto(" ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setProduto_tamanho_menor() {
+		fornecedor.setProduto("a");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setProduto_tamanho_maior() {
+		fornecedor.setProduto("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcaabcabcabcabcabcabcabcabcabcabcabbcabxc");
 	}
 
 	@After

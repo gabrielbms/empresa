@@ -38,30 +38,43 @@ public class Funcionario {
 	}
 
 	public void setCpf(String cpf) {
+		if (cpf == null || cpf.trim().isEmpty() || cpf.length() < 11 || cpf.length() > 11) {
+			throw new IllegalArgumentException("O CPF foi preenchido incorretamente.");
+		}
 		this.cpf = cpf;
 	}
+
 
 	public String getNome() {
 		return nome;
 	}
 
 	public void setNome(String nome) {
+		if (nome == null || nome.trim().isEmpty() || nome.length() < 2 || nome.length() > 60) {
+			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
+		}
 		this.nome = nome;
 	}
-
 	public int getIdade() {
 		return idade;
 	}
 
 	public void setIdade(int idade) {
-		this.idade = idade;
+		if (idade >= 14) {
+			this.idade = idade;
+		} else {
+			throw new IllegalArgumentException("salario não pode ser menor que 14.");
+		}
 	}
-
+	
 	public String getTelefone() {
 		return telefone;
 	}
 
 	public void setTelefone(String telefone) {
+		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < 8 || telefone.length() > 9) {
+			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
+		}
 		this.telefone = telefone;
 	}
 
@@ -78,7 +91,11 @@ public class Funcionario {
 	}
 
 	public void setSalario(BigDecimal salario) {
-		this.salario = salario;
+		if (salario.doubleValue() >= 1) {
+			this.salario = salario;
+		} else {
+			throw new IllegalArgumentException("salario não pode ser menor que um.");
+		}
 	}
 
 	@Override

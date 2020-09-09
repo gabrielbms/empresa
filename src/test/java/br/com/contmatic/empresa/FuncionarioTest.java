@@ -6,6 +6,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import java.math.BigDecimal;
 
@@ -15,9 +16,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
-import br.com.contmatic.empresa.Funcionario;
 import br.com.contmatic.endereco.Endereco;
 
 @FixMethodOrder(NAME_ASCENDING)
@@ -142,7 +141,7 @@ public class FuncionarioTest {
 	}
 
 	@Test
-	public void deve_retornar_false_no_hashCode_com_um_cliente_de_cpf_null() {
+	public void deve_retornar_false_no_hashCode_com_um_funcionario_de_cpf_null() {
 		Funcionario funcionario2 = new Funcionario(null, "Gabriel Bueno", BigDecimal.valueOf(1500.00));
 		assertFalse(funcionario.hashCode() == funcionario2.hashCode());
 	}
@@ -199,6 +198,77 @@ public class FuncionarioTest {
 		Funcionario funcionarioNull = new Funcionario("43701888817", "Gabriel Bueno", 25, "41108521",
 				(new Endereco("04508010", 274)), new BigDecimal("0"));
 		assertThat(funcionarioNull.toString(), containsString("salario"));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_null() {
+		funcionario.setCpf(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_vazio() {
+		funcionario.setCpf(" ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_tamanho_menor() {
+		funcionario.setCpf("1010101010");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_tamanho_maior() {
+		funcionario.setCpf("121212121212");
+	}
+		
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_null() {
+		funcionario.setNome(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_vazio() {
+		funcionario.setNome(" ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_tamanho_menor() {
+		funcionario.setNome("a");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_tamanho_maior() {
+		funcionario.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabxc");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setTelefone_null() {
+		funcionario.setTelefone(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setTelefone_vazio() {
+		funcionario.setTelefone(" ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setTelefone_tamanho_menor() {
+		funcionario.setTelefone("1234567");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setTelefone_tamanho_maior() {
+		funcionario.setTelefone("1234567890");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setIdade() {
+		funcionario.setIdade(3);
+	}
+
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setSalario_negativo() {
+		funcionario.setSalario(BigDecimal.valueOf(-50.00));
 	}
 
 	@After

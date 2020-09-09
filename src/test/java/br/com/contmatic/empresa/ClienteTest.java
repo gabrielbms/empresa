@@ -19,8 +19,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import br.com.contmatic.empresa.Cliente;
-
 @FixMethodOrder(NAME_ASCENDING)
 public class ClienteTest {
 
@@ -71,13 +69,8 @@ public class ClienteTest {
 
 	@Test
 	public void deve_testar_o_getCpf_esta_funcionando_corretamente() { 
-		cliente.setCpf("437.018.888-18");
-		assertThat(cliente.getCpf(), containsString("437.018.888-18"));
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_o_exception_do_setcpf() {
-		cliente.setCpf(null);
+		cliente.setCpf("43701888818");
+		assertThat(cliente.getCpf(), containsString("43701888818"));
 	}
 
 	@Test
@@ -88,8 +81,8 @@ public class ClienteTest {
 
 	@Test
 	public void deve_testar_o_getTelefone_esta_funcionando_corretamente() {
-		cliente.setTelefone("2721-9389");
-		assertThat(cliente.getTelefone(), containsString("2721-9389"));
+		cliente.setTelefone("27219389");
+		assertThat(cliente.getTelefone(), containsString("27219389"));
 	}
 
 	@Test
@@ -121,7 +114,7 @@ public class ClienteTest {
 
 	@Test
 	public void deve_retornar_false_no_hashCode_com_um_cliente_de_cpf_null() {
-		Cliente cliente2 = new Cliente(null, "Gabriel", "2721-9389", BigDecimal.valueOf(250.00));
+		Cliente cliente2 = new Cliente(null, "Gabriel", "27219389", BigDecimal.valueOf(250.00));
 		assertFalse(cliente.hashCode() == cliente2.hashCode());
 	}
 
@@ -133,7 +126,7 @@ public class ClienteTest {
 
 	@Test
 	public void deve_retornar_false_no_equals_com_um_cliente_de_cpf_null() {
-		Cliente cliente2 = new Cliente(null, "Gabriela", "2721-9390", BigDecimal.valueOf(270.00));
+		Cliente cliente2 = new Cliente(null, "Gabriela", "27219390", BigDecimal.valueOf(270.00));
 		assertFalse(cliente.equals(cliente2) & cliente2.equals(cliente));
 	}
 
@@ -149,15 +142,15 @@ public class ClienteTest {
 
 	@Test
 	public void deve_retornar_true_no_equals_comparando_dois_clientes_de_cpf_null() {
-		Cliente cliente1 = new Cliente(null, "Gabriel", "2721-9389", BigDecimal.valueOf(250.00));
-		Cliente cliente2 = new Cliente(null, "Gabriela", "2721-9390", BigDecimal.valueOf(270.00));
+		Cliente cliente1 = new Cliente(null, "Gabriel", "27219389", BigDecimal.valueOf(250.00));
+		Cliente cliente2 = new Cliente(null, "Gabriela", "27219390", BigDecimal.valueOf(270.00));
 		assertTrue(cliente1.equals(cliente2));
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_com_clientes_de_cpf_diferentes() {
-		Cliente cliente1 = new Cliente("437.018.888-20", "Gabriel", "2721-9389", BigDecimal.valueOf(250.00));
-		Cliente cliente2 = new Cliente("437.018.888-19", "Gabriela", "2721-9390", BigDecimal.valueOf(270.00));
+		Cliente cliente1 = new Cliente("43701888820", "Gabriel", "27219389", BigDecimal.valueOf(250.00));
+		Cliente cliente2 = new Cliente("43701888819", "Gabriela", "27219390", BigDecimal.valueOf(270.00));
 		assertFalse(cliente2.equals(cliente1));
 	}
 
@@ -174,10 +167,75 @@ public class ClienteTest {
 
 	@Test
 	public void toString_deve_retornar_valores_preenchidos() {
-		Cliente clienteNull = new Cliente("437.018.888-20", "Gabriel", "2721-9389", BigDecimal.valueOf(250.00));
+		Cliente clienteNull = new Cliente("43701888820", "Gabriel", "27219389", BigDecimal.valueOf(250.00));
 		assertThat(clienteNull.toString(), containsString("boleto"));
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_null() {
+		cliente.setCpf(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_vazio() {
+		cliente.setCpf(" ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_tamanho_menor() {
+		cliente.setCpf("1010101010");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_tamanho_maior() {
+		cliente.setCpf("121212121212");
+	}
+		
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_null() {
+		cliente.setNome(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_vazio() {
+		cliente.setNome(" ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_tamanho_menor() {
+		cliente.setNome("a");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_tamanho_maior() {
+		cliente.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabxc");
+	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setTelefone_null() {
+		cliente.setTelefone(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setTelefone_vazio() {
+		cliente.setTelefone(" ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setTelefone_tamanho_menor() {
+		cliente.setTelefone("1234567");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setTelefone_tamanho_maior() {
+		cliente.setTelefone("1234567890");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setBoleto_negativo() {
+		cliente.setBoleto(BigDecimal.valueOf(-50.00));
+	}
+	
 	@After
 	@Ignore
 	public void tearDown() {

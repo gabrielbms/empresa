@@ -4,6 +4,8 @@ import br.com.contmatic.endereco.Endereco;
 
 public class Empresa {
 
+	private static final int CNPJ_SIZE = 14;
+
 	private String cnpj;
 
 	private String nome;
@@ -13,7 +15,7 @@ public class Empresa {
 	private Endereco endereco;
 
 	public Empresa(String cnpj, String nome, String telefone) {
-		this.cnpj = cnpj;
+		this.setCnpj(cnpj);
 		this.nome = nome;
 		this.telefone = telefone;
 	}
@@ -30,6 +32,9 @@ public class Empresa {
 	}
 
 	public void setCnpj(String cnpj) {
+		if (cnpj == null || cnpj.trim().isEmpty() || cnpj.length() < CNPJ_SIZE || cnpj.length() > CNPJ_SIZE) {
+			throw new IllegalArgumentException("O CNPJ foi preenchido incorretamente.");
+		}
 		this.cnpj = cnpj;
 	}
 
@@ -38,6 +43,9 @@ public class Empresa {
 	}
 
 	public void setNome(String nome) {
+		if (nome == null || nome.trim().isEmpty() || nome.length() < 2 || nome.length() > 80) {
+			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
+		}
 		this.nome = nome;
 	}
 
@@ -46,6 +54,9 @@ public class Empresa {
 	}
 
 	public void setTelefone(String telefone) {
+		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < 8 || telefone.length() > 9) {
+			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
+		}
 		this.telefone = telefone;
 	}
 

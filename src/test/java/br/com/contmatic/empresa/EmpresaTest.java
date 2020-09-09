@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
+import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -12,9 +13,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
-import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
-import br.com.contmatic.empresa.Empresa;
 import br.com.contmatic.endereco.Endereco;;
 
 @FixMethodOrder(NAME_ASCENDING)
@@ -71,7 +70,7 @@ public class EmpresaTest {
 
 	@Test
 	public void deve_testar_o_getNome_esta_funcionando_corretamente() {
-		empresa.setCnpj("GB Conserto de computadores");
+		empresa.setNome("GB Conserto de computadores");
 		assertThat(empresa.getNome(), containsString("GB Conserto de computadores"));
 	}
 
@@ -115,13 +114,13 @@ public class EmpresaTest {
 	}
 
 	@Test
-	public void deve_retornar_true_no_equals_com_clientes_iguais() {
+	public void deve_retornar_true_no_equals_com_empresas_iguais() {
 		Empresa empresa2 = new Empresa("35667373000103", "GB Conserto de computadores", "41108521");
 		assertTrue(empresa.equals(empresa2) & empresa2.equals(empresa));
 	}
 
 	@Test
-	public void deve_retornar_false_no_equals_com_um_cliente_de_cnpj_null() {
+	public void deve_retornar_false_no_equals_com_um_empresa_de_cnpj_null() {
 		Empresa empresa2 = new Empresa(null, "GB Conserto de computadores", "41108521");
 		assertFalse(empresa.equals(empresa2) & empresa2.equals(empresa));
 	}
@@ -137,14 +136,14 @@ public class EmpresaTest {
 	}
 
 	@Test
-	public void deve_retornar_true_no_equals_comparando_dois_clientes_de_cnpj_null() {
+	public void deve_retornar_true_no_equals_comparando_dois_empresas_de_cnpj_null() {
 		Empresa empresa1 = new Empresa(null, "GB Conserto de computadores", "41108521");
 		Empresa empresa2 = new Empresa(null, "GB Conserto de computadores", "41108521");
 		assertTrue(empresa1.equals(empresa2));
 	}
 
 	@Test
-	public void deve_retornar_false_no_equals_com_clientes_de_cnpj_diferentes() {
+	public void deve_retornar_false_no_equals_com_empresas_de_cnpj_diferentes() {
 		Empresa empresa1 = new Empresa("35667373000103", "GB Conserto de computadores", "41108521");
 		Empresa empresa2 = new Empresa("35667373000104", "GB Conserto de computadores", "41108521");
 		assertFalse(empresa2.equals(empresa1));
@@ -166,6 +165,66 @@ public class EmpresaTest {
 		Empresa empresaPreenchida = new Empresa("35667373000103", "GB Conserto de computadores", "41108521");
 		assertThat(empresaPreenchida.toString(), containsString(""));
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_null() {
+		empresa.setCnpj(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_vazio() {
+		empresa.setCnpj(" ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_tamanho_menor() {
+		empresa.setCnpj("1313131313131");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_tamanho_maior() {
+		empresa.setCnpj("151515151515151");
+	}
+		
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_null() {
+		empresa.setNome(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_vazio() {
+		empresa.setNome(" ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_tamanho_menor() {
+		empresa.setNome("a");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_tamanho_maior() {
+		empresa.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcaabcabcabcabcabcabcabcabcabcabcabbcabxc");
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setTelefone_null() {
+		empresa.setTelefone(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setTelefone_vazio() {
+		empresa.setTelefone(" ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setTelefone_tamanho_menor() {
+		empresa.setTelefone("1234567");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setTelefone_tamanho_maior() {
+		empresa.setTelefone("1234567890");
+	}	
 
 	@After
 	public void TearDown() {
