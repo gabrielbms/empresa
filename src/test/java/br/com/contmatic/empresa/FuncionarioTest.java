@@ -2,7 +2,9 @@ package br.com.contmatic.empresa;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -89,7 +91,7 @@ public class FuncionarioTest {
 
 	@Test
 	public void nao_deve_aceitar_idade_nulo() {
-		assertNotNull(funcionario.getIdade());
+		assertFalse(funcionario.getIdade() == null);
 	}
 
 	@Test
@@ -134,7 +136,7 @@ public class FuncionarioTest {
 	@Test
 	public void deve_testar_o_getEndereco_esta_funcionando_corretamente() {
 		funcionario.setEndereco(new Endereco("04508010", 274));
-		assertTrue(funcionario.getEndereco().equals(new Endereco("04508010", 274)));
+		assertEquals(funcionario.getEndereco(), (new Endereco("04508010", 274)));
 	}
 
 	@Test
@@ -161,13 +163,13 @@ public class FuncionarioTest {
 	@Test
 	public void deve_retornar_true_no_hashCode_com_funcionarios_iguais() {
 		Funcionario funcionario2 = new Funcionario("99074424880", "Gabriel Bueno", BigDecimal.valueOf(1500.00));
-		assertTrue(funcionario.hashCode() == funcionario2.hashCode());
+		assertEquals(funcionario.hashCode(), funcionario2.hashCode());
 	}
 
 	@Test
 	public void deve_retornar_false_no_hashCode_com_um_funcionario_de_cpf_null() {
 		Funcionario funcionario2 = new Funcionario(null, "Gabriel Bueno", BigDecimal.valueOf(1500.00));
-		assertFalse(funcionario.hashCode() == funcionario2.hashCode());
+		assertNotEquals(funcionario.hashCode(), funcionario2.hashCode());
 	}
 
 	@Test
@@ -184,31 +186,31 @@ public class FuncionarioTest {
 
 	@Test
 	public void deve_retornar_true_no_equals_comparando_um_funcionario_com_ele_mesmo() {
-		assertTrue(funcionario.equals(funcionario));
+		assertEquals(funcionario, funcionario);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_comparando_um_funcionarios_com_null() {
-		assertFalse(funcionario.equals(null));
+		assertNotEquals(funcionario, null);
 	}
 
 	@Test
 	public void deve_retornar_true_no_equals_comparando_dois_funcionarios_de_cpf_null() {
 		Funcionario funcionario1 = new Funcionario(null, "Gabriel Bueno", BigDecimal.valueOf(1500.00));
 		Funcionario funcionario2 = new Funcionario(null, "Gabriel Bueno", BigDecimal.valueOf(1500.00));
-		assertTrue(funcionario1.equals(funcionario2));
+		assertEquals(funcionario1, funcionario2);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_com_funcionarios_de_cpf_diferentes() {
 		Funcionario funcionario1 = new Funcionario("99074424880", "Gabriel Bueno", BigDecimal.valueOf(1500.00));
 		Funcionario funcionario2 = new Funcionario("87749387897", "Gabriel Bueno", BigDecimal.valueOf(1500.00));
-		assertFalse(funcionario2.equals(funcionario1));
+		assertNotEquals(funcionario2, funcionario1);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_com_funcionario_e_um_numero_aleatorio() {
-		assertFalse(funcionario.equals(new Object()));
+		assertNotEquals(funcionario, new Object());
 	}
 	
 	@Test

@@ -3,7 +3,9 @@ package br.com.contmatic.empresa;
 import static java.math.BigDecimal.ZERO;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -129,13 +131,13 @@ public class ClienteTest {
 	@Test
 	public void deve_retornar_true_no_hashCode_com_clientes_iguais() {
 		Cliente cliente2 = new Cliente("20081498896", "Gabriel", "27219389", BigDecimal.valueOf(250.00));
-		assertTrue(cliente.hashCode() == cliente2.hashCode());
+		assertEquals(cliente.hashCode(), cliente2.hashCode());
 	}
 
 	@Test
 	public void deve_retornar_false_no_hashCode_com_um_cliente_de_cpf_null() {
 		Cliente cliente2 = new Cliente(null, "Gabriel", "27219389", BigDecimal.valueOf(250.00));
-		assertFalse(cliente.hashCode() == cliente2.hashCode());
+		assertNotEquals(cliente.hashCode(), cliente2.hashCode());
 	}
 
 	@Test
@@ -152,31 +154,31 @@ public class ClienteTest {
 
 	@Test
 	public void deve_retornar_true_no_equals_comparando_um_cliente_com_ele_mesmo() {
-		assertTrue(cliente.equals(cliente));
+		assertEquals(cliente, cliente);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_comparando_um_cliente_com_null() {
-		assertFalse(cliente.equals(null));
+		assertNotEquals(cliente, null);
 	}
 
 	@Test
 	public void deve_retornar_true_no_equals_comparando_dois_clientes_de_cpf_null() {
 		Cliente cliente1 = new Cliente(null, "Gabriel", "27219389", BigDecimal.valueOf(250.00));
 		Cliente cliente2 = new Cliente(null, "Gabriela", "27219390", BigDecimal.valueOf(270.00));
-		assertTrue(cliente1.equals(cliente2));
+		assertEquals(cliente1, cliente2);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_com_clientes_de_cpf_diferentes() {
 		Cliente cliente1 = new Cliente("43701888820", "Gabriel", "27219389", BigDecimal.valueOf(250.00));
 		Cliente cliente2 = new Cliente("43701888819", "Gabriela", "27219390", BigDecimal.valueOf(270.00));
-		assertFalse(cliente2.equals(cliente1));
+		assertNotEquals(cliente2, cliente1);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_com_clientes_e_um_numero_aleatorio() {
-		assertFalse(cliente.equals(new Object()));
+		assertNotEquals(cliente, new Object());
 	}
 
 	@Test

@@ -2,7 +2,9 @@ package br.com.contmatic.empresa;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -149,13 +151,13 @@ public class FornecedorTest {
 	@Test
 	public void deve_retornar_true_no_hashCode_com_fornecedor_iguais() {
 		Fornecedor fornecedor2 = new Fornecedor("97904702000131", "CA peças LTDA");
-		assertTrue(fornecedor.hashCode() == fornecedor2.hashCode());
+		assertEquals(fornecedor.hashCode(), fornecedor2.hashCode());
 	}
 
 	@Test
 	public void deve_retornar_false_no_hashCode_com_uma_fornecedor_de_cnpj_null() {
 		Fornecedor fornecedor2 = new Fornecedor(null, "CA peças LTDA");
-		assertFalse(fornecedor.hashCode() == fornecedor2.hashCode());
+		assertNotEquals(fornecedor.hashCode(), fornecedor2.hashCode());
 	}
 
 	@Test
@@ -172,31 +174,31 @@ public class FornecedorTest {
 
 	@Test
 	public void deve_retornar_true_no_equals_comparando_um_fornecedor_com_ela_mesmo() {
-		assertTrue(fornecedor.equals(fornecedor));
+		assertEquals(fornecedor, fornecedor);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_comparando_um_fornecedor_com_null() {
-		assertFalse(fornecedor.equals(null));
+		assertNotEquals(fornecedor, null);
 	}
 
 	@Test
 	public void deve_retornar_true_no_equals_comparando_dois_fornecedores_de_cnpj_null() {
 		Fornecedor fornecedor1 = new Fornecedor(null, "CA peças LTDA");
 		Fornecedor fornecedor2 = new Fornecedor(null, "CA peças LTDA");
-		assertTrue(fornecedor1.equals(fornecedor2));
+		assertEquals(fornecedor1, fornecedor2);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_com_fornecedores_de_cnpj_diferentes() {
 		Fornecedor fornecedor1 = new Fornecedor("97904702000131", "CA peças LTDA");
 		Fornecedor fornecedor2 = new Fornecedor("43202648000153", "CA peças LTDA");
-		assertFalse(fornecedor2.equals(fornecedor1));
+		assertNotEquals(fornecedor2, fornecedor1);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_com_a_fornecedor_e_um_numero_aleatorio() {
-		assertFalse(fornecedor.equals(new Object()));
+		assertNotEquals(fornecedor, new Object());
 	}
 	
 	@Test

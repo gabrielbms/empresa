@@ -1,7 +1,9 @@
 package br.com.contmatic.empresa;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -129,13 +131,13 @@ public class EmpresaTest {
 	@Test
 	public void deve_retornar_true_no_hashCode_com_empresas_iguais() {
 		Empresa Empresa2 = new Empresa("35667373000103", "GB Conserto de computadores", "41108521");
-		assertTrue(empresa.hashCode() == Empresa2.hashCode());
+		assertEquals(empresa.hashCode(), Empresa2.hashCode());
 	}
 
 	@Test
 	public void deve_retornar_false_no_hashCode_com_uma_empresa_de_cnpj_null() {
 		Empresa Empresa2 = new Empresa(null, "GB Conserto de computadores", "41108521", endereco);
-		assertFalse(empresa.hashCode() == Empresa2.hashCode());
+		assertNotEquals(empresa.hashCode(), Empresa2.hashCode());
 	}
 
 	@Test
@@ -152,31 +154,31 @@ public class EmpresaTest {
 
 	@Test
 	public void deve_retornar_true_no_equals_comparando_uma_empresa_com_ela_mesmo() {
-		assertTrue(empresa.equals(empresa));
+		assertEquals(empresa, empresa);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_comparando_uma_empresa_com_null() {
-		assertFalse(empresa.equals(null));
+		assertNotEquals(empresa, null);
 	}
 
 	@Test
 	public void deve_retornar_true_no_equals_comparando_dois_empresas_de_cnpj_null() {
 		Empresa empresa1 = new Empresa(null, "GB Conserto de computadores", "41108521", endereco);
 		Empresa empresa2 = new Empresa(null, "GB Conserto de computadores", "41108521", endereco);
-		assertTrue(empresa1.equals(empresa2));
+		assertEquals(empresa1, empresa2);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_com_empresas_de_cnpj_diferentes() {
 		Empresa empresa1 = new Empresa("35667373000103", "GB Conserto de computadores", "41108521");
 		Empresa empresa2 = new Empresa("49695176000102", "GB Conserto de computadores", "41108521");
-		assertFalse(empresa2.equals(empresa1));
+		assertNotEquals(empresa2, empresa1);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_com_a_empresa_e_um_numero_aleatorio() {
-		assertFalse(empresa.equals(new Object()));
+		assertNotEquals(empresa, new Object());
 	}
 
 	@Test

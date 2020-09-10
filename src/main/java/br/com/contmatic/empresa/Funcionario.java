@@ -17,7 +17,7 @@ public class Funcionario {
 	@Pattern(regexp = RegexType.LETRAS, message = Constantes.NOME_INVALIDO)
 	private String nome;
 
-	private int idade;
+	private Integer idade;
 
 	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.TELEFONE_INVALIDO)
 	private String telefone;
@@ -75,11 +75,11 @@ public class Funcionario {
 		this.nome = nome;
 	}
 
-	public int getIdade() {
+	public Integer getIdade() {
 		return idade;
 	}
 
-	public void setIdade(int idade) {
+	public void setIdade(Integer idade) {
 		if (idade >= 14) {
 			this.idade = idade;
 		} else {

@@ -1,7 +1,9 @@
 package br.com.contmatic.empresa;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -118,7 +120,7 @@ public class ProdutoTest {
 	@Test
 	public void deve_testar_o_getQuantidade_esta_funcionando_corretamente() {
 		produto.setQuantidade(3);
-		assertTrue(produto.getQuantidade().equals(3));
+		assertTrue(produto.getId().equals(3));
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -129,7 +131,7 @@ public class ProdutoTest {
 	@Test
 	public void deve_testar_o_getPreço_esta_funcionando_corretamente() {
 		produto.setPreço(BigDecimal.valueOf(500.00));
-		assertTrue(produto.getPreço().equals(BigDecimal.valueOf(500.00)));
+		assertEquals(produto.getPreço(), BigDecimal.valueOf(500.00));
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -140,7 +142,8 @@ public class ProdutoTest {
 	@Test 
 	public void deve_testar_o_toString_preenchido() {
 		produto = new Produto(1, "Processador", 2, (BigDecimal.valueOf(900)));
-		produto.toString();
+		String produtoToString = produto.toString();
+		assertEquals(produtoToString, produto.toString());
 	}
 	
 	@Test 
@@ -152,13 +155,13 @@ public class ProdutoTest {
 	@Test
 	public void deve_retornar_true_no_hashCode_com_produtos_iguais() {
 		Produto outroProduto = new Produto(id, nome, quantidade, preço);
-		assertTrue(produto.hashCode() == outroProduto.hashCode());
+		assertEquals(produto.hashCode(), outroProduto.hashCode());
 	}
 
 	@Test
 	public void deve_retornar_false_no_hashCode_com_um_produto_de_id_null() {
 		Produto outroProduto = new Produto(null, nome, quantidade, preço);
-		assertFalse(produto.hashCode() == outroProduto.hashCode());
+		assertNotEquals(produto.hashCode(), outroProduto.hashCode());
 	}
 	
 	@Test
@@ -170,17 +173,17 @@ public class ProdutoTest {
 	@Test
 	public void deve_retornar_false_no_equals_com_um_produto_de_id_null() {
 		Produto outroProduto = new Produto(null, nome, quantidade, preço);
-		assertFalse(produto.equals(outroProduto) & outroProduto.equals(produto));
+		assertNotEquals(produto, outroProduto);
 	}
 	
 	@Test
 	public void deve_retornar_true_no_equals_comparando_um_produto_com_ele_mesmo() {
-		assertTrue(produto.equals(produto));
+		assertEquals(produto, produto);
 	}
 	
 	@Test
 	public void deve_retornar_false_no_equals_comparando_um_produto_com_null() {
-		assertFalse(produto.equals(null));
+		assertNotEquals(produto, null);
 	}
 	
 	@Test
@@ -196,10 +199,19 @@ public class ProdutoTest {
 		Produto produto2 = new Produto(3, nome, quantidade, preço);
 		assertFalse(produto1.equals(produto2) && produto2.equals(produto1));
 	}
+	
+	@Test
+	public void deve_retornar_false_no_equals_com_um_id_null_e_outro_preenchido() {
+		Produto produto1 = new Produto(null, nome, quantidade, preço);
+		Produto produto2 = new Produto(3, nome, quantidade, preço);
+		assertNotEquals(produto1, produto2);
+		assertNotEquals(produto2, produto1);
+	}
+
 
 	@Test
 	public void deve_retornar_false_no_equals_com_um_produto_e_um_objeto_aleatorio() {
-		assertFalse(produto.equals(new Object()));
+		assertNotEquals(produto, new Object());
 	}
 	
 	@Test
