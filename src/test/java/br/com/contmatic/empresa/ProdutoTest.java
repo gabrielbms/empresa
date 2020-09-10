@@ -117,12 +117,6 @@ public class ProdutoTest {
 		assertThat(produto.getNome(), containsString("placa mãe"));
 	}
 	
-	@Test
-	public void deve_testar_o_getQuantidade_esta_funcionando_corretamente() {
-		produto.setQuantidade(3);
-		assertTrue(produto.getId().equals(3));
-	}
-	
 	@Test (expected = IllegalArgumentException.class)
 	public void deve_testar_o_exception_do_setQuantidad() {
 		produto.setQuantidade(-3);

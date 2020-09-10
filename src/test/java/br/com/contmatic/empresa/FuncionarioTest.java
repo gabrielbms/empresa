@@ -90,11 +90,6 @@ public class FuncionarioTest {
 	}
 
 	@Test
-	public void nao_deve_aceitar_idade_nulo() {
-		assertFalse(funcionario.getIdade() == null);
-	}
-
-	@Test
 	public void nao_deve_aceitar_telefone_nulo() {
 		assertNotNull(funcionarioSemEndereco.getTelefone());
 	}
@@ -333,7 +328,6 @@ public class FuncionarioTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() {
-		System.out.println(funcionario);
 		System.out.println("Finalizamos os testes na classe funcionario\n");
 	}
 

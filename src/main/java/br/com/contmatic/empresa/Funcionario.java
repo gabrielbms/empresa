@@ -79,7 +79,7 @@ public class Funcionario {
 		return idade;
 	}
 
-	public void setIdade(Integer idade) {
+	public void setIdade(int idade) {
 		if (idade >= 14) {
 			this.idade = idade;
 		} else {
