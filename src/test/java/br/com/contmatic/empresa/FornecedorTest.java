@@ -9,6 +9,13 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -17,7 +24,8 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 
-import br.com.contmatic.endereco.Endereco;;
+import br.com.contmatic.endereco.Endereco;
+import br.com.contmatic.util.Constantes;;
 
 @FixMethodOrder(NAME_ASCENDING)
 public class FornecedorTest {
@@ -29,6 +37,12 @@ public class FornecedorTest {
 	private String telefone;
 
 	private static Fornecedor fornecedor;
+	
+	private static Produto produto;
+	
+	private Validator validator;
+
+	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -36,13 +50,29 @@ public class FornecedorTest {
 	}
 
 	@Before
+	public void setUpProduto() {
+		produto = new Produto(1, "placa mãe", 1, BigDecimal.valueOf(500.00));
+	}
+	
+	@Before
 	public void setUp() {
 		cnpj = "97904702000131";
 		nome = "CA peças LTDA";
 		telefone = "25871235";
-		Produto produto = new Produto(1, "placa mãe", 1, BigDecimal.valueOf(500.00));
+		Set<Produto> produtos = new HashSet<>();
+		produtos.add(produto);
 		Endereco endereco = new Endereco("02708010", 21);
-		fornecedor = new Fornecedor(cnpj, nome, telefone, produto, endereco);
+		fornecedor = new Fornecedor(cnpj, nome, telefone, produtos, endereco);
+	}
+	
+	public boolean isValid(Fornecedor fornecedor, String mensagem) {
+		validator = factory.getValidator();
+		boolean valido = true;
+		Set<ConstraintViolation<Fornecedor>> restricoes = validator.validate(fornecedor);
+		for (ConstraintViolation<Fornecedor> constraintViolation : restricoes)
+			if (constraintViolation.getMessage().equalsIgnoreCase(mensagem))
+				valido = false;
+		return valido;
 	}
 
 	@Test
@@ -97,8 +127,8 @@ public class FornecedorTest {
 
 	@Test
 	public void deve_testar_o_getProduto_esta_funcionando_corretamente() {
-		fornecedor.setProduto(new Produto(1, "5 placas mães", 1, BigDecimal.valueOf(500.00)));
-		assertThat(fornecedor.getProduto().getNome(), is("5 placas mães"));
+		produto = new Produto(1, "Processador Ryzen 5 2600");
+		assertThat(produto.getNome(), is("Processador Ryzen 5 2600"));
 	}
 
 	@Test
@@ -160,7 +190,7 @@ public class FornecedorTest {
 	@Test
 	public void deve_retornar_false_no_equals_com_fornecedores_de_cnpj_diferentes() {
 		Fornecedor fornecedor1 = new Fornecedor("97904702000131", "CA peças LTDA");
-		Fornecedor fornecedor2 = new Fornecedor("97904702000132", "CA peças LTDA");
+		Fornecedor fornecedor2 = new Fornecedor("43202648000153", "CA peças LTDA");
 		assertFalse(fornecedor2.equals(fornecedor1));
 	}
 
@@ -233,6 +263,33 @@ public class FornecedorTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setTelefone_tamanho_maior() {
 		fornecedor.setTelefone("1234567890");
+	}
+	
+	@Test
+	public void deve_testar_o_regex_do_nome() {
+		fornecedor.setNome("1234567890");
+		assertFalse(isValid(fornecedor, Constantes.NOME_INVALIDO));
+	}
+	
+	@Test
+	public void deve_testar_o_regex_do_telefone() {
+		fornecedor.setTelefone("abcabcabc");
+		assertFalse(isValid(fornecedor, Constantes.TELEFONE_INVALIDO));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_o_isCnpj_invalido() {
+		fornecedor.setCnpj("12345678912234");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_o_isCnpj_numeros_iguais() {
+		fornecedor.setCnpj("11111111111111");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_o_isCnpj_tamanho_incorreto() {
+		fornecedor.setCnpj("123");
 	}
 
 	@After

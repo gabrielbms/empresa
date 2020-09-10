@@ -10,6 +10,12 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import java.math.BigDecimal;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -18,6 +24,8 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import br.com.contmatic.util.Constantes;
 
 @FixMethodOrder(NAME_ASCENDING)
 public class ClienteTest {
@@ -29,6 +37,10 @@ public class ClienteTest {
 	private BigDecimal boleto;
 
 	private static Cliente cliente;
+	
+	private Validator validator;
+
+	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -37,15 +49,20 @@ public class ClienteTest {
 
 	@Before
 	public void setUp() {
-		cpf = "43701888818";
+		cpf = "20081498896";
 		nome = "Gabriel";
 		boleto = BigDecimal.valueOf(250.00);
 		cliente = new Cliente(cpf, nome, boleto);
 	}
 	
-	@Test
-	public void deve_testar_regex_do_setCpf() {
-		cliente.setCpf("aaaaaaaaaaa");;
+	public boolean isValid(Cliente cliente, String mensagem) {
+		validator = factory.getValidator();
+		boolean valido = true;
+		Set<ConstraintViolation<Cliente>> restricoes = validator.validate(cliente);
+		for (ConstraintViolation<Cliente> constraintViolation : restricoes)
+			if (constraintViolation.getMessage().equalsIgnoreCase(mensagem))
+				valido = false;
+		return valido;
 	}
 
 	@Test
@@ -71,8 +88,8 @@ public class ClienteTest {
 
 	@Test
 	public void deve_testar_o_getCpf_esta_funcionando_corretamente() { 
-		cliente.setCpf("43701888818");
-		assertThat(cliente.getCpf(), containsString("43701888818"));
+		cliente.setCpf("22594921858");
+		assertThat(cliente.getCpf(), containsString("22594921858"));
 	}
 
 	@Test
@@ -111,7 +128,7 @@ public class ClienteTest {
 
 	@Test
 	public void deve_retornar_true_no_hashCode_com_clientes_iguais() {
-		Cliente cliente2 = new Cliente("43701888818", "Gabriel", "27219389", BigDecimal.valueOf(250.00));
+		Cliente cliente2 = new Cliente("20081498896", "Gabriel", "27219389", BigDecimal.valueOf(250.00));
 		assertTrue(cliente.hashCode() == cliente2.hashCode());
 	}
 
@@ -123,7 +140,7 @@ public class ClienteTest {
 
 	@Test
 	public void deve_retornar_true_no_equals_com_clientes_iguais() {
-		Cliente cliente2 = new Cliente("43701888818", "Gabriel", "27219389", BigDecimal.valueOf(250.00));
+		Cliente cliente2 = new Cliente("20081498896", "Gabriel", "27219389", BigDecimal.valueOf(250.00));
 		assertTrue(cliente.equals(cliente2) & cliente2.equals(cliente));
 	}
 
@@ -164,7 +181,7 @@ public class ClienteTest {
 
 	@Test
 	public void toString_deve_retornar_null() {
-		Cliente clienteNull = new Cliente(null, null, null, new BigDecimal("0"));
+		Cliente clienteNull = new Cliente(null, null, null, new BigDecimal("1"));
 		assertThat(clienteNull.toString(), containsString("boleto"));
 	}
 
@@ -237,6 +254,33 @@ public class ClienteTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setBoleto_negativo() {
 		cliente.setBoleto(BigDecimal.valueOf(-50.00));
+	}
+	
+	@Test
+	public void deve_testar_o_regex_do_nome() {
+		cliente.setNome("1234567890");
+		assertFalse(isValid(cliente, Constantes.NOME_INVALIDO));
+	}
+	
+	@Test
+	public void deve_testar_o_regex_do_telefone() {
+		cliente.setTelefone("abcabcabc");
+		assertFalse(isValid(cliente, Constantes.TELEFONE_INVALIDO));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_o_isCpf_invalido() {
+		cliente.setCpf("12345678912");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_o_isCpf_numeros_iguais() {
+		cliente.setCpf("11111111111");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_o_isCpf_tamanho_incorreto() {
+		cliente.setCpf("123");
 	}
 	
 	@After

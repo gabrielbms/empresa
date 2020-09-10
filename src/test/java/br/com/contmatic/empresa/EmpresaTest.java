@@ -7,6 +7,13 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,7 +21,8 @@ import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 
-import br.com.contmatic.endereco.Endereco;;
+import br.com.contmatic.endereco.Endereco;
+import br.com.contmatic.util.Constantes;;
 
 @FixMethodOrder(NAME_ASCENDING)
 public class EmpresaTest {
@@ -26,6 +34,10 @@ public class EmpresaTest {
 	private String telefone;
 
 	private Empresa empresa;
+	
+	private Validator validator;
+
+	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 	
 	Endereco endereco = new Endereco("03208070", 85);
 
@@ -41,6 +53,16 @@ public class EmpresaTest {
 		telefone = "41108521";
 		Endereco endereco = new Endereco("03208070", 79);
 		empresa = new Empresa(cnpj, nome, telefone, endereco);
+	}
+	
+	public boolean isValid(Empresa empresa, String mensagem) {
+		validator = factory.getValidator();
+		boolean valido = true;
+		Set<ConstraintViolation<Empresa>> restricoes = validator.validate(empresa);
+		for (ConstraintViolation<Empresa> constraintViolation : restricoes)
+			if (constraintViolation.getMessage().equalsIgnoreCase(mensagem))
+				valido = false;
+		return valido;
 	}
 
 	@Test
@@ -148,7 +170,7 @@ public class EmpresaTest {
 	@Test
 	public void deve_retornar_false_no_equals_com_empresas_de_cnpj_diferentes() {
 		Empresa empresa1 = new Empresa("35667373000103", "GB Conserto de computadores", "41108521");
-		Empresa empresa2 = new Empresa("35667373000104", "GB Conserto de computadores", "41108521");
+		Empresa empresa2 = new Empresa("49695176000102", "GB Conserto de computadores", "41108521");
 		assertFalse(empresa2.equals(empresa1));
 	}
 
@@ -222,6 +244,39 @@ public class EmpresaTest {
 	public void deve_testar_exception_do_setTelefone_tamanho_maior() {
 		empresa.setTelefone("1234567890");
 	}	
+	
+	@Test
+	public void deve_testar_o_regex_do_cnpj() {
+		empresa.setTelefone("abcabcabc");
+		assertFalse(isValid(empresa, Constantes.CNPJ_INVALIDO));
+	}
+	
+	@Test
+	public void deve_testar_o_regex_do_nome() {
+		empresa.setNome("1234567890");
+		assertFalse(isValid(empresa, Constantes.NOME_INVALIDO));
+	}
+	
+	@Test
+	public void deve_testar_o_regex_do_telefone() {
+		empresa.setTelefone("abcabcabc");
+		assertFalse(isValid(empresa, Constantes.TELEFONE_INVALIDO));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_o_isCnpj_invalido() {
+		empresa.setCnpj("12345678912234");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_o_isCnpj_numeros_iguais() {
+		empresa.setCnpj("11111111111111");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_o_isCnpj_tamanho_incorreto() {
+		empresa.setCnpj("123");
+	}
 
 	@After
 	public void TearDown() {

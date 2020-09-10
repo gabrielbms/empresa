@@ -1,17 +1,22 @@
 package br.com.contmatic.empresa;
 
 import java.math.BigDecimal;
+
 import javax.validation.constraints.Pattern;
-import br.com.contmatic.util.RegexType;
+
 import br.com.contmatic.util.Constantes;
+import br.com.contmatic.util.RegexType;
+import br.com.contmatic.util.Validate;
 
 public class Cliente {
 
 	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.CPF_INVALIDO)
 	private String cpf;
-	
+
+	@Pattern(regexp = RegexType.LETRAS, message = Constantes.NOME_INVALIDO)
 	private String nome;
 
+	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.TELEFONE_INVALIDO)
 	private String telefone;
 
 	private BigDecimal boleto;
@@ -21,12 +26,12 @@ public class Cliente {
 		this.setNome(nome);
 		this.setBoleto(boleto);
 	}
-	
+
 	public Cliente(String cpf, String nome, String telefone, BigDecimal boleto) {
 		this.cpf = cpf;
 		this.nome = nome;
 		this.telefone = telefone;
-		this.boleto = boleto;
+		this.setBoleto(boleto);
 	}
 
 	public String getCpf() {
@@ -34,8 +39,13 @@ public class Cliente {
 	}
 
 	public void setCpf(String cpf) {
-		if (cpf == null || cpf.trim().isEmpty() || cpf.length() < 11 || cpf.length() > 11) {
+		if (cpf == null || cpf.trim().isEmpty() || cpf.length() < Constantes.CPF_SIZE
+				|| cpf.length() > Constantes.CPF_SIZE) {
 			throw new IllegalArgumentException("O CPF foi preenchido incorretamente.");
+		}
+
+		if (Validate.isCPF(cpf) == false) {
+			throw new IllegalArgumentException("O CPF é inválido.");
 		}
 		this.cpf = cpf;
 	}
@@ -56,7 +66,8 @@ public class Cliente {
 	}
 
 	public void setTelefone(String telefone) {
-		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < 8 || telefone.length() > 9) {
+		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < Constantes.TEL_MIN_SIZE
+				|| telefone.length() > Constantes.TEL_MAX_SIZE) {
 			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
 		}
 		this.telefone = telefone;

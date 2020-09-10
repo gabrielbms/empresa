@@ -1,21 +1,32 @@
 package br.com.contmatic.endereco;
 
+import javax.validation.constraints.Pattern;
+
+import br.com.contmatic.util.Constantes;
+import br.com.contmatic.util.RegexType;
+
 public class Endereco {
 
+	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.CEP_INVALIDO)
 	private String cep;
 
+	@Pattern(regexp = RegexType.LETRAS_E_NUMEROS, message = Constantes.RUA_INVALIDA)
 	private String rua;
 
 	private Integer numero;
 
+	@Pattern(regexp = RegexType.LETRAS_E_NUMEROS, message = Constantes.COMPLEMENTO_INVALIDO)
 	private String complemento;
 
+	@Pattern(regexp = RegexType.LETRAS_E_NUMEROS, message = Constantes.BAIRRO_INVALIDO)
 	private String bairro;
 
+	@Pattern(regexp = RegexType.LETRAS, message = Constantes.CIDADE_INVALIDA)
 	private String cidade;
 
+	@Pattern(regexp = RegexType.LETRAS, message = Constantes.ESTADO_INVALIDO)
 	private String estado;
-	
+
 	private static final int CEP_SIZE = 8;
 
 	public Endereco(String cep, Integer numero) {

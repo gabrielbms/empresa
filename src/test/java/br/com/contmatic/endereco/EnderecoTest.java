@@ -6,6 +6,13 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -14,6 +21,8 @@ import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
+
+import br.com.contmatic.util.Constantes;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class EnderecoTest {
@@ -35,6 +44,10 @@ public class EnderecoTest {
 	private static Endereco endereco;
 
 	private static Endereco enderecoCompleto;
+	
+	private Validator validator;
+
+	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
 	@BeforeClass
 	public static void InicioDosTestes() {
@@ -52,6 +65,16 @@ public class EnderecoTest {
 		estado = "SP";
 		enderecoCompleto = new Endereco(cep, rua, numero, complemento, bairro, cidade, estado);
 		endereco = new Endereco(cep, numero);
+	}
+	
+	public boolean isValid(Endereco endereco, String mensagem) {
+		validator = factory.getValidator();
+		boolean valido = true;
+		Set<ConstraintViolation<Endereco>> restricoes = validator.validate(endereco);
+		for (ConstraintViolation<Endereco> constraintViolation : restricoes)
+			if (constraintViolation.getMessage().equalsIgnoreCase(mensagem))
+				valido = false;
+		return valido;
 	}
 
 	@Test
@@ -251,6 +274,44 @@ public class EnderecoTest {
 	public void deve_testar_exception_do_setNumero() {
 		endereco.setNumero(0);
 	}
+	
+	@Test
+	public void deve_testar_o_regex_do_cep() {
+		enderecoCompleto.setCep("abcdefav");
+		assertFalse(isValid(enderecoCompleto, Constantes.CEP_INVALIDO));
+	}
+	
+	@Test
+	public void deve_testar_o_regex_da_rua() {
+		enderecoCompleto.setRua("    #$%");
+		assertFalse(isValid(enderecoCompleto, Constantes.RUA_INVALIDA));
+	}
+
+	
+	@Test
+	public void deve_testar_o_regex_do_complemento() {
+		enderecoCompleto.setComplemento("    #$ ");
+		assertFalse(isValid(enderecoCompleto, Constantes.COMPLEMENTO_INVALIDO));
+	}
+	
+	@Test
+	public void deve_testar_o_regex_do_bairro() {
+		enderecoCompleto.setBairro("@#%$%%");
+		assertFalse(isValid(enderecoCompleto, Constantes.BAIRRO_INVALIDO));
+	}
+	
+	@Test
+	public void deve_testar_o_regex_da_cidade() {
+		enderecoCompleto.setCidade("123");
+		assertFalse(isValid(enderecoCompleto, Constantes.CIDADE_INVALIDA));
+	}
+	
+	@Test
+	public void deve_testar_o_regex_do_estado() {
+		enderecoCompleto.setEstado("4778");
+		assertFalse(isValid(enderecoCompleto, Constantes.ESTADO_INVALIDO));
+	}
+
 
 	@Ignore
 	@After

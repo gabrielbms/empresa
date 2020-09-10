@@ -7,12 +7,20 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import br.com.contmatic.util.Constantes;
 
 public class ProdutoTest {
 	
@@ -26,6 +34,10 @@ public class ProdutoTest {
 	
 	private static Produto produto;
 	
+	private Validator validator;
+
+	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+	
 	@BeforeClass
 	public static void setUpBeforeClass() {
 		System.out.println("Iniciamos os testes na classe produto");
@@ -38,6 +50,16 @@ public class ProdutoTest {
 		quantidade = 1;
 		preço = BigDecimal.valueOf(500.00);
 		produto = new Produto(id, nome, quantidade, preço);
+	}
+	
+	public boolean isValid(Produto produto, String mensagem) {
+		validator = factory.getValidator();
+		boolean valido = true;
+		Set<ConstraintViolation<Produto>> restricoes = validator.validate(produto);
+		for (ConstraintViolation<Produto> constraintViolation : restricoes)
+			if (constraintViolation.getMessage().equalsIgnoreCase(mensagem))
+				valido = false;
+		return valido;
 	}
 	
 	@Test
@@ -123,7 +145,7 @@ public class ProdutoTest {
 	
 	@Test 
 	public void deve_testar_o_toString_nullo() {
-		produto = new Produto(0, null, 0, (BigDecimal.valueOf(0)));
+		produto = new Produto(0, null, 1, (BigDecimal.valueOf(1)));
 		produto.toString();
 	}
 	
@@ -178,6 +200,12 @@ public class ProdutoTest {
 	@Test
 	public void deve_retornar_false_no_equals_com_um_produto_e_um_objeto_aleatorio() {
 		assertFalse(produto.equals(new Object()));
+	}
+	
+	@Test
+	public void deve_testar_o_regex_do_nome() {
+		produto.setNome("1234567890");
+		assertFalse(isValid(produto, Constantes.NOME_INVALIDO));
 	}
 	
 	@After

@@ -1,16 +1,26 @@
 package br.com.contmatic.empresa;
 
+import java.util.Set;
+
+import javax.validation.constraints.Pattern;
+
 import br.com.contmatic.endereco.Endereco;
+import br.com.contmatic.util.Constantes;
+import br.com.contmatic.util.RegexType;
+import br.com.contmatic.util.Validate;
 
 public class Fornecedor {
 
+	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.CNPJ_INVALIDO)
 	private String cnpj;
 
+	@Pattern(regexp = RegexType.LETRAS, message = Constantes.NOME_INVALIDO)
 	private String nome;
 
+	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.TELEFONE_INVALIDO)
 	private String telefone;
 
-	private Produto produto;
+	private Set<Produto> produtos;
 
 	private Endereco endereco;
 
@@ -19,12 +29,12 @@ public class Fornecedor {
 		this.setNome(nome);
 	}
 
-	public Fornecedor(String cnpj, String nome, String telefone, Produto produto, Endereco endereco) {
+	public Fornecedor(String cnpj, String nome, String telefone, Set<Produto> produto, Endereco endereco) {
 		this.setCnpj(cnpj);
 		this.setNome(nome);
 		this.setTelefone(telefone);
 		this.setProduto(produto);
-		this.setEndereco(endereco);		
+		this.setEndereco(endereco);
 	}
 
 	public String getCnpj() {
@@ -32,8 +42,12 @@ public class Fornecedor {
 	}
 
 	public void setCnpj(String cnpj) {
-		if (cnpj == null || cnpj.trim().isEmpty() || cnpj.length() < 14 || cnpj.length() > 14) {
+		if (cnpj == null || cnpj.trim().isEmpty() || cnpj.length() < Constantes.CNPJ_SIZE
+				|| cnpj.length() > Constantes.CNPJ_SIZE) {
 			throw new IllegalArgumentException("O CNPJ foi preenchido incorretamente.");
+		}
+		if (Validate.isCNPJ(cnpj) == false) {
+			throw new IllegalArgumentException("O CNPJ é inválido.");
 		}
 		this.cnpj = cnpj;
 	}
@@ -54,18 +68,19 @@ public class Fornecedor {
 	}
 
 	public void setTelefone(String telefone) {
-		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < 8 || telefone.length() > 9) {
+		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < Constantes.TEL_MIN_SIZE
+				|| telefone.length() > Constantes.TEL_MAX_SIZE) {
 			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
 		}
 		this.telefone = telefone;
 	}
 
-	public Produto getProduto() {
-		return produto;
+	public Set<Produto> getProduto() {
+		return produtos;
 	}
 
-	public void setProduto(Produto produto) {
-		this.produto = produto;
+	public void setProduto(Set<Produto> produto) {
+		this.produtos = produto;
 	}
 
 	public Endereco getEndereco() {
@@ -89,8 +104,8 @@ public class Fornecedor {
 		if (this.telefone != null) {
 			sb.append(" telefone= ").append(this.telefone);
 		}
-		if (this.produto != null) {
-			sb.append(" produto= ").append(this.produto);
+		if (this.produtos != null) {
+			sb.append(" produto= ").append(this.produtos);
 		}
 		if (this.endereco != null) {
 			sb.append(" endereco= ").append(this.endereco);

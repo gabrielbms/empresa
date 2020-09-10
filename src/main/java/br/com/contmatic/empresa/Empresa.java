@@ -1,19 +1,25 @@
 package br.com.contmatic.empresa;
 
+import javax.validation.constraints.Pattern;
+
 import br.com.contmatic.endereco.Endereco;
+import br.com.contmatic.util.Constantes;
+import br.com.contmatic.util.RegexType;
+import br.com.contmatic.util.Validate;
 
 public class Empresa {
 
-	private static final int CNPJ_SIZE = 14;
-
+	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.CNPJ_INVALIDO)
 	private String cnpj;
 
+	@Pattern(regexp = RegexType.LETRAS, message = Constantes.NOME_INVALIDO)
 	private String nome;
 
+	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.TELEFONE_INVALIDO)
 	private String telefone;
 
 	private Endereco endereco;
-	
+
 	public Empresa(String cnpj) {
 		this.setCnpj(cnpj);
 	}
@@ -36,8 +42,12 @@ public class Empresa {
 	}
 
 	public void setCnpj(String cnpj) {
-		if (cnpj == null || cnpj.trim().isEmpty() || cnpj.length() < CNPJ_SIZE || cnpj.length() > CNPJ_SIZE) {
+		if (cnpj == null || cnpj.trim().isEmpty() || cnpj.length() < Constantes.CNPJ_SIZE
+				|| cnpj.length() > Constantes.CNPJ_SIZE) {
 			throw new IllegalArgumentException("O CNPJ foi preenchido incorretamente.");
+		}
+		if (Validate.isCNPJ(cnpj) == false) {
+			throw new IllegalArgumentException("O CNPJ é inválido.");
 		}
 		this.cnpj = cnpj;
 	}
@@ -58,7 +68,8 @@ public class Empresa {
 	}
 
 	public void setTelefone(String telefone) {
-		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < 8 || telefone.length() > 9) {
+		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < Constantes.TEL_MIN_SIZE
+				|| telefone.length() > Constantes.TEL_MAX_SIZE) {
 			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
 		}
 		this.telefone = telefone;

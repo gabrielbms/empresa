@@ -2,14 +2,20 @@ package br.com.contmatic.empresa;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.Pattern;
+
+import br.com.contmatic.util.Constantes;
+import br.com.contmatic.util.RegexType;
+
 public class Produto {
-	
+
 	private Integer id;
-	
+
+	@Pattern(regexp = RegexType.LETRAS, message = Constantes.NOME_INVALIDO)
 	private String nome;
-	
+
 	private Integer quantidade;
-	
+
 	private BigDecimal preço;
 
 	public Produto(Integer id, String nome) {
@@ -22,8 +28,8 @@ public class Produto {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.quantidade = quantidade;
-		this.preço = preço;
+		this.setQuantidade(quantidade);
+		this.setPreço(preço);
 	}
 
 	public Integer getId() {
@@ -55,7 +61,7 @@ public class Produto {
 	public void setQuantidade(Integer quantidade) {
 		if (quantidade < 1) {
 			throw new IllegalArgumentException("A quantidade não pode ser menor que um.");
-		} 
+		}
 		this.quantidade = quantidade;
 	}
 
@@ -69,10 +75,10 @@ public class Produto {
 		}
 		this.preço = preço;
 	}
-	
+
 	@Override
 	public String toString() {
-		
+
 		StringBuilder sb = new StringBuilder();
 		if (this.id != 0) {
 			sb.append("id= ").append(this.id);
@@ -113,5 +119,5 @@ public class Produto {
 			return false;
 		return true;
 	}
-	
+
 }

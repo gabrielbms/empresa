@@ -2,16 +2,24 @@ package br.com.contmatic.empresa;
 
 import java.math.BigDecimal;
 
+import javax.validation.constraints.Pattern;
+
 import br.com.contmatic.endereco.Endereco;
+import br.com.contmatic.util.Constantes;
+import br.com.contmatic.util.RegexType;
+import br.com.contmatic.util.Validate;
 
 public class Funcionario {
 
+	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.CPF_INVALIDO)
 	private String cpf;
 
+	@Pattern(regexp = RegexType.LETRAS, message = Constantes.NOME_INVALIDO)
 	private String nome;
 
 	private int idade;
 
+	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.TELEFONE_INVALIDO)
 	private String telefone;
 
 	private Endereco endereco;
@@ -38,7 +46,7 @@ public class Funcionario {
 		this.idade = idade;
 		this.telefone = telefone;
 		this.endereco = endereco;
-		this.salario = salario;
+		this.setSalario(salario);
 	}
 
 	public String getCpf() {
@@ -46,12 +54,15 @@ public class Funcionario {
 	}
 
 	public void setCpf(String cpf) {
-		if (cpf == null || cpf.trim().isEmpty() || cpf.length() < 11 || cpf.length() > 11) {
+		if (cpf == null || cpf.trim().isEmpty() || cpf.length() < Constantes.CPF_SIZE
+				|| cpf.length() > Constantes.CPF_SIZE) {
 			throw new IllegalArgumentException("O CPF foi preenchido incorretamente.");
+		}
+		if (Validate.isCPF(cpf) == false) {
+			throw new IllegalArgumentException("O CPF é inválido.");
 		}
 		this.cpf = cpf;
 	}
-
 
 	public String getNome() {
 		return nome;
@@ -63,6 +74,7 @@ public class Funcionario {
 		}
 		this.nome = nome;
 	}
+
 	public int getIdade() {
 		return idade;
 	}
@@ -74,13 +86,14 @@ public class Funcionario {
 			throw new IllegalArgumentException("salario não pode ser menor que 14.");
 		}
 	}
-	
+
 	public String getTelefone() {
 		return telefone;
 	}
 
 	public void setTelefone(String telefone) {
-		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < 8 || telefone.length() > 9) {
+		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < Constantes.TEL_MIN_SIZE
+				|| telefone.length() > Constantes.TEL_MAX_SIZE) {
 			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
 		}
 		this.telefone = telefone;

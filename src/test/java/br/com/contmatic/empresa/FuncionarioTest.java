@@ -9,6 +9,12 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import java.math.BigDecimal;
+import java.util.Set;
+
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -18,6 +24,7 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 
 import br.com.contmatic.endereco.Endereco;
+import br.com.contmatic.util.Constantes;
 
 @FixMethodOrder(NAME_ASCENDING)
 public class FuncionarioTest {
@@ -37,6 +44,10 @@ public class FuncionarioTest {
 	private static Funcionario funcionarioSemEndereco;
 	
 	private static Funcionario funcionarioComEndereco;
+	
+	private Validator validator;
+
+	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -45,7 +56,7 @@ public class FuncionarioTest {
 
 	@Before
 	public void setUp() {
-		cpf = "43701888817";
+		cpf = "99074424880";
 		nome = "Gabriel Bueno";
 		idade = 25;
 		telefone = "41108521";
@@ -54,6 +65,16 @@ public class FuncionarioTest {
 		funcionario = new Funcionario(cpf, nome, salario);
 		funcionarioSemEndereco = new Funcionario(cpf, nome, idade, telefone, salario);
 		funcionarioComEndereco = new Funcionario(cpf, nome, idade, telefone, endereco, salario);
+	}
+	
+	public boolean isValid(Funcionario funcionario, String mensagem) {
+		validator = factory.getValidator();
+		boolean valido = true;
+		Set<ConstraintViolation<Funcionario>> restricoes = validator.validate(funcionario);
+		for (ConstraintViolation<Funcionario> constraintViolation : restricoes)
+			if (constraintViolation.getMessage().equalsIgnoreCase(mensagem))
+				valido = false;
+		return valido;
 	}
 
 	@Test
@@ -88,8 +109,8 @@ public class FuncionarioTest {
 
 	@Test
 	public void deve_testar_o_getCpf_esta_funcionando_corretamente() {
-		funcionario.setCpf("43701888818");
-		assertThat(funcionario.getCpf(), containsString("43701888818"));
+		funcionario.setCpf("33484349808");
+		assertThat(funcionario.getCpf(), containsString("33484349808"));
 	}
 
 	@Test
@@ -139,7 +160,7 @@ public class FuncionarioTest {
 
 	@Test
 	public void deve_retornar_true_no_hashCode_com_funcionarios_iguais() {
-		Funcionario funcionario2 = new Funcionario("43701888817", "Gabriel Bueno", BigDecimal.valueOf(1500.00));
+		Funcionario funcionario2 = new Funcionario("99074424880", "Gabriel Bueno", BigDecimal.valueOf(1500.00));
 		assertTrue(funcionario.hashCode() == funcionario2.hashCode());
 	}
 
@@ -151,7 +172,7 @@ public class FuncionarioTest {
 
 	@Test
 	public void deve_retornar_true_no_equals_com_funcionarios_iguais() {
-		Funcionario funcionario2 = new Funcionario("43701888817", "Gabriel Bueno", BigDecimal.valueOf(1500.00));
+		Funcionario funcionario2 = new Funcionario("99074424880", "Gabriel Bueno", BigDecimal.valueOf(1500.00));
 		assertTrue(funcionario.equals(funcionario2) & funcionario2.equals(funcionario));
 	}
 
@@ -180,8 +201,8 @@ public class FuncionarioTest {
 
 	@Test
 	public void deve_retornar_false_no_equals_com_funcionarios_de_cpf_diferentes() {
-		Funcionario funcionario1 = new Funcionario("43701888817", "Gabriel Bueno", BigDecimal.valueOf(1500.00));
-		Funcionario funcionario2 = new Funcionario("43701888818", "Gabriel Bueno", BigDecimal.valueOf(1500.00));
+		Funcionario funcionario1 = new Funcionario("99074424880", "Gabriel Bueno", BigDecimal.valueOf(1500.00));
+		Funcionario funcionario2 = new Funcionario("87749387897", "Gabriel Bueno", BigDecimal.valueOf(1500.00));
 		assertFalse(funcionario2.equals(funcionario1));
 	}
 
@@ -192,7 +213,7 @@ public class FuncionarioTest {
 	
 	@Test
 	public void toString_deve_retornar_null() {
-		funcionarioComEndereco = new Funcionario(null, null, 0, null, null, new BigDecimal("0"));
+		funcionarioComEndereco = new Funcionario(null, null, 0, null, null, new BigDecimal("1"));
 		assertThat(funcionarioComEndereco.toString(), containsString("salario"));
 	}
 	
@@ -270,6 +291,33 @@ public class FuncionarioTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setSalario_negativo() {
 		funcionario.setSalario(BigDecimal.valueOf(-50.00));
+	}
+	
+	@Test
+	public void deve_testar_o_regex_do_nome() {
+		funcionario.setNome("1234567890");
+		assertFalse(isValid(funcionario, Constantes.NOME_INVALIDO));
+	}
+	
+	@Test
+	public void deve_testar_o_regex_do_telefone() {
+		funcionario.setTelefone("abcabcabc");
+		assertFalse(isValid(funcionario, Constantes.TELEFONE_INVALIDO));
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_o_isCpf_invalido() {
+		funcionario.setCpf("12345678912");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_o_isCpf_numeros_iguais() {
+		funcionario.setCpf("11111111111");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_o_isCpf_tamanho_incorreto() {
+		funcionario.setCpf("123");
 	}
 
 	@After
