@@ -190,7 +190,7 @@ public class EnderecoTest {
 		assertTrue(endereco.hashCode() == endereco2.hashCode());
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_hashCode_com_um_endereco_de_cep_null() {
 		Endereco endereco2 = new Endereco(null, rua, numero, complemento, bairro, cidade, estado);
 		assertFalse(endereco.hashCode() == endereco2.hashCode());
@@ -202,7 +202,7 @@ public class EnderecoTest {
 		assertTrue(endereco.equals(endereco2) & endereco2.equals(endereco));
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_equals_com_um_endereco_de_cep_null() {
 		Endereco endereco2 = new Endereco(null, rua, numero, complemento, bairro, cidade, estado);
 		assertFalse(enderecoCompleto.equals(endereco2) & endereco2.equals(enderecoCompleto));
@@ -218,7 +218,7 @@ public class EnderecoTest {
 		assertFalse(endereco.equals(null));
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_true_no_equals_comparando_dois_enderecos_de_cep_null() {
 		Endereco endereco1 = new Endereco(null, rua, numero, complemento, bairro, cidade, estado);
 		Endereco endereco2 = new Endereco(null, rua, numero, complemento, bairro, cidade, estado);
@@ -237,7 +237,7 @@ public class EnderecoTest {
 		assertFalse(endereco.equals(new Object()));
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void toString_deve_retornar_null() {
 		Endereco enderecoNull = new Endereco(null, null, 0, null, null, null, null);
 		assertThat(enderecoNull.toString(), containsString(""));

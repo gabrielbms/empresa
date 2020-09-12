@@ -1,25 +1,32 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.util.Constantes.CPF_INVALIDO;
+import static br.com.contmatic.util.Constantes.CPF_SIZE;
+import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
+import static br.com.contmatic.util.Constantes.TELEFONE_INVALIDO;
+import static br.com.contmatic.util.Constantes.TEL_MAX_SIZE;
+import static br.com.contmatic.util.Constantes.TEL_MIN_SIZE;
+import static br.com.contmatic.util.RegexType.LETRAS;
+import static br.com.contmatic.util.RegexType.NUMEROS;
+
 import java.math.BigDecimal;
 
 import javax.validation.constraints.Pattern;
 
 import br.com.contmatic.endereco.Endereco;
-import br.com.contmatic.util.Constantes;
-import br.com.contmatic.util.RegexType;
 import br.com.contmatic.util.Validate;
 
 public class Funcionario {
 
-	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.CPF_INVALIDO)
+	@Pattern(regexp = NUMEROS, message = CPF_INVALIDO)
 	private String cpf;
 
-	@Pattern(regexp = RegexType.LETRAS, message = Constantes.NOME_INVALIDO)
+	@Pattern(regexp = LETRAS, message = NOME_INVALIDO)
 	private String nome;
 
 	private Integer idade;
 
-	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.TELEFONE_INVALIDO)
+	@Pattern(regexp = NUMEROS, message = TELEFONE_INVALIDO)
 	private String telefone;
 
 	private Endereco endereco;
@@ -27,7 +34,7 @@ public class Funcionario {
 	private BigDecimal salario;
 
 	public Funcionario(String cpf, String nome, BigDecimal salario) {
-		this.cpf = cpf;
+		this.setCpf(cpf);
 		this.setNome(nome);
 		this.setSalario(salario);
 	}
@@ -41,11 +48,11 @@ public class Funcionario {
 	}
 
 	public Funcionario(String cpf, String nome, int idade, String telefone, Endereco endereco, BigDecimal salario) {
-		this.cpf = cpf;
-		this.nome = nome;
-		this.idade = idade;
-		this.telefone = telefone;
-		this.endereco = endereco;
+		this.setCpf(cpf);
+		this.setNome(nome);
+		this.setIdade(idade);
+		this.setTelefone(telefone);
+		this.setEndereco(endereco);
 		this.setSalario(salario);
 	}
 
@@ -54,14 +61,21 @@ public class Funcionario {
 	}
 
 	public void setCpf(String cpf) {
-		if (cpf == null || cpf.trim().isEmpty() || cpf.length() < Constantes.CPF_SIZE
-				|| cpf.length() > Constantes.CPF_SIZE) {
-			throw new IllegalArgumentException("O CPF foi preenchido incorretamente.");
-		}
+		this.validaCpfIncorreto(cpf);
+		this.validaCalculoCpf(cpf);
+		this.cpf = cpf;
+	}
+
+	private void validaCalculoCpf(String cpf) {
 		if (Validate.isCPF(cpf) == false) {
 			throw new IllegalArgumentException("O CPF é inválido.");
 		}
-		this.cpf = cpf;
+	}
+
+	private void validaCpfIncorreto(String cpf) {
+		if (cpf == null || cpf.trim().isEmpty() || cpf.length() < CPF_SIZE	|| cpf.length() > CPF_SIZE) {
+			throw new IllegalArgumentException("O CPF foi preenchido incorretamente.");
+		}
 	}
 
 	public String getNome() {
@@ -69,10 +83,14 @@ public class Funcionario {
 	}
 
 	public void setNome(String nome) {
+		this.validaNomeIncorreto(nome);
+		this.nome = nome;
+	}
+
+	private void validaNomeIncorreto(String nome) {
 		if (nome == null || nome.trim().isEmpty() || nome.length() < 2 || nome.length() > 60) {
 			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
 		}
-		this.nome = nome;
 	}
 
 	public Integer getIdade() {
@@ -80,6 +98,10 @@ public class Funcionario {
 	}
 
 	public void setIdade(int idade) {
+		this.validaIdade(idade);
+	}
+
+	private void validaIdade(int idade) {
 		if (idade >= 14) {
 			this.idade = idade;
 		} else {
@@ -92,11 +114,14 @@ public class Funcionario {
 	}
 
 	public void setTelefone(String telefone) {
-		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < Constantes.TEL_MIN_SIZE
-				|| telefone.length() > Constantes.TEL_MAX_SIZE) {
+		this.validaTelefoneIncorreto(telefone);
+		this.telefone = telefone;
+	}
+
+	private void validaTelefoneIncorreto(String telefone) {
+		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < TEL_MIN_SIZE|| telefone.length() > TEL_MAX_SIZE) {
 			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
 		}
-		this.telefone = telefone;
 	}
 
 	public Endereco getEndereco() {
@@ -112,35 +137,15 @@ public class Funcionario {
 	}
 
 	public void setSalario(BigDecimal salario) {
+		this.validaSalario(salario);
+	}
+
+	private void validaSalario(BigDecimal salario) {
 		if (salario.doubleValue() >= 1) {
 			this.salario = salario;
 		} else {
 			throw new IllegalArgumentException("salario não pode ser menor que um.");
 		}
-	}
-
-	@Override
-	public String toString() {
-		StringBuilder sb = new StringBuilder();
-		if (this.cpf != null) {
-			sb.append("cpf= ").append(this.cpf);
-		}
-		if (this.nome != null) {
-			sb.append(" nome= ").append(this.nome);
-		}
-		if (this.idade != 0) {
-			sb.append(" idade= ").append(this.idade);
-		}
-		if (this.telefone != null) {
-			sb.append(" telefone= ").append(this.telefone);
-		}
-		if (this.endereco != null) {
-			sb.append(" endereco= ").append(this.endereco);
-		}
-		if (this.salario != BigDecimal.valueOf(0)) {
-			sb.append(" salario= ").append(this.salario);
-		}
-		return sb.toString();
 	}
 
 	@Override
@@ -167,4 +172,29 @@ public class Funcionario {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		if (this.cpf != null) {
+			sb.append("cpf= ").append(this.cpf);
+		}
+		if (this.nome != null) {
+			sb.append(" nome= ").append(this.nome);
+		}
+		if (this.idade != 0) {
+			sb.append(" idade= ").append(this.idade);
+		}
+		if (this.telefone != null) {
+			sb.append(" telefone= ").append(this.telefone);
+		}
+		if (this.endereco != null) {
+			sb.append(" endereco= ").append(this.endereco);
+		}
+		if (this.salario != BigDecimal.valueOf(0)) {
+			sb.append(" salario= ").append(this.salario);
+		}
+		return sb.toString();
+	}
+	
 }

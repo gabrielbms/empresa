@@ -10,9 +10,11 @@ import br.com.contmatic.empresa.FornecedorTest;
 import br.com.contmatic.empresa.FuncionarioTest;
 import br.com.contmatic.empresa.ProdutoTest;
 import br.com.contmatic.endereco.EnderecoTest;
+import br.com.contmatic.telefone.TelefoneTest;
 
 @RunWith(Suite.class)
-@SuiteClasses({ ClienteTest.class, EmpresaTest.class, FornecedorTest.class, FuncionarioTest.class, ProdutoTest.class, EnderecoTest.class})
+@SuiteClasses({ ClienteTest.class, EmpresaTest.class, FornecedorTest.class, FuncionarioTest.class, ProdutoTest.class, 
+	EnderecoTest.class, TelefoneTest.class})
 public class TestRunner {
 
 }

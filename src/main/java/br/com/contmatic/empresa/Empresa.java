@@ -1,21 +1,26 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.util.Constantes.CNPJ_INVALIDO;
+import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
+import static br.com.contmatic.util.Constantes.TELEFONE_INVALIDO;
+import static br.com.contmatic.util.RegexType.LETRAS;
+import static br.com.contmatic.util.RegexType.NUMEROS;
+
 import javax.validation.constraints.Pattern;
 
 import br.com.contmatic.endereco.Endereco;
 import br.com.contmatic.util.Constantes;
-import br.com.contmatic.util.RegexType;
 import br.com.contmatic.util.Validate;
 
 public class Empresa {
 
-	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.CNPJ_INVALIDO)
+	@Pattern(regexp = NUMEROS, message = CNPJ_INVALIDO)
 	private String cnpj;
 
-	@Pattern(regexp = RegexType.LETRAS, message = Constantes.NOME_INVALIDO)
+	@Pattern(regexp = LETRAS, message = NOME_INVALIDO)
 	private String nome;
 
-	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.TELEFONE_INVALIDO)
+	@Pattern(regexp = NUMEROS, message = TELEFONE_INVALIDO)
 	private String telefone;
 
 	private Endereco endereco;
@@ -31,7 +36,7 @@ public class Empresa {
 	}
 
 	public Empresa(String cnpj, String nome, String telefone, Endereco endereco) {
-		this.cnpj = cnpj;
+		this.setCnpj(cnpj);
 		this.setNome(nome);
 		this.setTelefone(telefone);
 		this.setEndereco(endereco);
@@ -42,14 +47,22 @@ public class Empresa {
 	}
 
 	public void setCnpj(String cnpj) {
+		validaCnpjIncorreto(cnpj);
+		validaCnpjInvalido(cnpj);
+		this.cnpj = cnpj;
+	}
+
+	private void validaCnpjIncorreto(String cnpj) {
 		if (cnpj == null || cnpj.trim().isEmpty() || cnpj.length() < Constantes.CNPJ_SIZE
 				|| cnpj.length() > Constantes.CNPJ_SIZE) {
 			throw new IllegalArgumentException("O CNPJ foi preenchido incorretamente.");
 		}
+	}
+	
+	private void validaCnpjInvalido(String cnpj) {
 		if (Validate.isCNPJ(cnpj) == false) {
 			throw new IllegalArgumentException("O CNPJ é inválido.");
 		}
-		this.cnpj = cnpj;
 	}
 
 	public String getNome() {
@@ -57,10 +70,14 @@ public class Empresa {
 	}
 
 	public void setNome(String nome) {
+		validaNomeIncorreto(nome);
+		this.nome = nome;
+	}
+
+	private void validaNomeIncorreto(String nome) {
 		if (nome == null || nome.trim().isEmpty() || nome.length() < 2 || nome.length() > 80) {
 			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
 		}
-		this.nome = nome;
 	}
 
 	public String getTelefone() {
@@ -68,11 +85,15 @@ public class Empresa {
 	}
 
 	public void setTelefone(String telefone) {
+		validaTelefoneIncorreto(telefone);
+		this.telefone = telefone;
+	}
+
+	private void validaTelefoneIncorreto(String telefone) {
 		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < Constantes.TEL_MIN_SIZE
 				|| telefone.length() > Constantes.TEL_MAX_SIZE) {
 			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
 		}
-		this.telefone = telefone;
 	}
 
 	public Endereco getEndereco() {
@@ -81,25 +102,6 @@ public class Empresa {
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
-	}
-
-	@Override
-	public String toString() {
-
-		StringBuilder sb = new StringBuilder();
-		if (this.cnpj != null) {
-			sb.append("cnpj= ").append(this.cnpj);
-		}
-		if (this.nome != null) {
-			sb.append(" nome= ").append(this.nome);
-		}
-		if (this.telefone != null) {
-			sb.append(" telefone= ").append(this.telefone);
-		}
-		if (this.endereco != null) {
-			sb.append(" endereco= ").append(this.endereco);
-		}
-		return sb.toString();
 	}
 
 	@Override
@@ -125,6 +127,25 @@ public class Empresa {
 		} else if (!cnpj.equals(other.cnpj))
 			return false;
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+
+		StringBuilder sb = new StringBuilder();
+		if (this.cnpj != null) {
+			sb.append("cnpj= ").append(this.cnpj);
+		}
+		if (this.nome != null) {
+			sb.append(" nome= ").append(this.nome);
+		}
+		if (this.telefone != null) {
+			sb.append(" telefone= ").append(this.telefone);
+		}
+		if (this.endereco != null) {
+			sb.append(" endereco= ").append(this.endereco);
+		}
+		return sb.toString();
 	}
 
 }

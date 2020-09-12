@@ -40,6 +40,8 @@ public final class Constantes {
 	
 	public static final Integer CNPJ_SIZE = 14;
 	
+	public static final Integer CEP_SIZE = 8;
+	
 	public static final Integer TEL_MIN_SIZE = 8;
 	
 	public static final Integer TEL_MAX_SIZE = 9;

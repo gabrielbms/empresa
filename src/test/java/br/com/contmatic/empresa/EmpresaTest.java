@@ -134,7 +134,7 @@ public class EmpresaTest {
 		assertEquals(empresa.hashCode(), Empresa2.hashCode());
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_hashCode_com_uma_empresa_de_cnpj_null() {
 		Empresa Empresa2 = new Empresa(null, "GB Conserto de computadores", "41108521", endereco);
 		assertNotEquals(empresa.hashCode(), Empresa2.hashCode());
@@ -146,7 +146,7 @@ public class EmpresaTest {
 		assertTrue(empresa.equals(empresa2) & empresa2.equals(empresa));
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_equals_com_um_empresa_de_cnpj_null() {
 		Empresa empresa2 = new Empresa(null, "GB Conserto de computadores", "41108521", endereco);
 		assertFalse(empresa.equals(empresa2) & empresa2.equals(empresa));
@@ -162,7 +162,7 @@ public class EmpresaTest {
 		assertNotEquals(empresa, null);
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_true_no_equals_comparando_dois_empresas_de_cnpj_null() {
 		Empresa empresa1 = new Empresa(null, "GB Conserto de computadores", "41108521", endereco);
 		Empresa empresa2 = new Empresa(null, "GB Conserto de computadores", "41108521", endereco);

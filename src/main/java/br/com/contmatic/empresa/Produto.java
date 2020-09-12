@@ -1,17 +1,17 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
+import static br.com.contmatic.util.RegexType.LETRAS;
+
 import java.math.BigDecimal;
 
 import javax.validation.constraints.Pattern;
-
-import br.com.contmatic.util.Constantes;
-import br.com.contmatic.util.RegexType;
 
 public class Produto {
 
 	private Integer id;
 
-	@Pattern(regexp = RegexType.LETRAS, message = Constantes.NOME_INVALIDO)
+	@Pattern(regexp = LETRAS, message = NOME_INVALIDO)
 	private String nome;
 
 	private Integer quantidade;
@@ -19,15 +19,13 @@ public class Produto {
 	private BigDecimal preço;
 
 	public Produto(Integer id, String nome) {
-		super();
 		this.setId(id);
 		this.setNome(nome);
 	}
 
 	public Produto(Integer id, String nome, Integer quantidade, BigDecimal preço) {
-		super();
-		this.id = id;
-		this.nome = nome;
+		this.setId(id);
+		this.setNome(nome);
 		this.setQuantidade(quantidade);
 		this.setPreço(preço);
 	}
@@ -37,10 +35,14 @@ public class Produto {
 	}
 
 	public void setId(Integer id) {
+		this.validaIdIncorreto(id);
+		this.id = id;
+	}
+
+	private void validaIdIncorreto(Integer id) {
 		if (id == null || id.doubleValue() < 1) {
 			throw new IllegalArgumentException("O ID foi preenchido incorretamente.");
 		}
-		this.id = id;
 	}
 
 	public String getNome() {
@@ -48,10 +50,14 @@ public class Produto {
 	}
 
 	public void setNome(String nome) {
+		this.validaNomeIncorreto(nome);
+		this.nome = nome;
+	}
+
+	private void validaNomeIncorreto(String nome) {
 		if (nome == null || nome.trim().isEmpty() || nome.length() < 2 || nome.length() > 80) {
 			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
 		}
-		this.nome = nome;
 	}
 
 	public Integer getQuantidade() {
@@ -59,10 +65,14 @@ public class Produto {
 	}
 
 	public void setQuantidade(Integer quantidade) {
+		this.validaQuantidadeIncorreta(quantidade);
+		this.quantidade = quantidade;
+	}
+
+	private void validaQuantidadeIncorreta(Integer quantidade) {
 		if (quantidade < 1) {
 			throw new IllegalArgumentException("A quantidade não pode ser menor que um.");
 		}
-		this.quantidade = quantidade;
 	}
 
 	public BigDecimal getPreço() {
@@ -70,29 +80,14 @@ public class Produto {
 	}
 
 	public void setPreço(BigDecimal preço) {
-		if (preço.doubleValue() < 1) {
-			throw new IllegalArgumentException("O preço não pode ser menor que um.");
-		}
+		this.validaPreçoIncorreto(preço);
 		this.preço = preço;
 	}
 
-	@Override
-	public String toString() {
-
-		StringBuilder sb = new StringBuilder();
-		if (this.id != 0) {
-			sb.append("id= ").append(this.id);
+	private void validaPreçoIncorreto(BigDecimal preço) {
+		if (preço.doubleValue() < 1) {
+			throw new IllegalArgumentException("O preço não pode ser menor que um.");
 		}
-		if (this.nome != null) {
-			sb.append(" nome= ").append(this.nome);
-		}
-		if (this.quantidade != 0) {
-			sb.append(" quantidade= ").append(this.quantidade);
-		}
-		if (this.preço != BigDecimal.valueOf(0)) {
-			sb.append(" preço= ").append(this.preço);
-		}
-		return sb.toString();
 	}
 
 	@Override
@@ -118,6 +113,25 @@ public class Produto {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+
+		StringBuilder sb = new StringBuilder();
+		if (this.id != 0) {
+			sb.append("id= ").append(this.id);
+		}
+		if (this.nome != null) {
+			sb.append(" nome= ").append(this.nome);
+		}
+		if (this.quantidade != 0) {
+			sb.append(" quantidade= ").append(this.quantidade);
+		}
+		if (this.preço != BigDecimal.valueOf(0)) {
+			sb.append(" preço= ").append(this.preço);
+		}
+		return sb.toString();
 	}
 
 }

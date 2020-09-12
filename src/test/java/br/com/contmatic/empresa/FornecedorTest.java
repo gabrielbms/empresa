@@ -154,7 +154,7 @@ public class FornecedorTest {
 		assertEquals(fornecedor.hashCode(), fornecedor2.hashCode());
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_hashCode_com_uma_fornecedor_de_cnpj_null() {
 		Fornecedor fornecedor2 = new Fornecedor(null, "CA peças LTDA");
 		assertNotEquals(fornecedor.hashCode(), fornecedor2.hashCode());
@@ -166,7 +166,7 @@ public class FornecedorTest {
 		assertTrue(fornecedor.equals(fornecedor2) & fornecedor2.equals(fornecedor));
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_equals_com_um_fornecedor_de_cnpj_null() {
 		Fornecedor fornecedor2 = new Fornecedor(null, "CA peças LTDA");
 		assertFalse(fornecedor.equals(fornecedor2) & fornecedor2.equals(fornecedor));
@@ -182,7 +182,7 @@ public class FornecedorTest {
 		assertNotEquals(fornecedor, null);
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_true_no_equals_comparando_dois_fornecedores_de_cnpj_null() {
 		Fornecedor fornecedor1 = new Fornecedor(null, "CA peças LTDA");
 		Fornecedor fornecedor2 = new Fornecedor(null, "CA peças LTDA");

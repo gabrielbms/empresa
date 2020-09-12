@@ -161,7 +161,7 @@ public class FuncionarioTest {
 		assertEquals(funcionario.hashCode(), funcionario2.hashCode());
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_hashCode_com_um_funcionario_de_cpf_null() {
 		Funcionario funcionario2 = new Funcionario(null, "Gabriel Bueno", BigDecimal.valueOf(1500.00));
 		assertNotEquals(funcionario.hashCode(), funcionario2.hashCode());
@@ -173,7 +173,7 @@ public class FuncionarioTest {
 		assertTrue(funcionario.equals(funcionario2) & funcionario2.equals(funcionario));
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_equals_com_um_funcionario_de_cpf_null() {
 		Funcionario funcionario2 = new Funcionario(null, "Gabriel Bueno", BigDecimal.valueOf(1500.00));
 		assertFalse(funcionario.equals(funcionario2) & funcionario2.equals(funcionario));
@@ -189,7 +189,7 @@ public class FuncionarioTest {
 		assertNotEquals(funcionario, null);
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_true_no_equals_comparando_dois_funcionarios_de_cpf_null() {
 		Funcionario funcionario1 = new Funcionario(null, "Gabriel Bueno", BigDecimal.valueOf(1500.00));
 		Funcionario funcionario2 = new Funcionario(null, "Gabriel Bueno", BigDecimal.valueOf(1500.00));
@@ -208,7 +208,7 @@ public class FuncionarioTest {
 		assertNotEquals(funcionario, new Object());
 	}
 	
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void toString_deve_retornar_null() {
 		funcionarioComEndereco = new Funcionario(null, null, 0, null, null, new BigDecimal("1"));
 		assertThat(funcionarioComEndereco.toString(), containsString("salario"));

@@ -140,7 +140,7 @@ public class ProdutoTest {
 		assertEquals(produtoToString, produto.toString());
 	}
 	
-	@Test 
+	@Test (expected = IllegalArgumentException.class)
 	public void deve_testar_o_toString_nullo() {
 		produto = new Produto(0, null, 1, (BigDecimal.valueOf(1)));
 		produto.toString();
@@ -152,7 +152,7 @@ public class ProdutoTest {
 		assertEquals(produto.hashCode(), outroProduto.hashCode());
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_hashCode_com_um_produto_de_id_null() {
 		Produto outroProduto = new Produto(null, nome, quantidade, preço);
 		assertNotEquals(produto.hashCode(), outroProduto.hashCode());
@@ -164,7 +164,7 @@ public class ProdutoTest {
 		assertTrue(produto.equals(outroProduto) & outroProduto.equals(produto));
 	}
 	
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_equals_com_um_produto_de_id_null() {
 		Produto outroProduto = new Produto(null, nome, quantidade, preço);
 		assertNotEquals(produto, outroProduto);
@@ -180,7 +180,7 @@ public class ProdutoTest {
 		assertNotEquals(produto, null);
 	}
 	
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_true_no_equals_comparando_dois_produtos_de_id_null() {
 		Produto produto1 = new Produto(null, nome, quantidade, preço);
 		Produto produto2 = new Produto(null, nome, quantidade, preço);
@@ -191,10 +191,10 @@ public class ProdutoTest {
 	public void deve_retornar_false_no_equals_com_produtos_de_ids_diferentes() {
 		Produto produto1 = new Produto(2, nome, quantidade, preço);
 		Produto produto2 = new Produto(3, nome, quantidade, preço);
-		assertFalse(produto1.equals(produto2) && produto2.equals(produto1));
+		assertNotEquals(produto1, produto2);
 	}
 	
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_equals_com_um_id_null_e_outro_preenchido() {
 		Produto produto1 = new Produto(null, nome, quantidade, preço);
 		Produto produto2 = new Produto(3, nome, quantidade, preço);

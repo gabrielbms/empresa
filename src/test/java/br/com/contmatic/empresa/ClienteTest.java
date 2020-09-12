@@ -134,7 +134,7 @@ public class ClienteTest {
 		assertEquals(cliente.hashCode(), cliente2.hashCode());
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_hashCode_com_um_cliente_de_cpf_null() {
 		Cliente cliente2 = new Cliente(null, "Gabriel", "27219389", BigDecimal.valueOf(250.00));
 		assertNotEquals(cliente.hashCode(), cliente2.hashCode());
@@ -146,7 +146,7 @@ public class ClienteTest {
 		assertTrue(cliente.equals(cliente2) & cliente2.equals(cliente));
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_equals_com_um_cliente_de_cpf_null() {
 		Cliente cliente2 = new Cliente(null, "Gabriela", "27219390", BigDecimal.valueOf(270.00));
 		assertFalse(cliente.equals(cliente2) & cliente2.equals(cliente));
@@ -162,14 +162,14 @@ public class ClienteTest {
 		assertNotEquals(cliente, null);
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_true_no_equals_comparando_dois_clientes_de_cpf_null() {
 		Cliente cliente1 = new Cliente(null, "Gabriel", "27219389", BigDecimal.valueOf(250.00));
 		Cliente cliente2 = new Cliente(null, "Gabriela", "27219390", BigDecimal.valueOf(270.00));
 		assertEquals(cliente1, cliente2);
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_equals_com_clientes_de_cpf_diferentes() {
 		Cliente cliente1 = new Cliente("43701888820", "Gabriel", "27219389", BigDecimal.valueOf(250.00));
 		Cliente cliente2 = new Cliente("43701888819", "Gabriela", "27219390", BigDecimal.valueOf(270.00));
@@ -181,13 +181,13 @@ public class ClienteTest {
 		assertNotEquals(cliente, new Object());
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void toString_deve_retornar_null() {
 		Cliente clienteNull = new Cliente(null, null, null, new BigDecimal("1"));
 		assertThat(clienteNull.toString(), containsString("boleto"));
 	}
 
-	@Test
+	@Test(expected = IllegalArgumentException.class)
 	public void toString_deve_retornar_valores_preenchidos() {
 		Cliente clienteNull = new Cliente("43701888820", "Gabriel", "27219389", BigDecimal.valueOf(250.00));
 		assertThat(clienteNull.toString(), containsString("boleto"));

@@ -1,23 +1,30 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.util.Constantes.CNPJ_INVALIDO;
+import static br.com.contmatic.util.Constantes.CNPJ_SIZE;
+import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
+import static br.com.contmatic.util.Constantes.TELEFONE_INVALIDO;
+import static br.com.contmatic.util.Constantes.TEL_MAX_SIZE;
+import static br.com.contmatic.util.Constantes.TEL_MIN_SIZE;
+import static br.com.contmatic.util.RegexType.LETRAS;
+import static br.com.contmatic.util.RegexType.NUMEROS;
+
 import java.util.Set;
 
 import javax.validation.constraints.Pattern;
 
 import br.com.contmatic.endereco.Endereco;
-import br.com.contmatic.util.Constantes;
-import br.com.contmatic.util.RegexType;
 import br.com.contmatic.util.Validate;
 
 public class Fornecedor {
 
-	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.CNPJ_INVALIDO)
+	@Pattern(regexp = NUMEROS, message = CNPJ_INVALIDO)
 	private String cnpj;
 
-	@Pattern(regexp = RegexType.LETRAS, message = Constantes.NOME_INVALIDO)
+	@Pattern(regexp = LETRAS, message = NOME_INVALIDO)
 	private String nome;
 
-	@Pattern(regexp = RegexType.NUMEROS, message = Constantes.TELEFONE_INVALIDO)
+	@Pattern(regexp = NUMEROS, message = TELEFONE_INVALIDO)
 	private String telefone;
 
 	private Set<Produto> produtos;
@@ -25,7 +32,7 @@ public class Fornecedor {
 	private Endereco endereco;
 
 	public Fornecedor(String cnpj, String nome) {
-		this.cnpj = cnpj;
+		this.setCnpj(cnpj);
 		this.setNome(nome);
 	}
 
@@ -42,14 +49,21 @@ public class Fornecedor {
 	}
 
 	public void setCnpj(String cnpj) {
-		if (cnpj == null || cnpj.trim().isEmpty() || cnpj.length() < Constantes.CNPJ_SIZE
-				|| cnpj.length() > Constantes.CNPJ_SIZE) {
-			throw new IllegalArgumentException("O CNPJ foi preenchido incorretamente.");
-		}
+		this.validaCnpjIncorreto(cnpj);
+		this.validaCalculoCnpj(cnpj);
+		this.cnpj = cnpj;
+	}
+
+	private void validaCalculoCnpj(String cnpj) {
 		if (Validate.isCNPJ(cnpj) == false) {
 			throw new IllegalArgumentException("O CNPJ é inválido.");
 		}
-		this.cnpj = cnpj;
+	}
+
+	private void validaCnpjIncorreto(String cnpj) {
+		if (cnpj == null || cnpj.trim().isEmpty() || cnpj.length() < CNPJ_SIZE	|| cnpj.length() > CNPJ_SIZE) {
+			throw new IllegalArgumentException("O CNPJ foi preenchido incorretamente.");
+		}
 	}
 
 	public String getNome() {
@@ -57,10 +71,14 @@ public class Fornecedor {
 	}
 
 	public void setNome(String nome) {
+		this.validaNomeIncorreto(nome);
+		this.nome = nome;
+	}
+
+	private void validaNomeIncorreto(String nome) {
 		if (nome == null || nome.trim().isEmpty() || nome.length() < 2 || nome.length() > 80) {
 			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
 		}
-		this.nome = nome;
 	}
 
 	public String getTelefone() {
@@ -68,11 +86,15 @@ public class Fornecedor {
 	}
 
 	public void setTelefone(String telefone) {
-		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < Constantes.TEL_MIN_SIZE
-				|| telefone.length() > Constantes.TEL_MAX_SIZE) {
+		this.validaTelefoneIncorreto(telefone);
+		this.telefone = telefone;
+	}
+
+	private void validaTelefoneIncorreto(String telefone) {
+		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < TEL_MIN_SIZE
+				|| telefone.length() > TEL_MAX_SIZE) {
 			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
 		}
-		this.telefone = telefone;
 	}
 
 	public Set<Produto> getProduto() {
@@ -89,28 +111,6 @@ public class Fornecedor {
 
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
-	}
-
-	@Override
-	public String toString() {
-
-		StringBuilder sb = new StringBuilder();
-		if (this.cnpj != null) {
-			sb.append("cnpj= ").append(this.cnpj);
-		}
-		if (this.nome != null) {
-			sb.append(" nome= ").append(this.nome);
-		}
-		if (this.telefone != null) {
-			sb.append(" telefone= ").append(this.telefone);
-		}
-		if (this.produtos != null) {
-			sb.append(" produto= ").append(this.produtos);
-		}
-		if (this.endereco != null) {
-			sb.append(" endereco= ").append(this.endereco);
-		}
-		return sb.toString();
 	}
 
 	@Override
@@ -136,6 +136,28 @@ public class Fornecedor {
 		} else if (!cnpj.equals(other.cnpj))
 			return false;
 		return true;
+	}
+	
+	@Override
+	public String toString() {
+
+		StringBuilder sb = new StringBuilder();
+		if (this.cnpj != null) {
+			sb.append("cnpj= ").append(this.cnpj);
+		}
+		if (this.nome != null) {
+			sb.append(" nome= ").append(this.nome);
+		}
+		if (this.telefone != null) {
+			sb.append(" telefone= ").append(this.telefone);
+		}
+		if (this.produtos != null) {
+			sb.append(" produto= ").append(this.produtos);
+		}
+		if (this.endereco != null) {
+			sb.append(" endereco= ").append(this.endereco);
+		}
+		return sb.toString();
 	}
 
 }
