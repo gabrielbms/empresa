@@ -3,9 +3,6 @@ package br.com.contmatic.empresa;
 import static br.com.contmatic.util.Constantes.CPF_INVALIDO;
 import static br.com.contmatic.util.Constantes.CPF_SIZE;
 import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
-import static br.com.contmatic.util.Constantes.TELEFONE_INVALIDO;
-import static br.com.contmatic.util.Constantes.TEL_MAX_SIZE;
-import static br.com.contmatic.util.Constantes.TEL_MIN_SIZE;
 import static br.com.contmatic.util.RegexType.LETRAS;
 import static br.com.contmatic.util.RegexType.NUMEROS;
 
@@ -13,6 +10,7 @@ import java.math.BigDecimal;
 
 import javax.validation.constraints.Pattern;
 
+import br.com.contmatic.telefone.Telefone;
 import br.com.contmatic.util.Validate;
 
 public class Cliente {
@@ -23,8 +21,7 @@ public class Cliente {
 	@Pattern(regexp = LETRAS, message = NOME_INVALIDO)
 	private String nome;
 
-	@Pattern(regexp = NUMEROS, message = TELEFONE_INVALIDO)
-	private String telefone;
+	private Telefone telefone;
 
 	private BigDecimal boleto;
 
@@ -34,7 +31,7 @@ public class Cliente {
 		this.setBoleto(boleto);
 	}
 
-	public Cliente(String cpf, String nome, String telefone, BigDecimal boleto) {
+	public Cliente(String cpf, String nome, Telefone telefone, BigDecimal boleto) {
 		this.setCpf(cpf);
 		this.setNome(nome);
 		this.setTelefone(telefone);
@@ -79,21 +76,14 @@ public class Cliente {
 		}
 	}
 
-	public String getTelefone() {
+	public Telefone getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(String telefone) {
-		this.validaTelefoneIncorreto(telefone);
+	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
 	}
 
-	private void validaTelefoneIncorreto(String telefone) {
-		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < TEL_MIN_SIZE
-				|| telefone.length() > TEL_MAX_SIZE) {
-			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
-		}
-	}
 
 	public BigDecimal getBoleto() {
 		return boleto;

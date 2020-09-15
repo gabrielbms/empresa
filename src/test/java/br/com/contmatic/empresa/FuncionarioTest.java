@@ -26,6 +26,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 
 import br.com.contmatic.endereco.Endereco;
+import br.com.contmatic.telefone.Telefone;
+import br.com.contmatic.telefone.TelefoneDDDType;
+import br.com.contmatic.telefone.TipoTelefoneType;
 import br.com.contmatic.util.Constantes;
 
 @FixMethodOrder(NAME_ASCENDING)
@@ -37,7 +40,7 @@ public class FuncionarioTest {
 
 	private int idade;
 
-	private String telefone;
+	private Telefone telefone;
 
 	private BigDecimal salario;
 
@@ -61,8 +64,8 @@ public class FuncionarioTest {
 		cpf = "99074424880";
 		nome = "Gabriel Bueno";
 		idade = 25;
-		telefone = "41108521";
 		salario = BigDecimal.valueOf(1500.00);
+		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
 		Endereco endereco = new Endereco("04508010", 274);
 		funcionario = new Funcionario(cpf, nome, salario);
 		funcionarioSemEndereco = new Funcionario(cpf, nome, idade, telefone, salario);
@@ -124,8 +127,9 @@ public class FuncionarioTest {
 
 	@Test
 	public void deve_testar_o_getTelefone_esta_funcionando_corretamente() {
-		funcionario.setTelefone("41108521");
-		assertThat(funcionario.getTelefone(), containsString("41108521"));
+		Telefone outroTelefone = new Telefone(TelefoneDDDType.DDD11, "41108521", TipoTelefoneType.CELULAR);
+		funcionario.setTelefone(outroTelefone);
+		assertEquals(funcionario.getTelefone().getNumero(), "41108521");
 	}
 
 	@Test
@@ -152,7 +156,7 @@ public class FuncionarioTest {
 
 	@Test
 	public void nao_deve_aceitar_espacos_em_branco_no_telefone() {
-		assertFalse(funcionarioComEndereco.getTelefone().trim().isEmpty());
+		assertFalse(funcionarioComEndereco.getTelefone().getNumero().trim().isEmpty());
 	}
 
 	@Test
@@ -258,26 +262,6 @@ public class FuncionarioTest {
 	public void deve_testar_exception_do_setNome_tamanho_maior() {
 		funcionario.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabxc");
 	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setTelefone_null() {
-		funcionario.setTelefone(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setTelefone_vazio() {
-		funcionario.setTelefone(" ");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setTelefone_tamanho_menor() {
-		funcionario.setTelefone("1234567");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setTelefone_tamanho_maior() {
-		funcionario.setTelefone("1234567890");
-	}
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setIdade() {
@@ -294,12 +278,6 @@ public class FuncionarioTest {
 	public void deve_testar_o_regex_do_nome() {
 		funcionario.setNome("1234567890");
 		assertFalse(isValid(funcionario, Constantes.NOME_INVALIDO));
-	}
-	
-	@Test
-	public void deve_testar_o_regex_do_telefone() {
-		funcionario.setTelefone("abcabcabc");
-		assertFalse(isValid(funcionario, Constantes.TELEFONE_INVALIDO));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

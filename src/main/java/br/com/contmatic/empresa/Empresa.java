@@ -2,13 +2,13 @@ package br.com.contmatic.empresa;
 
 import static br.com.contmatic.util.Constantes.CNPJ_INVALIDO;
 import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
-import static br.com.contmatic.util.Constantes.TELEFONE_INVALIDO;
 import static br.com.contmatic.util.RegexType.LETRAS;
 import static br.com.contmatic.util.RegexType.NUMEROS;
 
 import javax.validation.constraints.Pattern;
 
 import br.com.contmatic.endereco.Endereco;
+import br.com.contmatic.telefone.Telefone;
 import br.com.contmatic.util.Constantes;
 import br.com.contmatic.util.Validate;
 
@@ -20,8 +20,7 @@ public class Empresa {
 	@Pattern(regexp = LETRAS, message = NOME_INVALIDO)
 	private String nome;
 
-	@Pattern(regexp = NUMEROS, message = TELEFONE_INVALIDO)
-	private String telefone;
+	private Telefone telefone;
 
 	private Endereco endereco;
 
@@ -29,13 +28,13 @@ public class Empresa {
 		this.setCnpj(cnpj);
 	}
 
-	public Empresa(String cnpj, String nome, String telefone) {
+	public Empresa(String cnpj, String nome, Telefone telefone) {
 		this.setCnpj(cnpj);
 		this.setNome(nome);
 		this.setTelefone(telefone);
 	}
 
-	public Empresa(String cnpj, String nome, String telefone, Endereco endereco) {
+	public Empresa(String cnpj, String nome, Telefone telefone, Endereco endereco) {
 		this.setCnpj(cnpj);
 		this.setNome(nome);
 		this.setTelefone(telefone);
@@ -80,20 +79,12 @@ public class Empresa {
 		}
 	}
 
-	public String getTelefone() {
+	public Telefone getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(String telefone) {
-		validaTelefoneIncorreto(telefone);
+	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
-	}
-
-	private void validaTelefoneIncorreto(String telefone) {
-		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < Constantes.TEL_MIN_SIZE
-				|| telefone.length() > Constantes.TEL_MAX_SIZE) {
-			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
-		}
 	}
 
 	public Endereco getEndereco() {

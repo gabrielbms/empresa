@@ -13,7 +13,7 @@ public class Telefone {
 
 	public Telefone(TelefoneDDDType ddd, String numero, TipoTelefoneType tipoTelefone) {
 		this.ddd = ddd;
-		this.setNumero(numero);;
+		this.setNumero(numero);
 		this.tipoTelefone = tipoTelefone;
 	}
 
@@ -52,10 +52,12 @@ public class Telefone {
 		}
 	}
 
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((ddd == null) ? 0 : ddd.hashCode());
 		result = prime * result + ((numero == null) ? 0 : numero.hashCode());
 		return result;
 	}
@@ -69,6 +71,8 @@ public class Telefone {
 		if (getClass() != obj.getClass())
 			return false;
 		Telefone other = (Telefone) obj;
+		if (ddd != other.ddd)
+			return false;
 		if (numero == null) {
 			if (other.numero != null)
 				return false;

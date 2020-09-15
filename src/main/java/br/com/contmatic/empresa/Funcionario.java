@@ -3,9 +3,6 @@ package br.com.contmatic.empresa;
 import static br.com.contmatic.util.Constantes.CPF_INVALIDO;
 import static br.com.contmatic.util.Constantes.CPF_SIZE;
 import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
-import static br.com.contmatic.util.Constantes.TELEFONE_INVALIDO;
-import static br.com.contmatic.util.Constantes.TEL_MAX_SIZE;
-import static br.com.contmatic.util.Constantes.TEL_MIN_SIZE;
 import static br.com.contmatic.util.RegexType.LETRAS;
 import static br.com.contmatic.util.RegexType.NUMEROS;
 
@@ -14,6 +11,7 @@ import java.math.BigDecimal;
 import javax.validation.constraints.Pattern;
 
 import br.com.contmatic.endereco.Endereco;
+import br.com.contmatic.telefone.Telefone;
 import br.com.contmatic.util.Validate;
 
 public class Funcionario {
@@ -26,8 +24,7 @@ public class Funcionario {
 
 	private Integer idade;
 
-	@Pattern(regexp = NUMEROS, message = TELEFONE_INVALIDO)
-	private String telefone;
+	private Telefone telefone;
 
 	private Endereco endereco;
 
@@ -39,7 +36,7 @@ public class Funcionario {
 		this.setSalario(salario);
 	}
 
-	public Funcionario(String cpf, String nome, int idade, String telefone, BigDecimal salario) {
+	public Funcionario(String cpf, String nome, int idade, Telefone telefone, BigDecimal salario) {
 		this.setCpf(cpf);
 		this.setNome(nome);
 		this.setIdade(idade);
@@ -47,7 +44,7 @@ public class Funcionario {
 		this.setSalario(salario);
 	}
 
-	public Funcionario(String cpf, String nome, int idade, String telefone, Endereco endereco, BigDecimal salario) {
+	public Funcionario(String cpf, String nome, int idade, Telefone telefone, Endereco endereco, BigDecimal salario) {
 		this.setCpf(cpf);
 		this.setNome(nome);
 		this.setIdade(idade);
@@ -109,19 +106,12 @@ public class Funcionario {
 		}
 	}
 
-	public String getTelefone() {
+	public Telefone getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(String telefone) {
-		this.validaTelefoneIncorreto(telefone);
+	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
-	}
-
-	private void validaTelefoneIncorreto(String telefone) {
-		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < TEL_MIN_SIZE|| telefone.length() > TEL_MAX_SIZE) {
-			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
-		}
 	}
 
 	public Endereco getEndereco() {

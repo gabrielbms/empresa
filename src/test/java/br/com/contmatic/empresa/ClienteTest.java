@@ -27,6 +27,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import br.com.contmatic.telefone.Telefone;
+import br.com.contmatic.telefone.TelefoneDDDType;
+import br.com.contmatic.telefone.TipoTelefoneType;
 import br.com.contmatic.util.Constantes;
 
 @FixMethodOrder(NAME_ASCENDING)
@@ -39,6 +42,8 @@ public class ClienteTest {
 	private BigDecimal boleto;
 
 	private static Cliente cliente;
+	
+	private static Telefone telefone;
 	
 	private Validator validator;
 
@@ -55,6 +60,7 @@ public class ClienteTest {
 		nome = "Gabriel";
 		boleto = BigDecimal.valueOf(250.00);
 		cliente = new Cliente(cpf, nome, boleto);
+		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
 	}
 	
 	public boolean isValid(Cliente cliente, String mensagem) {
@@ -79,8 +85,8 @@ public class ClienteTest {
 
 	@Test
 	public void nao_deve_aceitar_telefone_nulo() {
-		cliente.setTelefone("27219389");
-		assertNotNull(cliente.getTelefone());
+		cliente.setTelefone(telefone);
+		assertNotNull(cliente.getTelefone().getNumero());
 	}
 
 	@Test
@@ -102,8 +108,8 @@ public class ClienteTest {
 
 	@Test
 	public void deve_testar_o_getTelefone_esta_funcionando_corretamente() {
-		cliente.setTelefone("27219389");
-		assertThat(cliente.getTelefone(), containsString("27219389"));
+		telefone.setNumero("27219389");
+		assertThat(telefone.getNumero(), containsString("27219389"));
 	}
 
 	@Test
@@ -124,31 +130,31 @@ public class ClienteTest {
 
 	@Test
 	public void nao_deve_aceitar_espacos_em_branco_no_telefone() {
-		cliente.setTelefone("123456788");
-		assertFalse(cliente.getTelefone().trim().isEmpty());
+		telefone.setNumero("123456788");
+		assertFalse(telefone.getNumero().trim().isEmpty());
 	}
 
 	@Test
 	public void deve_retornar_true_no_hashCode_com_clientes_iguais() {
-		Cliente cliente2 = new Cliente("20081498896", "Gabriel", "27219389", BigDecimal.valueOf(250.00));
+		Cliente cliente2 = new Cliente("20081498896", "Gabriel", telefone, BigDecimal.valueOf(250.00));
 		assertEquals(cliente.hashCode(), cliente2.hashCode());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_hashCode_com_um_cliente_de_cpf_null() {
-		Cliente cliente2 = new Cliente(null, "Gabriel", "27219389", BigDecimal.valueOf(250.00));
+		Cliente cliente2 = new Cliente(null, "Gabriel", telefone, BigDecimal.valueOf(250.00));
 		assertNotEquals(cliente.hashCode(), cliente2.hashCode());
 	}
 
 	@Test
 	public void deve_retornar_true_no_equals_com_clientes_iguais() {
-		Cliente cliente2 = new Cliente("20081498896", "Gabriel", "27219389", BigDecimal.valueOf(250.00));
+		Cliente cliente2 = new Cliente("20081498896", "Gabriel", telefone, BigDecimal.valueOf(250.00));
 		assertTrue(cliente.equals(cliente2) & cliente2.equals(cliente));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_equals_com_um_cliente_de_cpf_null() {
-		Cliente cliente2 = new Cliente(null, "Gabriela", "27219390", BigDecimal.valueOf(270.00));
+		Cliente cliente2 = new Cliente(null, "Gabriela", telefone, BigDecimal.valueOf(270.00));
 		assertFalse(cliente.equals(cliente2) & cliente2.equals(cliente));
 	}
 
@@ -164,15 +170,15 @@ public class ClienteTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_true_no_equals_comparando_dois_clientes_de_cpf_null() {
-		Cliente cliente1 = new Cliente(null, "Gabriel", "27219389", BigDecimal.valueOf(250.00));
-		Cliente cliente2 = new Cliente(null, "Gabriela", "27219390", BigDecimal.valueOf(270.00));
+		Cliente cliente1 = new Cliente(null, "Gabriel", telefone, BigDecimal.valueOf(250.00));
+		Cliente cliente2 = new Cliente(null, "Gabriela", telefone, BigDecimal.valueOf(270.00));
 		assertEquals(cliente1, cliente2);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_equals_com_clientes_de_cpf_diferentes() {
-		Cliente cliente1 = new Cliente("43701888820", "Gabriel", "27219389", BigDecimal.valueOf(250.00));
-		Cliente cliente2 = new Cliente("43701888819", "Gabriela", "27219390", BigDecimal.valueOf(270.00));
+		Cliente cliente1 = new Cliente("43701888820", "Gabriel", telefone, BigDecimal.valueOf(250.00));
+		Cliente cliente2 = new Cliente("43701888819", "Gabriela", telefone, BigDecimal.valueOf(270.00));
 		assertNotEquals(cliente2, cliente1);
 	}
 
@@ -189,7 +195,7 @@ public class ClienteTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void toString_deve_retornar_valores_preenchidos() {
-		Cliente clienteNull = new Cliente("43701888820", "Gabriel", "27219389", BigDecimal.valueOf(250.00));
+		Cliente clienteNull = new Cliente("43701888820", "Gabriel", telefone, BigDecimal.valueOf(250.00));
 		assertThat(clienteNull.toString(), containsString("boleto"));
 	}
 	
@@ -234,26 +240,6 @@ public class ClienteTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setTelefone_null() {
-		cliente.setTelefone(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setTelefone_vazio() {
-		cliente.setTelefone(" ");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setTelefone_tamanho_menor() {
-		cliente.setTelefone("1234567");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setTelefone_tamanho_maior() {
-		cliente.setTelefone("1234567890");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setBoleto_negativo() {
 		cliente.setBoleto(BigDecimal.valueOf(-50.00));
 	}
@@ -262,12 +248,6 @@ public class ClienteTest {
 	public void deve_testar_o_regex_do_nome() {
 		cliente.setNome("1234567890");
 		assertFalse(isValid(cliente, Constantes.NOME_INVALIDO));
-	}
-	
-	@Test
-	public void deve_testar_o_regex_do_telefone() {
-		cliente.setTelefone("abcabcabc");
-		assertFalse(isValid(cliente, Constantes.TELEFONE_INVALIDO));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

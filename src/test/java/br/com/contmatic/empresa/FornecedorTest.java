@@ -27,6 +27,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 
 import br.com.contmatic.endereco.Endereco;
+import br.com.contmatic.telefone.Telefone;
+import br.com.contmatic.telefone.TelefoneDDDType;
+import br.com.contmatic.telefone.TipoTelefoneType;
 import br.com.contmatic.util.Constantes;;
 
 @FixMethodOrder(NAME_ASCENDING)
@@ -36,7 +39,7 @@ public class FornecedorTest {
 
 	private String nome;
 
-	private String telefone;
+	private Telefone telefone;
 
 	private static Fornecedor fornecedor;
 	
@@ -60,9 +63,9 @@ public class FornecedorTest {
 	public void setUp() {
 		cnpj = "97904702000131";
 		nome = "CA peças LTDA";
-		telefone = "25871235";
 		Set<Produto> produtos = new HashSet<>();
 		produtos.add(produto);
+		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
 		Endereco endereco = new Endereco("02708010", 21);
 		fornecedor = new Fornecedor(cnpj, nome, telefone, produtos, endereco);
 	}
@@ -117,8 +120,8 @@ public class FornecedorTest {
 
 	@Test
 	public void deve_testar_o_getTelefone_esta_funcionando_corretamente() {
-		fornecedor.setTelefone("25871235");
-		assertThat(fornecedor.getTelefone(), containsString("25871235"));
+		telefone.setNumero("25871235");
+		assertThat(fornecedor.getTelefone().getNumero(), containsString("25871235"));
 	}
 
 	@Test
@@ -145,7 +148,7 @@ public class FornecedorTest {
 
 	@Test
 	public void nao_deve_aceitar_espacos_em_branco_no_telefone() {
-		assertFalse(fornecedor.getTelefone().trim().isEmpty());
+		assertFalse(fornecedor.getTelefone().getNumero().trim().isEmpty());
 	}
 
 	@Test
@@ -246,37 +249,11 @@ public class FornecedorTest {
 	public void deve_testar_exception_do_setNome_tamanho_maior() {
 		fornecedor.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcaabcabcabcabcabcabcabcabcabcabcabbcabxc");
 	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setTelefone_null() {
-		fornecedor.setTelefone(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setTelefone_vazio() {
-		fornecedor.setTelefone(" ");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setTelefone_tamanho_menor() {
-		fornecedor.setTelefone("1234567");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setTelefone_tamanho_maior() {
-		fornecedor.setTelefone("1234567890");
-	}
 	
 	@Test
 	public void deve_testar_o_regex_do_nome() {
 		fornecedor.setNome("1234567890");
 		assertFalse(isValid(fornecedor, Constantes.NOME_INVALIDO));
-	}
-	
-	@Test
-	public void deve_testar_o_regex_do_telefone() {
-		fornecedor.setTelefone("abcabcabc");
-		assertFalse(isValid(fornecedor, Constantes.TELEFONE_INVALIDO));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

@@ -3,9 +3,6 @@ package br.com.contmatic.empresa;
 import static br.com.contmatic.util.Constantes.CNPJ_INVALIDO;
 import static br.com.contmatic.util.Constantes.CNPJ_SIZE;
 import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
-import static br.com.contmatic.util.Constantes.TELEFONE_INVALIDO;
-import static br.com.contmatic.util.Constantes.TEL_MAX_SIZE;
-import static br.com.contmatic.util.Constantes.TEL_MIN_SIZE;
 import static br.com.contmatic.util.RegexType.LETRAS;
 import static br.com.contmatic.util.RegexType.NUMEROS;
 
@@ -14,6 +11,7 @@ import java.util.Set;
 import javax.validation.constraints.Pattern;
 
 import br.com.contmatic.endereco.Endereco;
+import br.com.contmatic.telefone.Telefone;
 import br.com.contmatic.util.Validate;
 
 public class Fornecedor {
@@ -24,8 +22,7 @@ public class Fornecedor {
 	@Pattern(regexp = LETRAS, message = NOME_INVALIDO)
 	private String nome;
 
-	@Pattern(regexp = NUMEROS, message = TELEFONE_INVALIDO)
-	private String telefone;
+	private Telefone telefone;
 
 	private Set<Produto> produtos;
 
@@ -36,7 +33,7 @@ public class Fornecedor {
 		this.setNome(nome);
 	}
 
-	public Fornecedor(String cnpj, String nome, String telefone, Set<Produto> produto, Endereco endereco) {
+	public Fornecedor(String cnpj, String nome, Telefone telefone, Set<Produto> produto, Endereco endereco) {
 		this.setCnpj(cnpj);
 		this.setNome(nome);
 		this.setTelefone(telefone);
@@ -81,20 +78,12 @@ public class Fornecedor {
 		}
 	}
 
-	public String getTelefone() {
+	public Telefone getTelefone() {
 		return telefone;
 	}
 
-	public void setTelefone(String telefone) {
-		this.validaTelefoneIncorreto(telefone);
+	public void setTelefone(Telefone telefone) {
 		this.telefone = telefone;
-	}
-
-	private void validaTelefoneIncorreto(String telefone) {
-		if (telefone == null || telefone.trim().isEmpty() || telefone.length() < TEL_MIN_SIZE
-				|| telefone.length() > TEL_MAX_SIZE) {
-			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
-		}
 	}
 
 	public Set<Produto> getProduto() {

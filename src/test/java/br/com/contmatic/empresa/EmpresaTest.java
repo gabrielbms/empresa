@@ -24,6 +24,9 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 
 import br.com.contmatic.endereco.Endereco;
+import br.com.contmatic.telefone.Telefone;
+import br.com.contmatic.telefone.TelefoneDDDType;
+import br.com.contmatic.telefone.TipoTelefoneType;
 import br.com.contmatic.util.Constantes;;
 
 @FixMethodOrder(NAME_ASCENDING)
@@ -33,9 +36,10 @@ public class EmpresaTest {
 
 	private String nome;
 
-	private String telefone;
 
 	private Empresa empresa;
+	
+	private Telefone telefone;
 	
 	private Validator validator;
 
@@ -52,7 +56,7 @@ public class EmpresaTest {
 	public void setUp() {
 		cnpj = "35667373000103";
 		nome = "GB Conserto de computadores";
-		telefone = "41108521";
+		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
 		Endereco endereco = new Endereco("03208070", 79);
 		empresa = new Empresa(cnpj, nome, telefone, endereco);
 	}
@@ -103,8 +107,8 @@ public class EmpresaTest {
 
 	@Test
 	public void deve_testar_o_getTelefone_esta_funcionando_corretamente() {
-		empresa.setTelefone("4110-8521");
-		assertThat(empresa.getTelefone(), containsString("4110-8521"));
+		telefone.setNumero("41108521");
+		assertThat(empresa.getTelefone().getNumero(), containsString("41108521"));
 	}
 
 	@Test
@@ -125,30 +129,30 @@ public class EmpresaTest {
 
 	@Test
 	public void nao_deve_aceitar_espacos_em_branco_no_telefone() {
-		assertFalse(empresa.getTelefone().trim().isEmpty());
+		assertFalse(empresa.getTelefone().getNumero().trim().isEmpty());
 	}
 
 	@Test
 	public void deve_retornar_true_no_hashCode_com_empresas_iguais() {
-		Empresa Empresa2 = new Empresa("35667373000103", "GB Conserto de computadores", "41108521");
+		Empresa Empresa2 = new Empresa("35667373000103", "GB Conserto de computadores", telefone);
 		assertEquals(empresa.hashCode(), Empresa2.hashCode());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_hashCode_com_uma_empresa_de_cnpj_null() {
-		Empresa Empresa2 = new Empresa(null, "GB Conserto de computadores", "41108521", endereco);
+		Empresa Empresa2 = new Empresa(null, "GB Conserto de computadores", telefone, endereco);
 		assertNotEquals(empresa.hashCode(), Empresa2.hashCode());
 	}
 
 	@Test
 	public void deve_retornar_true_no_equals_com_empresas_iguais() {
-		Empresa empresa2 = new Empresa("35667373000103", "GB Conserto de computadores", "41108521");
+		Empresa empresa2 = new Empresa("35667373000103", "GB Conserto de computadores", telefone);
 		assertTrue(empresa.equals(empresa2) & empresa2.equals(empresa));
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_equals_com_um_empresa_de_cnpj_null() {
-		Empresa empresa2 = new Empresa(null, "GB Conserto de computadores", "41108521", endereco);
+		Empresa empresa2 = new Empresa(null, "GB Conserto de computadores", telefone, endereco);
 		assertFalse(empresa.equals(empresa2) & empresa2.equals(empresa));
 	}
 
@@ -164,15 +168,15 @@ public class EmpresaTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_true_no_equals_comparando_dois_empresas_de_cnpj_null() {
-		Empresa empresa1 = new Empresa(null, "GB Conserto de computadores", "41108521", endereco);
-		Empresa empresa2 = new Empresa(null, "GB Conserto de computadores", "41108521", endereco);
+		Empresa empresa1 = new Empresa(null, "GB Conserto de computadores", telefone, endereco);
+		Empresa empresa2 = new Empresa(null, "GB Conserto de computadores", telefone, endereco);
 		assertEquals(empresa1, empresa2);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_com_empresas_de_cnpj_diferentes() {
-		Empresa empresa1 = new Empresa("35667373000103", "GB Conserto de computadores", "41108521");
-		Empresa empresa2 = new Empresa("49695176000102", "GB Conserto de computadores", "41108521");
+		Empresa empresa1 = new Empresa("35667373000103", "GB Conserto de computadores", telefone);
+		Empresa empresa2 = new Empresa("49695176000102", "GB Conserto de computadores", telefone);
 		assertNotEquals(empresa2, empresa1);
 	}
 
@@ -183,7 +187,7 @@ public class EmpresaTest {
 
 	@Test
 	public void toString_deve_retornar_valores_preenchidos() {
-		Empresa empresaPreenchida = new Empresa("35667373000103", "GB Conserto de computadores", "41108521");
+		Empresa empresaPreenchida = new Empresa("35667373000103", "GB Conserto de computadores", telefone);
 		assertThat(empresaPreenchida.toString(), containsString(""));
 	}
 	
@@ -226,30 +230,10 @@ public class EmpresaTest {
 	public void deve_testar_exception_do_setNome_tamanho_maior() {
 		empresa.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcaabcabcabcabcabcabcabcabcabcabcabbcabxc");
 	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setTelefone_null() {
-		empresa.setTelefone(null);
-	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setTelefone_vazio() {
-		empresa.setTelefone(" ");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setTelefone_tamanho_menor() {
-		empresa.setTelefone("1234567");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setTelefone_tamanho_maior() {
-		empresa.setTelefone("1234567890");
-	}	
-	
-	@Test
 	public void deve_testar_o_regex_do_cnpj() {
-		empresa.setTelefone("abcabcabc");
+		empresa.setCnpj("12345678912234");
 		assertFalse(isValid(empresa, Constantes.CNPJ_INVALIDO));
 	}
 	
@@ -257,12 +241,6 @@ public class EmpresaTest {
 	public void deve_testar_o_regex_do_nome() {
 		empresa.setNome("1234567890");
 		assertFalse(isValid(empresa, Constantes.NOME_INVALIDO));
-	}
-	
-	@Test
-	public void deve_testar_o_regex_do_telefone() {
-		empresa.setTelefone("abcabcabc");
-		assertFalse(isValid(empresa, Constantes.TELEFONE_INVALIDO));
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
