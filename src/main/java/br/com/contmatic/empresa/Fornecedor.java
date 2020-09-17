@@ -83,7 +83,15 @@ public class Fornecedor {
 	}
 
 	public void setTelefone(Telefone telefone) {
-		this.telefone = telefone;
+		validaTelefoneNullo(telefone);
+	}
+	
+	private void validaTelefoneNullo(Telefone telefone) {
+		if (telefone != null) {
+			this.telefone = telefone;
+		} else {
+			throw new IllegalArgumentException("O telefone não foi preenchido.");
+		}
 	}
 
 	public Set<Produto> getProduto() {
@@ -99,7 +107,15 @@ public class Fornecedor {
 	}
 
 	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
+		validaEnderecoNullo(endereco);
+	}
+	
+	private void validaEnderecoNullo(Endereco endereco) {
+		if (endereco != null) {
+			this.endereco = endereco;
+		} else {
+			throw new IllegalArgumentException("O endereco não foi preenchido.");
+		}
 	}
 
 	@Override
