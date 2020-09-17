@@ -236,7 +236,8 @@ public class ClienteTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setNome_tamanho_maior() {
-		cliente.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabxc");
+		cliente.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcaabcabcabcabcabcaabcabcabc"
+				+ "abcabcaabcabcabcabcabcabcabcabcabcabcabxc");
 	}
 
 	@Test(expected = IllegalArgumentException.class)

@@ -3,6 +3,8 @@ package br.com.contmatic.empresa;
 import static br.com.contmatic.util.Constantes.CNPJ_INVALIDO;
 import static br.com.contmatic.util.Constantes.CNPJ_SIZE;
 import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
+import static br.com.contmatic.util.Constantes.NOME_MAX_SIZE;
+import static br.com.contmatic.util.Constantes.NOME_MIN_SIZE;
 import static br.com.contmatic.util.RegexType.LETRAS;
 import static br.com.contmatic.util.RegexType.NUMEROS;
 
@@ -73,7 +75,7 @@ public class Fornecedor {
 	}
 
 	private void validaNomeIncorreto(String nome) {
-		if (nome == null || nome.trim().isEmpty() || nome.length() < 2 || nome.length() > 80) {
+		if (nome == null || nome.trim().isEmpty() || nome.length() < NOME_MIN_SIZE || nome.length() > NOME_MAX_SIZE) {
 			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
 		}
 	}

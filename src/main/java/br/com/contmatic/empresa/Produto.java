@@ -1,6 +1,11 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.util.Constantes.ID_MINIMO;
 import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
+import static br.com.contmatic.util.Constantes.NOME_MAX_SIZE;
+import static br.com.contmatic.util.Constantes.NOME_MIN_SIZE;
+import static br.com.contmatic.util.Constantes.PREÇO_MINIMO;
+import static br.com.contmatic.util.Constantes.QUANTIDADE_MINIMA;
 import static br.com.contmatic.util.RegexType.LETRAS;
 
 import java.math.BigDecimal;
@@ -40,7 +45,7 @@ public class Produto {
 	}
 
 	private void validaIdIncorreto(Integer id) {
-		if (id == null || id.doubleValue() < 1) {
+		if (id == null || id.doubleValue() < ID_MINIMO) {
 			throw new IllegalArgumentException("O ID foi preenchido incorretamente.");
 		}
 	}
@@ -55,7 +60,7 @@ public class Produto {
 	}
 
 	private void validaNomeIncorreto(String nome) {
-		if (nome == null || nome.trim().isEmpty() || nome.length() < 2 || nome.length() > 80) {
+		if (nome == null || nome.trim().isEmpty() || nome.length() < NOME_MIN_SIZE || nome.length() > NOME_MAX_SIZE) {
 			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
 		}
 	}
@@ -70,7 +75,7 @@ public class Produto {
 	}
 
 	private void validaQuantidadeIncorreta(Integer quantidade) {
-		if (quantidade < 1) {
+		if (quantidade < QUANTIDADE_MINIMA) {
 			throw new IllegalArgumentException("A quantidade não pode ser menor que um.");
 		}
 	}
@@ -85,7 +90,7 @@ public class Produto {
 	}
 
 	private void validaPreçoIncorreto(BigDecimal preço) {
-		if (preço.doubleValue() < 1) {
+		if (preço.doubleValue() < PREÇO_MINIMO) {
 			throw new IllegalArgumentException("O preço não pode ser menor que um.");
 		}
 	}

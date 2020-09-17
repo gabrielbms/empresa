@@ -260,7 +260,8 @@ public class FuncionarioTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setNome_tamanho_maior() {
-		funcionario.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabxc");
+		funcionario.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabca"
+				+ "abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabxc");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

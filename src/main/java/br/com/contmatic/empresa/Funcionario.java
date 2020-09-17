@@ -2,7 +2,11 @@ package br.com.contmatic.empresa;
 
 import static br.com.contmatic.util.Constantes.CPF_INVALIDO;
 import static br.com.contmatic.util.Constantes.CPF_SIZE;
+import static br.com.contmatic.util.Constantes.IDADE_MINIMA;
 import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
+import static br.com.contmatic.util.Constantes.NOME_MAX_SIZE;
+import static br.com.contmatic.util.Constantes.NOME_MIN_SIZE;
+import static br.com.contmatic.util.Constantes.SALARIO_MINIMO;
 import static br.com.contmatic.util.RegexType.LETRAS;
 import static br.com.contmatic.util.RegexType.NUMEROS;
 
@@ -85,7 +89,7 @@ public class Funcionario {
 	}
 
 	private void validaNomeIncorreto(String nome) {
-		if (nome == null || nome.trim().isEmpty() || nome.length() < 2 || nome.length() > 60) {
+		if (nome == null || nome.trim().isEmpty() || nome.length() < NOME_MIN_SIZE || nome.length() > NOME_MAX_SIZE) {
 			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
 		}
 	}
@@ -99,10 +103,10 @@ public class Funcionario {
 	}
 
 	private void validaIdade(int idade) {
-		if (idade >= 14) {
+		if (idade >= IDADE_MINIMA) {
 			this.idade = idade;
 		} else {
-			throw new IllegalArgumentException("salario não pode ser menor que 14.");
+			throw new IllegalArgumentException("Idade do funcionário não pode ser menor que 14 anos.");
 		}
 	}
 
@@ -147,10 +151,10 @@ public class Funcionario {
 	}
 
 	private void validaSalario(BigDecimal salario) {
-		if (salario.doubleValue() >= 1) {
+		if (salario.doubleValue() >= SALARIO_MINIMO) {
 			this.salario = salario;
 		} else {
-			throw new IllegalArgumentException("salario não pode ser menor que um.");
+			throw new IllegalArgumentException("salario não pode ser menor que R$ 1.045,00");
 		}
 	}
 

@@ -3,6 +3,8 @@ package br.com.contmatic.empresa;
 import static br.com.contmatic.util.Constantes.CPF_INVALIDO;
 import static br.com.contmatic.util.Constantes.CPF_SIZE;
 import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
+import static br.com.contmatic.util.Constantes.NOME_MAX_SIZE;
+import static br.com.contmatic.util.Constantes.NOME_MIN_SIZE;
 import static br.com.contmatic.util.RegexType.LETRAS;
 import static br.com.contmatic.util.RegexType.NUMEROS;
 
@@ -55,8 +57,7 @@ public class Cliente {
 	}
 
 	private void validaCpfIncorreto(String cpf) {
-		if (cpf == null || cpf.trim().isEmpty() || cpf.length() < CPF_SIZE
-				|| cpf.length() > CPF_SIZE) {
+		if (cpf == null || cpf.trim().isEmpty() || cpf.length() < CPF_SIZE	|| cpf.length() > CPF_SIZE) {
 			throw new IllegalArgumentException("O CPF foi preenchido incorretamente.");
 		}
 	}
@@ -71,7 +72,7 @@ public class Cliente {
 	}
 
 	private void validaNomeIncorreto(String nome) {
-		if (nome == null || nome.trim().isEmpty() || nome.length() < 2 || nome.length() > 60) {
+		if (nome == null || nome.trim().isEmpty() || nome.length() < NOME_MIN_SIZE || nome.length() > NOME_MAX_SIZE) {
 			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
 		}
 	}

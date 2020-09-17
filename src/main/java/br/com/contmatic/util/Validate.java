@@ -7,6 +7,7 @@ public class Validate {
 	public static boolean isCPF(String CPF) {
 		return validaCpf(CPF);
 	}
+
 	private static boolean validaCpf(String CPF) {
 		if (verificaCpfIncorreto(CPF)) {
 			return false;
@@ -65,7 +66,7 @@ public class Validate {
 			return false;
 		}
 	}
-	
+
 	public static boolean isCNPJ(String CNPJ) {
 		return validaCnpj(CNPJ);
 	}
