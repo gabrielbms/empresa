@@ -149,7 +149,6 @@ public class Endereco {
 
 	@Override
 	public String toString() {
-
 		StringBuilder sb = new StringBuilder();
 		if (this.cep != null) {
 			sb.append("cep= ").append(this.cep);

@@ -306,6 +306,7 @@ public class FuncionarioTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() {
+		System.out.println(funcionario);
 		System.out.println("Finalizamos os testes na classe funcionario\n");
 	}
 

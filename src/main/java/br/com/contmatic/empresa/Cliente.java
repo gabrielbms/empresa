@@ -136,7 +136,6 @@ public class Cliente {
 	
 	@Override
 	public String toString() {
-
 		StringBuilder sb = new StringBuilder();
 		if (this.cpf != null) {
 			sb.append("cpf= ").append(this.cpf);

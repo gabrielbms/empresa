@@ -14,6 +14,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
@@ -31,7 +32,7 @@ public class TelefoneTest {
 
 	private TipoTelefoneType tipoTelefone;
 	
-	private Telefone telefone;
+	private static Telefone telefone;
 	
 	private Validator validator;
 
@@ -195,6 +196,12 @@ public class TelefoneTest {
 	public void deve_testar_o_getTamanho_do_TipoTelefoneType () {
 		TipoTelefoneType telefoneDescricao = TipoTelefoneType.CELULAR;
 		assertEquals(telefoneDescricao.getTamanho(), 9);
+	}
+	
+	@AfterClass
+	public static void teste_no_toString() {
+		System.out.println(telefone);
+		System.out.println("Finalizamos os testes na classe telefone\n");
 	}
 	
 }

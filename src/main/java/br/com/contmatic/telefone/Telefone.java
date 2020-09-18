@@ -1,7 +1,7 @@
 package br.com.contmatic.telefone;
 
-import static br.com.contmatic.util.Constantes.TEL_MIN_SIZE;
 import static br.com.contmatic.util.Constantes.TEL_MAX_SIZE;
+import static br.com.contmatic.util.Constantes.TEL_MIN_SIZE;
 
 public class Telefone {
 
@@ -83,7 +83,17 @@ public class Telefone {
 
 	@Override
 	public String toString() {
-		return "Telefone [ddd=" + ddd + ", numero=" + numero + ", tipoTelefone=" + tipoTelefone + "]";
+		StringBuilder sb = new StringBuilder();
+		if (this.ddd != null) {
+			sb.append("DDD= ").append(this.ddd);
+		}
+		if (this.numero != null) {
+			sb.append(" numero= ").append(this.numero);
+		}
+		if (this.tipoTelefone != null) {
+			sb.append(" tipo do telefone= ").append(this.tipoTelefone);
+		}
+		return sb.toString();
 	}
 
 }

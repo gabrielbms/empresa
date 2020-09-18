@@ -184,7 +184,7 @@ public class Funcionario {
 		if (this.nome != null) {
 			sb.append(" nome= ").append(this.nome);
 		}
-		if (this.idade != 0) {
+		if (this.idade != null) {
 			sb.append(" idade= ").append(this.idade);
 		}
 		if (this.telefone != null) {

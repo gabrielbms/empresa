@@ -35,7 +35,7 @@ public class EmpresaTest {
 
 	private String nome;
 
-	private Empresa empresa;
+	private static Empresa empresa;
 	
 	private Telefone telefone;
 	
@@ -266,7 +266,7 @@ public class EmpresaTest {
 
 	@AfterClass
 	public static void TearDownAfterClass() {
-
+		System.out.println(empresa);
 		System.out.println("Finalizamos os testes na classe empresa\n");
 	}
 

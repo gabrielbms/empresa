@@ -122,7 +122,6 @@ public class Produto {
 
 	@Override
 	public String toString() {
-
 		StringBuilder sb = new StringBuilder();
 		if (this.id != 0) {
 			sb.append("id= ").append(this.id);

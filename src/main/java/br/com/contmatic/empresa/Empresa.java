@@ -134,7 +134,6 @@ public class Empresa {
 	
 	@Override
 	public String toString() {
-
 		StringBuilder sb = new StringBuilder();
 		if (this.cnpj != null) {
 			sb.append("cnpj= ").append(this.cnpj);
