@@ -7,7 +7,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import java.math.BigDecimal;
@@ -109,25 +108,25 @@ public class FornecedorTest {
 	@Test
 	public void deve_testar_o_getCpf_esta_funcionando_corretamente() {
 		fornecedor.setCnpj("97904702000131");
-		assertThat(fornecedor.getCnpj(), containsString("97904702000131"));
+		assertEquals(fornecedor.getCnpj(), "97904702000131");
 	}
 
 	@Test
 	public void deve_testar_o_getNome_esta_funcionando_corretamente() {
 		fornecedor.setNome("CA peças LTDA");
-		assertThat(fornecedor.getNome(), containsString("CA peças LTDA"));
+		assertEquals(fornecedor.getNome(), "CA peças LTDA");
 	}
 
 	@Test
 	public void deve_testar_o_getTelefone_esta_funcionando_corretamente() {
 		telefone.setNumero("25871235");
-		assertThat(fornecedor.getTelefone().getNumero(), containsString("25871235"));
+		assertEquals(fornecedor.getTelefone().getNumero(), "25871235");
 	}
 
 	@Test
 	public void deve_testar_o_getEndereco_esta_funcionando_corretamente() {
 		fornecedor.setEndereco(new Endereco("02708010", 21));
-		assertThat(fornecedor.getEndereco(), is(new Endereco("02708010", 21)));
+		assertThat(fornecedor.getEndereco().toString(), containsString("02708010"));
 	}
 
 	@Test
@@ -166,13 +165,13 @@ public class FornecedorTest {
 	@Test
 	public void deve_retornar_true_no_equals_com_fornecedores_iguais() {
 		Fornecedor fornecedor2 = new Fornecedor("97904702000131", "CA peças LTDA");
-		assertTrue(fornecedor.equals(fornecedor2) & fornecedor2.equals(fornecedor));
+		assertEquals(fornecedor, fornecedor2);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_equals_com_um_fornecedor_de_cnpj_null() {
 		Fornecedor fornecedor2 = new Fornecedor(null, "CA peças LTDA");
-		assertFalse(fornecedor.equals(fornecedor2) & fornecedor2.equals(fornecedor));
+		assertEquals(fornecedor, fornecedor2);
 	}
 
 	@Test
@@ -207,7 +206,8 @@ public class FornecedorTest {
 	@Test
 	public void toString_deve_retornar_valores_preenchidos() {
 		Fornecedor fornecedorPreenchido = new Fornecedor("97904702000131", "CA peças LTDA");
-		assertThat(fornecedorPreenchido.toString(), containsString(""));
+		String fornecedorPreenchidoToString = fornecedorPreenchido.toString();
+		assertEquals(fornecedorPreenchido.toString(), fornecedorPreenchidoToString);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

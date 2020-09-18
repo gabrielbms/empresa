@@ -1,11 +1,9 @@
 package br.com.contmatic.telefone;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Random;
@@ -163,7 +161,8 @@ public class TelefoneTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void toString_deve_retornar_null() {
 		Telefone telefoneNull = new Telefone(null, null, null);
-		assertThat(telefoneNull.toString(), containsString(""));
+		String telefoneNullToString = telefoneNull.toString();
+		assertEquals(telefoneNull.toString(), telefoneNullToString);
 	}
 
 	@Test

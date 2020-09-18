@@ -59,5 +59,7 @@ public final class Constantes {
 	public static final Integer QUANTIDADE_MINIMA = 1;
 	
 	public static final Double PREÇO_MINIMO = 1.0;
+	
+	public static final Integer NUMERO_MINIMO = 1;
 
 }

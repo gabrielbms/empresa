@@ -161,7 +161,7 @@ public class ProdutoTest {
 	@Test
 	public void deve_retornar_true_no_equals_com_produtos_iguais() {
 		Produto outroProduto = new Produto(id, nome, quantidade, preço);
-		assertTrue(produto.equals(outroProduto) & outroProduto.equals(produto));
+		assertEquals(produto, outroProduto);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -184,7 +184,7 @@ public class ProdutoTest {
 	public void deve_retornar_true_no_equals_comparando_dois_produtos_de_id_null() {
 		Produto produto1 = new Produto(null, nome, quantidade, preço);
 		Produto produto2 = new Produto(null, nome, quantidade, preço);
-		assertTrue(produto1.equals(produto2) && produto2.equals(produto1));
+		assertEquals(produto1, produto2);
 	}
 
 	@Test
@@ -199,9 +199,7 @@ public class ProdutoTest {
 		Produto produto1 = new Produto(null, nome, quantidade, preço);
 		Produto produto2 = new Produto(3, nome, quantidade, preço);
 		assertNotEquals(produto1, produto2);
-		assertNotEquals(produto2, produto1);
 	}
-
 
 	@Test
 	public void deve_retornar_false_no_equals_com_um_produto_e_um_objeto_aleatorio() {

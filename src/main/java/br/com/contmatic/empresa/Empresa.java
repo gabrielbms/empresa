@@ -30,12 +30,6 @@ public class Empresa {
 		this.setCnpj(cnpj);
 	}
 
-	public Empresa(String cnpj, String nome, Telefone telefone) {
-		this.setCnpj(cnpj);
-		this.setNome(nome);
-		this.setTelefone(telefone);
-	}
-
 	public Empresa(String cnpj, String nome, Telefone telefone, Endereco endereco) {
 		this.setCnpj(cnpj);
 		this.setNome(nome);

@@ -6,6 +6,7 @@ import static br.com.contmatic.util.Constantes.CEP_SIZE;
 import static br.com.contmatic.util.Constantes.CIDADE_INVALIDA;
 import static br.com.contmatic.util.Constantes.COMPLEMENTO_INVALIDO;
 import static br.com.contmatic.util.Constantes.ESTADO_INVALIDO;
+import static br.com.contmatic.util.Constantes.NUMERO_MINIMO;
 import static br.com.contmatic.util.Constantes.RUA_INVALIDA;
 import static br.com.contmatic.util.RegexType.LETRAS;
 import static br.com.contmatic.util.RegexType.LETRAS_E_NUMEROS;
@@ -84,7 +85,7 @@ public class Endereco {
 	}
 
 	private void validaNumeroIncorreto(Integer numero) {
-		if (numero == null || numero < 1) {
+		if (numero == null || numero < NUMERO_MINIMO) {
 			throw new IllegalArgumentException("O numero foi preenchido incorretamente.");
 		}
 	}

@@ -40,14 +40,6 @@ public class Funcionario {
 		this.setSalario(salario);
 	}
 
-	public Funcionario(String cpf, String nome, int idade, Telefone telefone, BigDecimal salario) {
-		this.setCpf(cpf);
-		this.setNome(nome);
-		this.setIdade(idade);
-		this.setTelefone(telefone);
-		this.setSalario(salario);
-	}
-
 	public Funcionario(String cpf, String nome, int idade, Telefone telefone, Endereco endereco, BigDecimal salario) {
 		this.setCpf(cpf);
 		this.setNome(nome);

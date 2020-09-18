@@ -6,7 +6,6 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import java.util.Set;
@@ -35,7 +34,6 @@ public class EmpresaTest {
 	private String cnpj;
 
 	private String nome;
-
 
 	private Empresa empresa;
 	
@@ -96,25 +94,25 @@ public class EmpresaTest {
 	@Test
 	public void deve_testar_o_getCnpj_esta_funcionando_corretamente() {
 		empresa.setCnpj("35667373000103");
-		assertThat(empresa.getCnpj(), containsString("35667373000103"));
+		assertEquals(empresa.getCnpj(), "35667373000103");
 	}
 
 	@Test
 	public void deve_testar_o_getNome_esta_funcionando_corretamente() {
 		empresa.setNome("GB Conserto de computadores");
-		assertThat(empresa.getNome(), containsString("GB Conserto de computadores"));
+		assertEquals(empresa.getNome(), "GB Conserto de computadores");
 	}
 
 	@Test
 	public void deve_testar_o_getTelefone_esta_funcionando_corretamente() {
 		telefone.setNumero("41108521");
-		assertThat(empresa.getTelefone().getNumero(), containsString("41108521"));
+		assertEquals(empresa.getTelefone().getNumero(), "41108521");
 	}
 
 	@Test
 	public void deve_testar_o_setEndereco_esta_funcionando_corretamente() {
 		empresa.setEndereco(new Endereco("03208070", 79));
-		assertThat(empresa.toString(), containsString("cep="));
+		assertThat(empresa.getEndereco().toString(), containsString("03208070"));
 	}
 
 	@Test
@@ -134,7 +132,7 @@ public class EmpresaTest {
 
 	@Test
 	public void deve_retornar_true_no_hashCode_com_empresas_iguais() {
-		Empresa Empresa2 = new Empresa("35667373000103", "GB Conserto de computadores", telefone);
+		Empresa Empresa2 = new Empresa("35667373000103", "GB Conserto de computadores", telefone, endereco);
 		assertEquals(empresa.hashCode(), Empresa2.hashCode());
 	}
 
@@ -146,8 +144,8 @@ public class EmpresaTest {
 
 	@Test
 	public void deve_retornar_true_no_equals_com_empresas_iguais() {
-		Empresa empresa2 = new Empresa("35667373000103", "GB Conserto de computadores", telefone);
-		assertTrue(empresa.equals(empresa2) & empresa2.equals(empresa));
+		Empresa empresa2 = new Empresa("35667373000103", "GB Conserto de computadores", telefone, endereco);
+		assertEquals(empresa, empresa2);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -175,8 +173,8 @@ public class EmpresaTest {
 
 	@Test
 	public void deve_retornar_false_no_equals_com_empresas_de_cnpj_diferentes() {
-		Empresa empresa1 = new Empresa("35667373000103", "GB Conserto de computadores", telefone);
-		Empresa empresa2 = new Empresa("49695176000102", "GB Conserto de computadores", telefone);
+		Empresa empresa1 = new Empresa("35667373000103", "GB Conserto de computadores", telefone, endereco);
+		Empresa empresa2 = new Empresa("49695176000102", "GB Conserto de computadores", telefone, endereco);
 		assertNotEquals(empresa2, empresa1);
 	}
 
@@ -187,8 +185,9 @@ public class EmpresaTest {
 
 	@Test
 	public void toString_deve_retornar_valores_preenchidos() {
-		Empresa empresaPreenchida = new Empresa("35667373000103", "GB Conserto de computadores", telefone);
-		assertThat(empresaPreenchida.toString(), containsString(""));
+		Empresa empresaPreenchida = new Empresa("35667373000103", "GB Conserto de computadores", telefone, endereco);
+		String empresaPreenchidaToStringo = empresaPreenchida.toString();
+		assertEquals(empresaPreenchida.toString(), empresaPreenchidaToStringo);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

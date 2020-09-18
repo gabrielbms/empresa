@@ -1,14 +1,12 @@
 package br.com.contmatic.empresa;
 
 import static java.math.BigDecimal.ZERO;
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import java.math.BigDecimal;
@@ -97,19 +95,19 @@ public class ClienteTest {
 	@Test
 	public void deve_testar_o_getCpf_esta_funcionando_corretamente() { 
 		cliente.setCpf("22594921858");
-		assertThat(cliente.getCpf(), containsString("22594921858"));
+		assertEquals(cliente.getCpf(), "22594921858");
 	}
 
 	@Test
 	public void deve_testar_o_getNome_esta_funcionando_corretamente() {
 		cliente.setNome("Gabriel");
-		assertThat(cliente.getNome(), containsString("Gabriel"));
+		assertEquals(cliente.getNome(), "Gabriel");
 	}
 
 	@Test
 	public void deve_testar_o_getTelefone_esta_funcionando_corretamente() {
 		telefone.setNumero("27219389");
-		assertThat(telefone.getNumero(), containsString("27219389"));
+		assertEquals(telefone.getNumero(), "27219389");
 	}
 
 	@Test
@@ -149,13 +147,13 @@ public class ClienteTest {
 	@Test
 	public void deve_retornar_true_no_equals_com_clientes_iguais() {
 		Cliente cliente2 = new Cliente("20081498896", "Gabriel", telefone, BigDecimal.valueOf(250.00));
-		assertTrue(cliente.equals(cliente2) & cliente2.equals(cliente));
+		assertEquals(cliente, cliente2);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_equals_com_um_cliente_de_cpf_null() {
 		Cliente cliente2 = new Cliente(null, "Gabriela", telefone, BigDecimal.valueOf(270.00));
-		assertFalse(cliente.equals(cliente2) & cliente2.equals(cliente));
+		assertNotEquals(cliente, cliente2);
 	}
 
 	@Test
@@ -190,13 +188,14 @@ public class ClienteTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void toString_deve_retornar_null() {
 		Cliente clienteNull = new Cliente(null, null, null, new BigDecimal("1"));
-		assertThat(clienteNull.toString(), containsString("boleto"));
+		String clienteNullToString = clienteNull.toString();
+		assertEquals(clienteNull.toString(), clienteNullToString);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test
 	public void toString_deve_retornar_valores_preenchidos() {
-		Cliente clienteNull = new Cliente("43701888820", "Gabriel", telefone, BigDecimal.valueOf(250.00));
-		assertThat(clienteNull.toString(), containsString("boleto"));
+		String clienteToString = cliente.toString();
+		assertEquals(cliente.toString(), clienteToString);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)

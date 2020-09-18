@@ -45,10 +45,8 @@ public class FuncionarioTest {
 	private BigDecimal salario;
 
 	private static Funcionario funcionario;
-
-	private static Funcionario funcionarioSemEndereco;
 	
-	private static Funcionario funcionarioComEndereco;
+	private static Funcionario funcionarioCompleto;
 	
 	private Validator validator;
 
@@ -68,8 +66,7 @@ public class FuncionarioTest {
 		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
 		Endereco endereco = new Endereco("04508010", 274);
 		funcionario = new Funcionario(cpf, nome, salario);
-		funcionarioSemEndereco = new Funcionario(cpf, nome, idade, telefone, salario);
-		funcionarioComEndereco = new Funcionario(cpf, nome, idade, telefone, endereco, salario);
+		funcionarioCompleto = new Funcionario(cpf, nome, idade, telefone, endereco, salario);
 	}
 	
 	public boolean isValid(Funcionario funcionario, String mensagem) {
@@ -94,12 +91,12 @@ public class FuncionarioTest {
 
 	@Test
 	public void nao_deve_aceitar_telefone_nulo() {
-		assertNotNull(funcionarioSemEndereco.getTelefone());
+		assertNotNull(funcionarioCompleto.getTelefone());
 	}
 
 	@Test
 	public void nao_deve_aceitar_endereco_nulo() {
-		assertNotNull(funcionarioComEndereco.getEndereco());
+		assertNotNull(funcionarioCompleto.getEndereco());
 	}
 
 	@Test
@@ -111,18 +108,19 @@ public class FuncionarioTest {
 	public void deve_testar_o_getCpf_esta_funcionando_corretamente() {
 		funcionario.setCpf("33484349808");
 		assertThat(funcionario.getCpf(), containsString("33484349808"));
+		assertEquals(funcionario.getCpf(), "33484349808");
 	}
 
 	@Test
 	public void deve_testar_o_getNome_esta_funcionando_corretamente() {
 		funcionario.setNome("Gabriel Bueno");
-		assertThat(funcionario.getNome(), containsString("Gabriel Bueno"));
+		assertEquals(funcionario.getNome(), "Gabriel Bueno");
 	}
 
 	@Test
 	public void deve_testar_o_getIdade_esta_funcionando_corretamente() {
 		funcionario.setIdade(25);
-		assertThat(funcionario.getIdade(), is(25));
+		assertTrue(funcionario.getIdade() == 25);
 	}
 
 	@Test
@@ -156,7 +154,7 @@ public class FuncionarioTest {
 
 	@Test
 	public void nao_deve_aceitar_espacos_em_branco_no_telefone() {
-		assertFalse(funcionarioComEndereco.getTelefone().getNumero().trim().isEmpty());
+		assertFalse(funcionarioCompleto.getTelefone().getNumero().trim().isEmpty());
 	}
 
 	@Test
@@ -214,13 +212,15 @@ public class FuncionarioTest {
 	
 	@Test(expected = IllegalArgumentException.class)
 	public void toString_deve_retornar_null() {
-		funcionarioComEndereco = new Funcionario(null, null, 0, null, null, new BigDecimal("1"));
-		assertThat(funcionarioComEndereco.toString(), containsString("salario"));
+		funcionarioCompleto = new Funcionario(null, null, 0, null, null, new BigDecimal("1"));
+		String funcionarioCompletoToString = funcionarioCompleto.toString();
+		assertEquals(funcionarioCompleto.toString(), funcionarioCompletoToString);
 	}
 	
 	@Test
 	public void toString_deve_retornar_preenchido() {
-		assertThat(funcionarioComEndereco.toString(), containsString("salario"));
+		String funcionarioCompletoToString = funcionarioCompleto.toString();
+		assertEquals(funcionarioCompleto.toString(), funcionarioCompletoToString);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -269,7 +269,6 @@ public class FuncionarioTest {
 		funcionario.setIdade(3);
 	}
 
-	
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setSalario_negativo() {
 		funcionario.setSalario(BigDecimal.valueOf(-50.00));

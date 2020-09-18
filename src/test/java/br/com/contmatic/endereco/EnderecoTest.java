@@ -1,9 +1,9 @@
 package br.com.contmatic.endereco;
 
-import static org.hamcrest.CoreMatchers.containsString;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
@@ -115,7 +115,7 @@ public class EnderecoTest {
 	@Test
 	public void deve_testar_o_getCep_esta_funcionando_corretamente() {
 		endereco.setCep("03806040");
-		assertThat(endereco.getCep(), containsString("03806040"));
+		assertEquals(endereco.getCep(), "03806040");
 	}
 
 	@Test
@@ -127,31 +127,31 @@ public class EnderecoTest {
 	@Test
 	public void deve_testar_o_getRua_esta_funcionando_corretamente() {
 		enderecoCompleto.setRua("Rua Joseph pequeno Joseph");
-		assertThat(enderecoCompleto.getRua(), containsString("Rua Joseph pequeno Joseph"));
+		assertEquals(enderecoCompleto.getRua(), "Rua Joseph pequeno Joseph");
 	}
 
 	@Test
 	public void deve_testar_o_getComplemento_esta_funcionando_corretamente() {
 		enderecoCompleto.setComplemento("Sem complemento");
-		assertThat(enderecoCompleto.getComplemento(), containsString("Sem complemento"));
+		assertEquals(enderecoCompleto.getComplemento(), "Sem complemento");
 	}
 
 	@Test
 	public void deve_testar_o_getBairro_esta_funcionando_corretamente() {
 		enderecoCompleto.setBairro("Jardim Santo Eduardo");
-		assertThat(enderecoCompleto.getBairro(), containsString("Jardim Santo Eduardo"));
+		assertEquals(enderecoCompleto.getBairro(), "Jardim Santo Eduardo");
 	}
 
 	@Test
 	public void deve_testar_o_getCidade_esta_funcionando_corretamente() {
 		enderecoCompleto.setCidade("São Paulo");
-		assertThat(enderecoCompleto.getCidade(), containsString("São Paulo"));
+		assertEquals(enderecoCompleto.getCidade(), "São Paulo");
 	}
 
 	@Test
 	public void deve_testar_o_getEstado_esta_funcionando_corretamente() {
 		enderecoCompleto.setEstado("SP");
-		assertThat(enderecoCompleto.getEstado(), containsString("SP"));
+		assertEquals(enderecoCompleto.getEstado(), "SP");
 	}
 
 	@Test
@@ -199,55 +199,57 @@ public class EnderecoTest {
 	@Test
 	public void deve_retornar_true_no_equals_com_enderecos_iguais() {
 		Endereco endereco2 = new Endereco("03806040", 777);
-		assertTrue(endereco.equals(endereco2) & endereco2.equals(endereco));
+		assertEquals(endereco, endereco2);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_equals_com_um_endereco_de_cep_null() {
 		Endereco endereco2 = new Endereco(null, rua, numero, complemento, bairro, cidade, estado);
-		assertFalse(enderecoCompleto.equals(endereco2) & endereco2.equals(enderecoCompleto));
+		assertNotEquals(enderecoCompleto, endereco2);
 	}
 
 	@Test
 	public void deve_retornar_true_no_equals_comparando_um_endereco_com_ele_mesmo() {
-		assertTrue(endereco.equals(endereco));
+		assertEquals(endereco, endereco);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_comparando_um_endereco_com_null() {
-		assertFalse(endereco.equals(null));
+		assertNotEquals(endereco, null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_true_no_equals_comparando_dois_enderecos_de_cep_null() {
 		Endereco endereco1 = new Endereco(null, rua, numero, complemento, bairro, cidade, estado);
 		Endereco endereco2 = new Endereco(null, rua, numero, complemento, bairro, cidade, estado);
-		assertTrue(endereco1.equals(endereco2));
+		assertEquals(endereco1, endereco2);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_com_enderecos_de_ceps_diferentes() {
 		Endereco endereco1 = new Endereco("03806040", 777);
 		Endereco endereco2 = new Endereco("03806050", 767);
-		assertFalse(endereco2.equals(endereco1));
+		assertNotEquals(endereco1, endereco2);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_com_endereco_e_um_numero_aleatorio() {
-		assertFalse(endereco.equals(new Object()));
+		assertNotEquals(endereco, new Object());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void toString_deve_retornar_null() {
 		Endereco enderecoNull = new Endereco(null, null, 0, null, null, null, null);
-		assertThat(enderecoNull.toString(), containsString(""));
+		String enderecoNullToString = enderecoNull.toString();
+		assertEquals(enderecoNull.toString(), enderecoNullToString);
 	}
 
 	@Test
 	public void toString_deve_retornar_preenchido() {
 		Endereco enderecoPreenchido = new Endereco("03806040", "Rua Joseph pequeno Joseph", 777,
 				"Rua Joseph pequeno Joseph", "Jardim Santo Eduardo", "São Paulo", "SP");
-		assertThat(enderecoPreenchido.toString(), containsString(""));
+		String enderecoPreenchidoToString = enderecoPreenchido.toString();
+		assertEquals(enderecoPreenchido.toString(), enderecoPreenchidoToString);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -311,7 +313,6 @@ public class EnderecoTest {
 		enderecoCompleto.setEstado("4778");
 		assertFalse(isValid(enderecoCompleto, Constantes.ESTADO_INVALIDO));
 	}
-
 
 	@Ignore
 	@After
