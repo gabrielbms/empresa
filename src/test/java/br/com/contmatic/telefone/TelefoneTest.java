@@ -72,6 +72,67 @@ public class TelefoneTest {
 				valido = false;
 		return valido;
 	}
+	
+	@Test
+	public void deve_testar_se_o_cpf_aceita_numeros() {
+		telefone.setNumero("937018888");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_null() {
+		telefone.setNumero(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_vazio() {
+		telefone.setNumero("");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_espaco_em_branco() {
+		telefone.setNumero("  ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_letras() {
+		telefone.setNumero("abcdefabcde");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_caracteres_especiais() {
+		telefone.setNumero("@#$");
+	}
+		
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_espaco_no_inicio() {
+		telefone.setNumero(" 43701888817");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_espaco_no_final() {
+		telefone.setNumero("43701888817 ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_muitos_espacos_entre_os_numeros() {
+		telefone.setNumero("437018      88817");
+	}
+	
+	@Test
+	public void deve_testar_o_getCpf() {
+		telefone.setNumero("437018888");
+		assertEquals(telefone.getNumero(), "437018888");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_tamanho_menor() {
+		telefone.setNumero("7777777");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_tamanho_maior() {
+		telefone.setNumero("11111111111");
+	}
 
 	@Test
 	public void nao_deve_aceitar_ddd_nulo() {

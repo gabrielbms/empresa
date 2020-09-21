@@ -2,28 +2,28 @@ package br.com.contmatic.empresa;
 
 import static br.com.contmatic.util.Constantes.CPF_INVALIDO;
 import static br.com.contmatic.util.Constantes.CPF_SIZE;
+import static br.com.contmatic.util.Constantes.ENDERECO_VAZIO;
 import static br.com.contmatic.util.Constantes.IDADE_MINIMA;
+import static br.com.contmatic.util.Constantes.IDADE_MINIMA_MENSAGEM;
+import static br.com.contmatic.util.Constantes.NOME_INCORRETO;
 import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
 import static br.com.contmatic.util.Constantes.NOME_MAX_SIZE;
 import static br.com.contmatic.util.Constantes.NOME_MIN_SIZE;
 import static br.com.contmatic.util.Constantes.SALARIO_MINIMO;
-import static br.com.contmatic.util.RegexType.LETRAS;
-import static br.com.contmatic.util.RegexType.NUMEROS;
+import static br.com.contmatic.util.Constantes.SALARIO_MINIMO_MENSAGEM;
+import static br.com.contmatic.util.Constantes.TELEFONE_VAZIO;
 
 import java.math.BigDecimal;
 
-import javax.validation.constraints.Pattern;
-
 import br.com.contmatic.endereco.Endereco;
 import br.com.contmatic.telefone.Telefone;
+import br.com.contmatic.util.RegexType;
 import br.com.contmatic.util.Validate;
 
 public class Funcionario {
 
-	@Pattern(regexp = NUMEROS, message = CPF_INVALIDO)
 	private String cpf;
 
-	@Pattern(regexp = LETRAS, message = NOME_INVALIDO)
 	private String nome;
 
 	private Integer idade;
@@ -56,18 +56,25 @@ public class Funcionario {
 	public void setCpf(String cpf) {
 		this.validaCpfIncorreto(cpf);
 		this.validaCalculoCpf(cpf);
+		this.validaRegexCpf(cpf);
 		this.cpf = cpf;
 	}
 
 	private void validaCalculoCpf(String cpf) {
 		if (Validate.isCPF(cpf) == false) {
-			throw new IllegalArgumentException("O CPF é inválido.");
+			throw new IllegalStateException("O CPF é inválido.");
 		}
 	}
 
 	private void validaCpfIncorreto(String cpf) {
-		if (cpf == null || cpf.trim().isEmpty() || cpf.length() < CPF_SIZE	|| cpf.length() > CPF_SIZE) {
+		if (cpf == null || cpf.trim().isEmpty() || cpf.length() < CPF_SIZE || cpf.length() > CPF_SIZE) {
 			throw new IllegalArgumentException("O CPF foi preenchido incorretamente.");
+		}
+	}
+
+	private void validaRegexCpf(String cpf) {
+		if (!RegexType.isNumeros(cpf)) {
+			throw new IllegalArgumentException(CPF_INVALIDO);
 		}
 	}
 
@@ -77,12 +84,19 @@ public class Funcionario {
 
 	public void setNome(String nome) {
 		this.validaNomeIncorreto(nome);
+		this.validaRegexNome(nome);
 		this.nome = nome;
 	}
 
 	private void validaNomeIncorreto(String nome) {
 		if (nome == null || nome.trim().isEmpty() || nome.length() < NOME_MIN_SIZE || nome.length() > NOME_MAX_SIZE) {
-			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
+			throw new IllegalArgumentException(NOME_INCORRETO);
+		}
+	}
+
+	private void validaRegexNome(String nome) {
+		if (!RegexType.isLetras(nome)) {
+			throw new IllegalArgumentException(NOME_INVALIDO);
 		}
 	}
 
@@ -98,7 +112,7 @@ public class Funcionario {
 		if (idade >= IDADE_MINIMA) {
 			this.idade = idade;
 		} else {
-			throw new IllegalArgumentException("Idade do funcionário não pode ser menor que 14 anos.");
+			throw new IllegalArgumentException(IDADE_MINIMA_MENSAGEM);
 		}
 	}
 
@@ -109,12 +123,12 @@ public class Funcionario {
 	public void setTelefone(Telefone telefone) {
 		validaTelefoneNullo(telefone);
 	}
-	
+
 	private void validaTelefoneNullo(Telefone telefone) {
 		if (telefone != null) {
 			this.telefone = telefone;
 		} else {
-			throw new IllegalArgumentException("O telefone não foi preenchido.");
+			throw new IllegalArgumentException(TELEFONE_VAZIO);
 		}
 	}
 
@@ -125,12 +139,12 @@ public class Funcionario {
 	public void setEndereco(Endereco endereco) {
 		validaEnderecoNullo(endereco);
 	}
-	
+
 	private void validaEnderecoNullo(Endereco endereco) {
 		if (endereco != null) {
 			this.endereco = endereco;
 		} else {
-			throw new IllegalArgumentException("O endereco não foi preenchido.");
+			throw new IllegalArgumentException(ENDERECO_VAZIO);
 		}
 	}
 
@@ -146,7 +160,7 @@ public class Funcionario {
 		if (salario.doubleValue() >= SALARIO_MINIMO) {
 			this.salario = salario;
 		} else {
-			throw new IllegalArgumentException("salario não pode ser menor que R$ 1.045,00");
+			throw new IllegalArgumentException(SALARIO_MINIMO_MENSAGEM);
 		}
 	}
 
@@ -174,7 +188,7 @@ public class Funcionario {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -198,5 +212,5 @@ public class Funcionario {
 		}
 		return sb.toString();
 	}
-	
+
 }

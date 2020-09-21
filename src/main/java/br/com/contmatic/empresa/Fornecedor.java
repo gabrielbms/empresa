@@ -1,27 +1,27 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.util.Constantes.CNPJ_INCORRETO;
 import static br.com.contmatic.util.Constantes.CNPJ_INVALIDO;
 import static br.com.contmatic.util.Constantes.CNPJ_SIZE;
+import static br.com.contmatic.util.Constantes.ENDERECO_VAZIO;
+import static br.com.contmatic.util.Constantes.NOME_INCORRETO;
 import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
 import static br.com.contmatic.util.Constantes.NOME_MAX_SIZE;
 import static br.com.contmatic.util.Constantes.NOME_MIN_SIZE;
-import static br.com.contmatic.util.RegexType.LETRAS;
-import static br.com.contmatic.util.RegexType.NUMEROS;
+import static br.com.contmatic.util.Constantes.PRODUTO_VAZIO;
+import static br.com.contmatic.util.Constantes.TELEFONE_VAZIO;
 
 import java.util.Set;
 
-import javax.validation.constraints.Pattern;
-
 import br.com.contmatic.endereco.Endereco;
 import br.com.contmatic.telefone.Telefone;
+import br.com.contmatic.util.RegexType;
 import br.com.contmatic.util.Validate;
 
 public class Fornecedor {
 
-	@Pattern(regexp = NUMEROS, message = CNPJ_INVALIDO)
 	private String cnpj;
 
-	@Pattern(regexp = LETRAS, message = NOME_INVALIDO)
 	private String nome;
 
 	private Telefone telefone;
@@ -50,18 +50,25 @@ public class Fornecedor {
 	public void setCnpj(String cnpj) {
 		this.validaCnpjIncorreto(cnpj);
 		this.validaCalculoCnpj(cnpj);
+		this.validaRegexCnpj(cnpj);
 		this.cnpj = cnpj;
 	}
 
 	private void validaCalculoCnpj(String cnpj) {
 		if (Validate.isCNPJ(cnpj) == false) {
-			throw new IllegalArgumentException("O CNPJ é inválido.");
+			throw new IllegalStateException(CNPJ_INVALIDO);
 		}
 	}
 
 	private void validaCnpjIncorreto(String cnpj) {
-		if (cnpj == null || cnpj.trim().isEmpty() || cnpj.length() < CNPJ_SIZE	|| cnpj.length() > CNPJ_SIZE) {
-			throw new IllegalArgumentException("O CNPJ foi preenchido incorretamente.");
+		if (cnpj == null || cnpj.trim().isEmpty() || cnpj.length() < CNPJ_SIZE || cnpj.length() > CNPJ_SIZE) {
+			throw new IllegalArgumentException(CNPJ_INCORRETO);
+		}
+	}
+
+	private void validaRegexCnpj(String cnpj) {
+		if (!RegexType.isNumeros(cnpj)) {
+			throw new IllegalArgumentException(CNPJ_INVALIDO);
 		}
 	}
 
@@ -71,12 +78,19 @@ public class Fornecedor {
 
 	public void setNome(String nome) {
 		this.validaNomeIncorreto(nome);
+		this.validaRegexNome(nome);
 		this.nome = nome;
 	}
 
 	private void validaNomeIncorreto(String nome) {
 		if (nome == null || nome.trim().isEmpty() || nome.length() < NOME_MIN_SIZE || nome.length() > NOME_MAX_SIZE) {
-			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
+			throw new IllegalArgumentException(NOME_INCORRETO);
+		}
+	}
+
+	private void validaRegexNome(String nome) {
+		if (!RegexType.isLetrasENumeros(nome)) {
+			throw new IllegalArgumentException(NOME_INVALIDO);
 		}
 	}
 
@@ -87,12 +101,12 @@ public class Fornecedor {
 	public void setTelefone(Telefone telefone) {
 		validaTelefoneNullo(telefone);
 	}
-	
+
 	private void validaTelefoneNullo(Telefone telefone) {
 		if (telefone != null) {
 			this.telefone = telefone;
 		} else {
-			throw new IllegalArgumentException("O telefone não foi preenchido.");
+			throw new IllegalArgumentException(TELEFONE_VAZIO);
 		}
 	}
 
@@ -101,7 +115,16 @@ public class Fornecedor {
 	}
 
 	public void setProduto(Set<Produto> produto) {
+		validaProdutoNullo(produto);
 		this.produtos = produto;
+	}
+
+	private void validaProdutoNullo(Set<Produto> produto) {
+		if (produto != null) {
+			this.produtos = produto;
+		} else {
+			throw new IllegalArgumentException(PRODUTO_VAZIO);
+		}
 	}
 
 	public Endereco getEndereco() {
@@ -111,12 +134,12 @@ public class Fornecedor {
 	public void setEndereco(Endereco endereco) {
 		validaEnderecoNullo(endereco);
 	}
-	
+
 	private void validaEnderecoNullo(Endereco endereco) {
 		if (endereco != null) {
 			this.endereco = endereco;
 		} else {
-			throw new IllegalArgumentException("O endereco não foi preenchido.");
+			throw new IllegalArgumentException(ENDERECO_VAZIO);
 		}
 	}
 
@@ -144,7 +167,7 @@ public class Fornecedor {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

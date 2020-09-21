@@ -1,22 +1,12 @@
 package br.com.contmatic.empresa;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import java.math.BigDecimal;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -29,7 +19,6 @@ import br.com.contmatic.endereco.Endereco;
 import br.com.contmatic.telefone.Telefone;
 import br.com.contmatic.telefone.TelefoneDDDType;
 import br.com.contmatic.telefone.TipoTelefoneType;
-import br.com.contmatic.util.Constantes;
 
 @FixMethodOrder(NAME_ASCENDING)
 public class FuncionarioTest {
@@ -47,10 +36,6 @@ public class FuncionarioTest {
 	private static Funcionario funcionario;
 	
 	private static Funcionario funcionarioCompleto;
-	
-	private Validator validator;
-
-	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -68,95 +53,155 @@ public class FuncionarioTest {
 		funcionario = new Funcionario(cpf, nome, salario);
 		funcionarioCompleto = new Funcionario(cpf, nome, idade, telefone, endereco, salario);
 	}
+
+	@Test
+	public void deve_testar_se_o_cpf_aceita_numeros() {
+		funcionario.setCpf("43701888817");
+	}
 	
-	public boolean isValid(Funcionario funcionario, String mensagem) {
-		validator = factory.getValidator();
-		boolean valido = true;
-		Set<ConstraintViolation<Funcionario>> restricoes = validator.validate(funcionario);
-		for (ConstraintViolation<Funcionario> constraintViolation : restricoes)
-			if (constraintViolation.getMessage().equalsIgnoreCase(mensagem))
-				valido = false;
-		return valido;
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_null() {
+		funcionario.setCpf(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_vazio() {
+		funcionario.setCpf("");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_espaco_em_branco() {
+		funcionario.setCpf("  ");
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void deve_testar_se_o_cpf_aceita_letras() {
+		funcionario.setCpf("abcdefabcde");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_caracteres_especiais() {
+		funcionario.setCpf("@#$");
+	}
+		
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_espaco_no_inicio() {
+		funcionario.setCpf(" 43701888817");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_espaco_no_final() {
+		funcionario.setCpf("43701888817 ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_muitos_espacos_entre_os_numeros() {
+		funcionario.setCpf("437018      88817");
+	}
+	
+	@Test
+	public void deve_testar_o_getCpf() {
+		funcionario.setCpf("43701888817");
+		assertEquals(funcionario.getCpf(), "43701888817");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_tamanho_menor() {
+		funcionario.setCpf("1010101010");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_tamanho_maior() {
+		funcionario.setCpf("121212121212");
 	}
 
 	@Test
-	public void nao_deve_aceitar_cpf_nulo() {
-		assertNotNull(funcionario.getCpf());
+	public void deve_testar_se_o_nome_aceita_letras() {
+		funcionario.setNome("Gabriel");
 	}
-
-	@Test
-	public void nao_deve_aceitar_nome_nulo() {
-		assertNotNull(funcionario.getNome());
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_null() {
+		funcionario.setNome(null);
 	}
-
-	@Test
-	public void nao_deve_aceitar_telefone_nulo() {
-		assertNotNull(funcionarioCompleto.getTelefone());
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_vazio() {
+		funcionario.setNome("");
 	}
-
-	@Test
-	public void nao_deve_aceitar_endereco_nulo() {
-		assertNotNull(funcionarioCompleto.getEndereco());
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_espaco_em_branco() {
+		funcionario.setNome("          ");
 	}
-
-	@Test
-	public void nao_deve_aceitar_salario_nulo() {
-		assertNotNull(funcionario.getSalario());
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_numeros() {
+		funcionario.setNome("123456");
 	}
-
-	@Test
-	public void deve_testar_o_getCpf_esta_funcionando_corretamente() {
-		funcionario.setCpf("33484349808");
-		assertThat(funcionario.getCpf(), containsString("33484349808"));
-		assertEquals(funcionario.getCpf(), "33484349808");
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_caracteres_especiais() {
+		funcionario.setNome("@#$");
 	}
-
+		
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_espaco_no_inicio() {
+		funcionario.setNome(" Gabriel");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_espaco_no_final() {
+		funcionario.setNome("Gabriel ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_muitos_espacos_entre_as_palavras() {
+		funcionario.setNome("Gabriel         Bueno");
+	}
+	
 	@Test
-	public void deve_testar_o_getNome_esta_funcionando_corretamente() {
+	public void deve_testar_se_o_nome_aceita_um_espaco_entre_as_palavras() {
+		funcionario.setNome("Gabriel Bueno");
+	}
+	
+	@Test
+	public void deve_testar_o_getNome() {
 		funcionario.setNome("Gabriel Bueno");
 		assertEquals(funcionario.getNome(), "Gabriel Bueno");
 	}
-
-	@Test
-	public void deve_testar_o_getIdade_esta_funcionando_corretamente() {
-		funcionario.setIdade(25);
-		assertTrue(funcionario.getIdade() == 25);
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_tamanho_menor() {
+		funcionario.setNome("a");
 	}
-
-	@Test
-	public void deve_testar_o_getTelefone_esta_funcionando_corretamente() {
-		Telefone outroTelefone = new Telefone(TelefoneDDDType.DDD11, "41108521", TipoTelefoneType.CELULAR);
-		funcionario.setTelefone(outroTelefone);
-		assertEquals(funcionario.getTelefone().getNumero(), "41108521");
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_tamanho_maior() {
+		funcionario.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcaabcabcabcabcabcaabcabcabc"
+				+ "abcabcaabcabcabcabcabcabcabcabcabcabcabxc");
 	}
-
+	
 	@Test
-	public void deve_testar_o_getEndereco_esta_funcionando_corretamente() {
-		funcionario.setEndereco(new Endereco("04508010", 274));
-		assertEquals(funcionario.getEndereco(), (new Endereco("04508010", 274)));
+	public void deve_testar_o_getIdade() {
+		funcionario.getIdade();
 	}
-
+	
 	@Test
-	public void deve_testar_o_getSalario_esta_funcionando_corretamente() {
-		funcionario.setSalario(BigDecimal.valueOf(1500.00));
-		assertThat(funcionario.getSalario(), is(BigDecimal.valueOf(1500.00)));
+	public void deve_testar_o_getTelefone() {
+		funcionario.getTelefone();
 	}
-
+	
 	@Test
-	public void nao_deve_aceitar_espacos_em_branco_no_cpf() {
-		assertFalse(funcionario.getCpf().trim().isEmpty());
+	public void deve_testar_o_getEndereco() {
+		funcionario.getEndereco();
 	}
-
+	
 	@Test
-	public void nao_deve_aceitar_espacos_em_branco_no_nome() {
-		assertFalse(funcionario.getNome().trim().isEmpty());
+	public void deve_testar_o_getSalario() {
+		funcionario.getSalario();
 	}
-
-	@Test
-	public void nao_deve_aceitar_espacos_em_branco_no_telefone() {
-		assertFalse(funcionarioCompleto.getTelefone().getNumero().trim().isEmpty());
-	}
-
+	
 	@Test
 	public void deve_retornar_true_no_hashCode_com_funcionarios_iguais() {
 		Funcionario funcionario2 = new Funcionario("99074424880", "Gabriel Bueno", BigDecimal.valueOf(1500.00));
@@ -221,78 +266,6 @@ public class FuncionarioTest {
 	public void toString_deve_retornar_preenchido() {
 		String funcionarioCompletoToString = funcionarioCompleto.toString();
 		assertEquals(funcionarioCompleto.toString(), funcionarioCompletoToString);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_null() {
-		funcionario.setCpf(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_vazio() {
-		funcionario.setCpf(" ");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_tamanho_menor() {
-		funcionario.setCpf("1010101010");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_tamanho_maior() {
-		funcionario.setCpf("121212121212");
-	}
-		
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setNome_null() {
-		funcionario.setNome(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setNome_vazio() {
-		funcionario.setNome(" ");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setNome_tamanho_menor() {
-		funcionario.setNome("a");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setNome_tamanho_maior() {
-		funcionario.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabca"
-				+ "abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabxc");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setIdade() {
-		funcionario.setIdade(3);
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setSalario_negativo() {
-		funcionario.setSalario(BigDecimal.valueOf(-50.00));
-	}
-	
-	@Test
-	public void deve_testar_o_regex_do_nome() {
-		funcionario.setNome("1234567890");
-		assertFalse(isValid(funcionario, Constantes.NOME_INVALIDO));
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_o_isCpf_invalido() {
-		funcionario.setCpf("12345678912");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_o_isCpf_numeros_iguais() {
-		funcionario.setCpf("11111111111");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_o_isCpf_tamanho_incorreto() {
-		funcionario.setCpf("123");
 	}
 
 	@After

@@ -1,22 +1,12 @@
 package br.com.contmatic.empresa;
 
-import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -28,8 +18,7 @@ import org.junit.Test;
 import br.com.contmatic.endereco.Endereco;
 import br.com.contmatic.telefone.Telefone;
 import br.com.contmatic.telefone.TelefoneDDDType;
-import br.com.contmatic.telefone.TipoTelefoneType;
-import br.com.contmatic.util.Constantes;;
+import br.com.contmatic.telefone.TipoTelefoneType;;
 
 @FixMethodOrder(NAME_ASCENDING)
 public class FornecedorTest {
@@ -43,10 +32,6 @@ public class FornecedorTest {
 	private static Fornecedor fornecedor;
 	
 	private static Produto produto;
-	
-	private Validator validator;
-
-	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -68,86 +53,148 @@ public class FornecedorTest {
 		Endereco endereco = new Endereco("02708010", 21);
 		fornecedor = new Fornecedor(cnpj, nome, telefone, produtos, endereco);
 	}
+
+	@Test
+	public void deve_testar_se_o_cnpj_aceita_numeros() {
+		fornecedor.setCnpj("35667373000103");
+	}
 	
-	public boolean isValid(Fornecedor fornecedor, String mensagem) {
-		validator = factory.getValidator();
-		boolean valido = true;
-		Set<ConstraintViolation<Fornecedor>> restricoes = validator.validate(fornecedor);
-		for (ConstraintViolation<Fornecedor> constraintViolation : restricoes)
-			if (constraintViolation.getMessage().equalsIgnoreCase(mensagem))
-				valido = false;
-		return valido;
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cnpj_aceita_null() {
+		fornecedor.setCnpj(null);
 	}
-
-	@Test
-	public void nao_deve_aceitar_cnpj_nulo() {
-		assertNotNull(fornecedor.getCnpj());
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cnpj_aceita_vazio() {
+		fornecedor.setCnpj("");
 	}
-
-	@Test
-	public void nao_deve_aceitar_nome_nulo() {
-		fornecedor.setNome("CA peças LTDA");
-		assertNotNull(fornecedor.getNome());
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cnpj_aceita_espaco_em_branco() {
+		fornecedor.setCnpj("  ");
 	}
-
-	@Test
-	public void nao_deve_aceitar_telefone_nulo() {
-		assertNotNull(fornecedor.getTelefone());
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cnpj_aceita_letras() {
+		fornecedor.setCnpj("abcdef");
 	}
-
-	@Test
-	public void nao_deve_aceitar_endereco_nulo() {
-		assertNotNull(fornecedor.getEndereco());
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cnpj_aceita_caracteres_especiais() {
+		fornecedor.setCnpj("@#$");
 	}
-
-	@Test
-	public void nao_deve_aceitar_produto_nulo() {
-		assertNotNull(fornecedor.getProduto());
+		
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cnpj_aceita_espaco_no_inicio() {
+		fornecedor.setCnpj(" 35667373000103");
 	}
-
-	@Test
-	public void deve_testar_o_getCpf_esta_funcionando_corretamente() {
-		fornecedor.setCnpj("97904702000131");
-		assertEquals(fornecedor.getCnpj(), "97904702000131");
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cnpj_aceita_espaco_no_final() {
+		fornecedor.setCnpj("35667373000103 ");
 	}
-
-	@Test
-	public void deve_testar_o_getNome_esta_funcionando_corretamente() {
-		fornecedor.setNome("CA peças LTDA");
-		assertEquals(fornecedor.getNome(), "CA peças LTDA");
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cnpj_aceita_muitos_espacos_entre_os_numeros() {
+		fornecedor.setCnpj("3566737       3000103");
 	}
-
+	
 	@Test
-	public void deve_testar_o_getTelefone_esta_funcionando_corretamente() {
-		telefone.setNumero("25871235");
-		assertEquals(fornecedor.getTelefone().getNumero(), "25871235");
+	public void deve_testar_o_getCnpj() {
+		fornecedor.setCnpj("35667373000103");
+		assertEquals(fornecedor.getCnpj(), ("35667373000103"));
 	}
-
-	@Test
-	public void deve_testar_o_getEndereco_esta_funcionando_corretamente() {
-		fornecedor.setEndereco(new Endereco("02708010", 21));
-		assertThat(fornecedor.getEndereco().toString(), containsString("02708010"));
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_cnpj_tamanho_menor() {
+		fornecedor.setCnpj("1313131313131");
 	}
-
-	@Test
-	public void deve_testar_o_getProduto_esta_funcionando_corretamente() {
-		produto = new Produto(1, "Processador Ryzen 5 2600");
-		assertThat(produto.getNome(), is("Processador Ryzen 5 2600"));
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_cnpj_tamanho_maior() {
+		fornecedor.setCnpj("1515151515151515");
 	}
-
+	
 	@Test
-	public void nao_deve_aceitar_espacos_em_branco_no_cnpj() {
-		assertFalse(fornecedor.getCnpj().trim().isEmpty());
+	public void deve_testar_se_o_nome_aceita_letras() {
+		fornecedor.setNome("Gabriel");
 	}
-
-	@Test
-	public void nao_deve_aceitar_espacos_em_branco_no_nome() {
-		assertFalse(fornecedor.getNome().trim().isEmpty());
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_null() {
+		fornecedor.setNome(null);
 	}
-
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_vazio() {
+		fornecedor.setNome("");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_espaco_em_branco() {
+		fornecedor.setNome("          ");
+	}
+	
 	@Test
-	public void nao_deve_aceitar_espacos_em_branco_no_telefone() {
-		assertFalse(fornecedor.getTelefone().getNumero().trim().isEmpty());
+	public void deve_testar_se_o_nome_aceita_numeros() {
+		fornecedor.setNome("123456");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_caracteres_especiais() {
+		fornecedor.setNome("@#$");
+	}
+		
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_espaco_no_inicio() {
+		fornecedor.setNome(" Gabriel");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_espaco_no_final() {
+		fornecedor.setNome("Gabriel ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_muitos_espacos_entre_as_palavras() {
+		fornecedor.setNome("Gabriel         Bueno");
+	}
+	
+	@Test
+	public void deve_testar_se_o_nome_aceita_um_espaco_entre_as_palavras() {
+		fornecedor.setNome("Gabriel Bueno");
+	}
+	
+	@Test
+	public void deve_testar_o_getNome() {
+		fornecedor.setNome("Gabriel Bueno");
+		assertEquals(fornecedor.getNome(), "Gabriel Bueno");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_nome_tamanho_menor() {
+		fornecedor.setNome("a");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_nome_tamanho_maior() {
+		fornecedor.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcaabcabcabcabcabcaabcabcabc"
+				+ "abcabcaabcabcabcabcabcabcabcabcabcabcabxc");
+	}
+	
+	@Test
+	public void deve_testar_o_getTelefone() {
+		fornecedor.getTelefone();
+	}
+	
+	@Test
+	public void deve_testar_o_getProduto() {
+		fornecedor.getProduto();
+	}
+	
+	@Test
+	public void deve_testar_o_getEndereco() {
+		fornecedor.getEndereco();
 	}
 
 	@Test
@@ -208,67 +255,6 @@ public class FornecedorTest {
 		Fornecedor fornecedorPreenchido = new Fornecedor("97904702000131", "CA peças LTDA");
 		String fornecedorPreenchidoToString = fornecedorPreenchido.toString();
 		assertEquals(fornecedorPreenchido.toString(), fornecedorPreenchidoToString);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_null() {
-		fornecedor.setCnpj(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_vazio() {
-		fornecedor.setCnpj(" ");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_tamanho_menor() {
-		fornecedor.setCnpj("1313131313131");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_tamanho_maior() {
-		fornecedor.setCnpj("151515151515151");
-	}
-		
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setNome_null() {
-		fornecedor.setNome(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setNome_vazio() {
-		fornecedor.setNome(" ");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setNome_tamanho_menor() {
-		fornecedor.setNome("a");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setNome_tamanho_maior() {
-		fornecedor.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcaabcabcabcabcabcabcabcabcabcabcabbcabxc");
-	}
-	
-	@Test
-	public void deve_testar_o_regex_do_nome() {
-		fornecedor.setNome("1234567890");
-		assertFalse(isValid(fornecedor, Constantes.NOME_INVALIDO));
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_o_isCnpj_invalido() {
-		fornecedor.setCnpj("12345678912234");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_o_isCnpj_numeros_iguais() {
-		fornecedor.setCnpj("11111111111111");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_o_isCnpj_tamanho_incorreto() {
-		fornecedor.setCnpj("123");
 	}
 
 	@After

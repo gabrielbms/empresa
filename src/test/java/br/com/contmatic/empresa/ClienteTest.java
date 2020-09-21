@@ -1,21 +1,11 @@
 package br.com.contmatic.empresa;
 
 import static java.math.BigDecimal.ZERO;
-import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
 
 import java.math.BigDecimal;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -28,7 +18,6 @@ import org.junit.Test;
 import br.com.contmatic.telefone.Telefone;
 import br.com.contmatic.telefone.TelefoneDDDType;
 import br.com.contmatic.telefone.TipoTelefoneType;
-import br.com.contmatic.util.Constantes;
 
 @FixMethodOrder(NAME_ASCENDING)
 public class ClienteTest {
@@ -42,10 +31,6 @@ public class ClienteTest {
 	private static Cliente cliente;
 	
 	private static Telefone telefone;
-	
-	private Validator validator;
-
-	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -61,75 +46,152 @@ public class ClienteTest {
 		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
 	}
 	
-	public boolean isValid(Cliente cliente, String mensagem) {
-		validator = factory.getValidator();
-		boolean valido = true;
-		Set<ConstraintViolation<Cliente>> restricoes = validator.validate(cliente);
-		for (ConstraintViolation<Cliente> constraintViolation : restricoes)
-			if (constraintViolation.getMessage().equalsIgnoreCase(mensagem))
-				valido = false;
-		return valido;
+	@Test
+	public void deve_testar_se_o_cpf_aceita_numeros() {
+		cliente.setCpf("43701888817");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_null() {
+		cliente.setCpf(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_vazio() {
+		cliente.setCpf("");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_espaco_em_branco() {
+		cliente.setCpf("  ");
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void deve_testar_se_o_cpf_aceita_letras() {
+		cliente.setCpf("abcdefabcde");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_caracteres_especiais() {
+		cliente.setCpf("@#$");
+	}
+		
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_espaco_no_inicio() {
+		cliente.setCpf(" 43701888817");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_espaco_no_final() {
+		cliente.setCpf("43701888817 ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cpf_aceita_muitos_espacos_entre_os_numeros() {
+		cliente.setCpf("437018      88817");
+	}
+	
+	@Test
+	public void deve_testar_o_getCpf() {
+		cliente.setCpf("43701888817");
+		assertEquals(cliente.getCpf(), "43701888817");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_tamanho_menor() {
+		cliente.setCpf("1010101010");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setCpf_tamanho_maior() {
+		cliente.setCpf("121212121212");
 	}
 
 	@Test
-	public void nao_deve_aceitar_cpf_nulo() {
-		assertNotNull(cliente.getCpf());
-	}
-
-	@Test
-	public void nao_deve_aceitar_nome_nulo() {
-		assertNotNull(cliente.getNome());
-	}
-
-	@Test
-	public void nao_deve_aceitar_telefone_nulo() {
-		cliente.setTelefone(telefone);
-		assertNotNull(cliente.getTelefone().getNumero());
-	}
-
-	@Test
-	public void nao_deve_aceitar_boleto_nulo() {
-		assertNotNull(cliente.getBoleto());
-	}
-
-	@Test
-	public void deve_testar_o_getCpf_esta_funcionando_corretamente() { 
-		cliente.setCpf("22594921858");
-		assertEquals(cliente.getCpf(), "22594921858");
-	}
-
-	@Test
-	public void deve_testar_o_getNome_esta_funcionando_corretamente() {
+	public void deve_testar_se_o_nome_aceita_letras() {
 		cliente.setNome("Gabriel");
-		assertEquals(cliente.getNome(), "Gabriel");
 	}
-
-	@Test
-	public void deve_testar_o_getTelefone_esta_funcionando_corretamente() {
-		telefone.setNumero("27219389");
-		assertEquals(telefone.getNumero(), "27219389");
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_null() {
+		cliente.setNome(null);
 	}
-
-	@Test
-	public void deve_testar_o_getBoleto_esta_funcionando_corretamente() {
-		cliente.setBoleto(BigDecimal.valueOf(250.00));
-		assertThat(cliente.getBoleto(), is(BigDecimal.valueOf(250.00)));
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_vazio() {
+		cliente.setNome("");
 	}
-
-	@Test
-	public void nao_deve_aceitar_espacos_em_branco_no_cpf() {
-		assertFalse(cliente.getCpf().trim().isEmpty());
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_espaco_em_branco() {
+		cliente.setNome("          ");
 	}
-
-	@Test
-	public void nao_deve_aceitar_espacos_em_branco_no_nome() {
-		assertFalse(cliente.getNome().trim().isEmpty());
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_numeros() {
+		cliente.setNome("123456");
 	}
-
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_caracteres_especiais() {
+		cliente.setNome("@#$");
+	}
+		
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_espaco_no_inicio() {
+		cliente.setNome(" Gabriel");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_espaco_no_final() {
+		cliente.setNome("Gabriel ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_muitos_espacos_entre_as_palavras() {
+		cliente.setNome("Gabriel         Bueno");
+	}
+	
 	@Test
-	public void nao_deve_aceitar_espacos_em_branco_no_telefone() {
-		telefone.setNumero("123456788");
-		assertFalse(telefone.getNumero().trim().isEmpty());
+	public void deve_testar_se_o_nome_aceita_um_espaco_entre_as_palavras() {
+		cliente.setNome("Gabriel Bueno");
+	}
+	
+	@Test
+	public void deve_testar_o_getNome() {
+		cliente.setNome("Gabriel Bueno");
+		assertEquals(cliente.getNome(), "Gabriel Bueno");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_tamanho_menor() {
+		cliente.setNome("a");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_tamanho_maior() {
+		cliente.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcaabcabcabcabcabcaabcabcabc"
+				+ "abcabcaabcabcabcabcabcabcabcabcabcabcabxc");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void nao_deve_aceitar_telefone_nulo() {
+		cliente.setTelefone(null);
+	}
+	
+	@Test
+	public void deve_testar_o_getTelefone() {
+		cliente.getTelefone();
+	}
+	
+	@Test
+	public void deve_testar_o_getBoleto() {
+		cliente.getBoleto();
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_o_exception_do_boleto() {
+		cliente.setBoleto(BigDecimal.valueOf(-20.00));
 	}
 
 	@Test
@@ -173,7 +235,7 @@ public class ClienteTest {
 		assertEquals(cliente1, cliente2);
 	}
 
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = IllegalStateException.class)
 	public void deve_retornar_false_no_equals_com_clientes_de_cpf_diferentes() {
 		Cliente cliente1 = new Cliente("43701888820", "Gabriel", telefone, BigDecimal.valueOf(250.00));
 		Cliente cliente2 = new Cliente("43701888819", "Gabriela", telefone, BigDecimal.valueOf(270.00));
@@ -196,73 +258,6 @@ public class ClienteTest {
 	public void toString_deve_retornar_valores_preenchidos() {
 		String clienteToString = cliente.toString();
 		assertEquals(cliente.toString(), clienteToString);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_null() {
-		cliente.setCpf(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_vazio() {
-		cliente.setCpf(" ");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_tamanho_menor() {
-		cliente.setCpf("1010101010");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_tamanho_maior() {
-		cliente.setCpf("121212121212");
-	}
-		
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setNome_null() {
-		cliente.setNome(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setNome_vazio() {
-		cliente.setNome(" ");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setNome_tamanho_menor() {
-		cliente.setNome("a");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setNome_tamanho_maior() {
-		cliente.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcaabcabcabcabcabcaabcabcabc"
-				+ "abcabcaabcabcabcabcabcabcabcabcabcabcabxc");
-	}
-
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setBoleto_negativo() {
-		cliente.setBoleto(BigDecimal.valueOf(-50.00));
-	}
-	
-	@Test
-	public void deve_testar_o_regex_do_nome() {
-		cliente.setNome("1234567890");
-		assertFalse(isValid(cliente, Constantes.NOME_INVALIDO));
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_o_isCpf_invalido() {
-		cliente.setCpf("12345678912");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_o_isCpf_numeros_iguais() {
-		cliente.setCpf("11111111111");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_o_isCpf_tamanho_incorreto() {
-		cliente.setCpf("123");
 	}
 	
 	@After

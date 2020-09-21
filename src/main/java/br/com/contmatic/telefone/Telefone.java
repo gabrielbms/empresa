@@ -1,7 +1,10 @@
 package br.com.contmatic.telefone;
 
+import static br.com.contmatic.util.Constantes.TELEFONE_INVALIDO;
 import static br.com.contmatic.util.Constantes.TEL_MAX_SIZE;
 import static br.com.contmatic.util.Constantes.TEL_MIN_SIZE;
+
+import br.com.contmatic.util.RegexType;
 
 public class Telefone {
 
@@ -26,7 +29,8 @@ public class Telefone {
 	}
 
 	public void setNumero(String numero) {
-		validaNumetoTelefoneIncorreto(numero);
+		this.validaNumetoTelefoneIncorreto(numero);
+		this.validaRegexNumero(numero);
 		this.numero = numero;
 	}
 
@@ -37,6 +41,12 @@ public class Telefone {
 		}
 	}
 
+	private void validaRegexNumero(String numero) {
+		if (!RegexType.isNumeros(numero)) {
+			throw new IllegalArgumentException(TELEFONE_INVALIDO);
+		}
+	}
+
 	public TipoTelefoneType getTipoTelefone() {
 		return validaTipoTelefone(numero);
 	}
@@ -44,14 +54,13 @@ public class Telefone {
 	private TipoTelefoneType validaTipoTelefone(String numero) {
 		if (numero.length() == TEL_MAX_SIZE) {
 			return TipoTelefoneType.CELULAR;
-		} 
+		}
 		if (numero.length() == TEL_MIN_SIZE) {
 			return TipoTelefoneType.FIXO;
 		} else {
 			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
 		}
 	}
-
 
 	@Override
 	public int hashCode() {

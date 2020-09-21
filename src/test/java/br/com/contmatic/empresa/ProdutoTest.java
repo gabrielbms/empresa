@@ -1,28 +1,17 @@
 package br.com.contmatic.empresa;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import br.com.contmatic.util.Constantes;
 
 public class ProdutoTest {
 	
@@ -35,10 +24,6 @@ public class ProdutoTest {
 	private BigDecimal preço;
 	
 	private static Produto produto;
-	
-	private Validator validator;
-
-	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 	
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -54,45 +39,72 @@ public class ProdutoTest {
 		produto = new Produto(id, nome, quantidade, preço);
 	}
 	
-	public boolean isValid(Produto produto, String mensagem) {
-		validator = factory.getValidator();
-		boolean valido = true;
-		Set<ConstraintViolation<Produto>> restricoes = validator.validate(produto);
-		for (ConstraintViolation<Produto> constraintViolation : restricoes)
-			if (constraintViolation.getMessage().equalsIgnoreCase(mensagem))
-				valido = false;
-		return valido;
+	@Test
+	public void deve_testar_se_o_nome_aceita_letras() {
+		produto.setNome("Ryzen 5 2600");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_null() {
+		produto.setNome(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_vazio() {
+		produto.setNome("");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_espaco_em_branco() {
+		produto.setNome("          ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_caracteres_especiais() {
+		produto.setNome("@#$");
+	}
+		
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_espaco_no_inicio() {
+		produto.setNome(" Ryzen 5 2600");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_espaco_no_final() {
+		produto.setNome("Ryzen 5 2600 ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_muitos_espacos_entre_as_palavras() {
+		produto.setNome("Ryzen 5        2600");
 	}
 	
 	@Test
-	public void nao_deve_aceitar_id_nulo() {
-		produto = new Produto(1, "placa mãe");
-		assertNotNull(produto.getId());
+	public void deve_testar_se_o_nome_aceita_um_espaco_entre_as_palavras() {
+		produto.setNome("Ryzen 5 2600");
 	}
+	
+	@Test
+	public void deve_testar_o_getNome() {
+		produto.setNome("Gabriel Bueno");
+		assertEquals(produto.getNome(), "Gabriel Bueno");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_tamanho_menor() {
+		produto.setNome("a");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_setNome_tamanho_maior() {
+		produto.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcaabcabcabcabcabcaabcabcabc"
+				+ "abcabcaabcabcabcabcabcabcabcabcabcabcabxc");
+	}
+	
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void nao_deve_aceitar_id_negativo() {
 		produto.setId(-7);
-	}
-	
-	@Test
-	public void nao_deve_aceitar_nome_nulo() {
-		assertNotNull(produto.getNome());
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_nome_vazio() {
-		produto.setNome(" ");
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_nome_pequeno() {
-		produto.setNome("a");
-	}
-	
-	@Test (expected = IllegalArgumentException.class)
-	public void nao_deve_aceitar_nome_grande() {
-		produto.setNome("maisqueoitentamaisqueoitentamaisqueoitentamaisqueoitentamaisqueoitentamaisqueoitenta");
 	}
 	
 	@Test
@@ -109,12 +121,6 @@ public class ProdutoTest {
 	public void deve_testar_o_getId_esta_funcionando_corretamente() {
 		produto.setId(5);
 		assertTrue(produto.getId().equals(5));
-	}
-	
-	@Test
-	public void deve_testar_o_getNome_esta_funcionando_corretamente() {
-		produto.setNome("placa mãe");
-		assertThat(produto.getNome(), containsString("placa mãe"));
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -204,12 +210,6 @@ public class ProdutoTest {
 	@Test
 	public void deve_retornar_false_no_equals_com_um_produto_e_um_objeto_aleatorio() {
 		assertNotEquals(produto, new Object());
-	}
-	
-	@Test
-	public void deve_testar_o_regex_do_nome() {
-		produto.setNome("1234567890");
-		assertFalse(isValid(produto, Constantes.NOME_INVALIDO));
 	}
 	
 	@After

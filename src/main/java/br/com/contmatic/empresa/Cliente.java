@@ -1,26 +1,27 @@
 package br.com.contmatic.empresa;
 
+import static br.com.contmatic.util.Constantes.BOLETO_NEGATIVO;
+import static br.com.contmatic.util.Constantes.CPF_INCORRETO;
 import static br.com.contmatic.util.Constantes.CPF_INVALIDO;
 import static br.com.contmatic.util.Constantes.CPF_SIZE;
 import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
 import static br.com.contmatic.util.Constantes.NOME_MAX_SIZE;
 import static br.com.contmatic.util.Constantes.NOME_MIN_SIZE;
-import static br.com.contmatic.util.RegexType.LETRAS;
-import static br.com.contmatic.util.RegexType.NUMEROS;
+import static br.com.contmatic.util.Constantes.NOME_VAZIO;
+import static br.com.contmatic.util.Constantes.TAMANHO_DO_NOME_GRANDE_DEMAIS;
+import static br.com.contmatic.util.Constantes.TAMANHO_DO_NOME_PEQUENO_DEMAIS;
+import static br.com.contmatic.util.Constantes.TELEFONE_VAZIO;
 
 import java.math.BigDecimal;
 
-import javax.validation.constraints.Pattern;
-
 import br.com.contmatic.telefone.Telefone;
+import br.com.contmatic.util.RegexType;
 import br.com.contmatic.util.Validate;
 
 public class Cliente {
 
-	@Pattern(regexp = NUMEROS, message = CPF_INVALIDO)
 	private String cpf;
 
-	@Pattern(regexp = LETRAS, message = NOME_INVALIDO)
 	private String nome;
 
 	private Telefone telefone;
@@ -47,18 +48,25 @@ public class Cliente {
 	public void setCpf(String cpf) {
 		this.validaCpfIncorreto(cpf);
 		this.validaCalculoCpf(cpf);
+		this.validaRegexCpf(cpf);
 		this.cpf = cpf;
 	}
 
 	private void validaCalculoCpf(String cpf) {
 		if (Validate.isCPF(cpf) == false) {
-			throw new IllegalArgumentException("O CPF é inválido.");
+			throw new IllegalStateException("O CPF é inválido.");
 		}
 	}
 
 	private void validaCpfIncorreto(String cpf) {
-		if (cpf == null || cpf.trim().isEmpty() || cpf.length() < CPF_SIZE	|| cpf.length() > CPF_SIZE) {
-			throw new IllegalArgumentException("O CPF foi preenchido incorretamente.");
+		if (cpf == null || cpf.trim().isEmpty() || cpf.length() < CPF_SIZE || cpf.length() > CPF_SIZE) {
+			throw new IllegalArgumentException(CPF_INCORRETO);
+		}
+	}
+
+	private void validaRegexCpf(String cpf) {
+		if (!RegexType.isNumeros(cpf)) {
+			throw new IllegalArgumentException(CPF_INVALIDO);
 		}
 	}
 
@@ -68,12 +76,25 @@ public class Cliente {
 
 	public void setNome(String nome) {
 		this.validaNomeIncorreto(nome);
+		validaRegexLetras(nome);
 		this.nome = nome;
 	}
 
 	private void validaNomeIncorreto(String nome) {
-		if (nome == null || nome.trim().isEmpty() || nome.length() < NOME_MIN_SIZE || nome.length() > NOME_MAX_SIZE) {
-			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
+		if (nome == null || nome.trim().isEmpty()) {
+			throw new IllegalArgumentException(NOME_VAZIO);
+		}
+		if (nome.length() < NOME_MIN_SIZE) {
+			throw new IllegalArgumentException(TAMANHO_DO_NOME_PEQUENO_DEMAIS);
+		}
+		if (nome.length() > NOME_MAX_SIZE) {
+			throw new IllegalArgumentException(TAMANHO_DO_NOME_GRANDE_DEMAIS);
+		}
+	}
+
+	private void validaRegexLetras(String nome) {
+		if (!RegexType.isLetras(nome)) {
+			throw new IllegalArgumentException(NOME_INVALIDO);
 		}
 	}
 
@@ -84,12 +105,12 @@ public class Cliente {
 	public void setTelefone(Telefone telefone) {
 		validaTelefoneNullo(telefone);
 	}
-	
+
 	private void validaTelefoneNullo(Telefone telefone) {
 		if (telefone != null) {
 			this.telefone = telefone;
 		} else {
-			throw new IllegalArgumentException("O telefone não foi preenchido.");
+			throw new IllegalArgumentException(TELEFONE_VAZIO);
 		}
 	}
 
@@ -105,7 +126,7 @@ public class Cliente {
 		if (boleto.doubleValue() >= 1) {
 			this.boleto = boleto;
 		} else {
-			throw new IllegalArgumentException("Boleto não pode ser menor que um.");
+			throw new IllegalArgumentException(BOLETO_NEGATIVO);
 		}
 	}
 
@@ -133,7 +154,7 @@ public class Cliente {
 			return false;
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

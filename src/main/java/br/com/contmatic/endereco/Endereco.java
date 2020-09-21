@@ -1,40 +1,45 @@
 package br.com.contmatic.endereco;
 
+import static br.com.contmatic.util.Constantes.BAIRRO_INCORRETO;
 import static br.com.contmatic.util.Constantes.BAIRRO_INVALIDO;
+import static br.com.contmatic.util.Constantes.BAIRRO_MAX_SIZE;
+import static br.com.contmatic.util.Constantes.BAIRRO_MIN_SIZE;
+import static br.com.contmatic.util.Constantes.CEP_INCORRETO;
 import static br.com.contmatic.util.Constantes.CEP_INVALIDO;
 import static br.com.contmatic.util.Constantes.CEP_SIZE;
+import static br.com.contmatic.util.Constantes.CIDADE_INCORRETO;
 import static br.com.contmatic.util.Constantes.CIDADE_INVALIDA;
+import static br.com.contmatic.util.Constantes.CIDADE_MAX_SIZE;
+import static br.com.contmatic.util.Constantes.CIDADE_MIN_SIZE;
+import static br.com.contmatic.util.Constantes.COMPLEMENTO_INCORRETO;
 import static br.com.contmatic.util.Constantes.COMPLEMENTO_INVALIDO;
-import static br.com.contmatic.util.Constantes.ESTADO_INVALIDO;
+import static br.com.contmatic.util.Constantes.COMPLEMENTO_MAX_SIZE;
+import static br.com.contmatic.util.Constantes.COMPLEMENTO_MIN_SIZE;
+import static br.com.contmatic.util.Constantes.ESTADO_VAZIO;
+import static br.com.contmatic.util.Constantes.NUMERO_INCORRETO;
 import static br.com.contmatic.util.Constantes.NUMERO_MINIMO;
+import static br.com.contmatic.util.Constantes.RUA_INCORRETO;
 import static br.com.contmatic.util.Constantes.RUA_INVALIDA;
-import static br.com.contmatic.util.RegexType.LETRAS;
-import static br.com.contmatic.util.RegexType.LETRAS_E_NUMEROS;
-import static br.com.contmatic.util.RegexType.NUMEROS;
+import static br.com.contmatic.util.Constantes.RUA_MAX_SIZE;
+import static br.com.contmatic.util.Constantes.RUA_MIN_SIZE;
 
-import javax.validation.constraints.Pattern;
+import br.com.contmatic.util.RegexType;
 
 public class Endereco {
 
-	@Pattern(regexp = NUMEROS, message = CEP_INVALIDO)
 	private String cep;
 
-	@Pattern(regexp = LETRAS_E_NUMEROS, message = RUA_INVALIDA)
 	private String rua;
 
 	private Integer numero;
 
-	@Pattern(regexp = LETRAS_E_NUMEROS, message = COMPLEMENTO_INVALIDO)
 	private String complemento;
 
-	@Pattern(regexp = LETRAS_E_NUMEROS, message = BAIRRO_INVALIDO)
 	private String bairro;
 
-	@Pattern(regexp = LETRAS, message = CIDADE_INVALIDA)
 	private String cidade;
 
-	@Pattern(regexp = LETRAS, message = ESTADO_INVALIDO)
-	private String estado;
+	private Estado estado;
 
 	public Endereco(String cep, Integer numero) {
 		this.setCep(cep);
@@ -42,7 +47,7 @@ public class Endereco {
 	}
 
 	public Endereco(String cep, String rua, Integer numero, String complemento, String bairro, String cidade,
-			String estado) {
+			Estado estado) {
 		this.setCep(cep);
 		this.setRua(rua);
 		this.setNumero(numero);
@@ -58,12 +63,19 @@ public class Endereco {
 
 	public void setCep(String cep) {
 		this.validaCepIncorreto(cep);
+		this.validaRegexCep(cep);
 		this.cep = cep;
 	}
 
 	private void validaCepIncorreto(String cep) {
 		if (cep == null || cep.trim().isEmpty() || cep.length() < CEP_SIZE || cep.length() > CEP_SIZE) {
-			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
+			throw new IllegalArgumentException(CEP_INCORRETO);
+		}
+	}
+
+	private void validaRegexCep(String cep) {
+		if (!RegexType.isNumeros(cep)) {
+			throw new IllegalArgumentException(CEP_INVALIDO);
 		}
 	}
 
@@ -72,7 +84,21 @@ public class Endereco {
 	}
 
 	public void setRua(String rua) {
+		this.validaRuaIncorreto(rua);
+		this.validaRegexRua(rua);
 		this.rua = rua;
+	}
+
+	private void validaRuaIncorreto(String rua) {
+		if (rua == null || rua.trim().isEmpty() || rua.length() < RUA_MIN_SIZE || rua.length() > RUA_MAX_SIZE) {
+			throw new IllegalArgumentException(RUA_INCORRETO);
+		}
+	}
+
+	private void validaRegexRua(String rua) {
+		if (!RegexType.isLetrasENumeros(rua)) {
+			throw new IllegalArgumentException(RUA_INVALIDA);
+		}
 	}
 
 	public int getNumero() {
@@ -86,7 +112,7 @@ public class Endereco {
 
 	private void validaNumeroIncorreto(Integer numero) {
 		if (numero == null || numero < NUMERO_MINIMO) {
-			throw new IllegalArgumentException("O numero foi preenchido incorretamente.");
+			throw new IllegalArgumentException(NUMERO_INCORRETO);
 		}
 	}
 
@@ -95,7 +121,22 @@ public class Endereco {
 	}
 
 	public void setComplemento(String complemento) {
+		this.validaComplementoIncorreto(complemento);
+		this.validaRegexComplemento(complemento);
 		this.complemento = complemento;
+	}
+
+	private void validaComplementoIncorreto(String complemento) {
+		if (complemento == null || complemento.trim().isEmpty() || complemento.length() < COMPLEMENTO_MIN_SIZE
+				|| complemento.length() > COMPLEMENTO_MAX_SIZE) {
+			throw new IllegalArgumentException(COMPLEMENTO_INCORRETO);
+		}
+	}
+
+	private void validaRegexComplemento(String complemento) {
+		if (!RegexType.isLetrasENumeros(complemento)) {
+			throw new IllegalArgumentException(COMPLEMENTO_INVALIDO);
+		}
 	}
 
 	public String getBairro() {
@@ -103,7 +144,22 @@ public class Endereco {
 	}
 
 	public void setBairro(String bairro) {
+		this.validaBairroIncorreto(bairro);
+		this.validaRegexBairro(bairro);
 		this.bairro = bairro;
+	}
+
+	private void validaBairroIncorreto(String bairro) {
+		if (bairro == null || bairro.trim().isEmpty() || bairro.length() < BAIRRO_MIN_SIZE
+				|| bairro.length() > BAIRRO_MAX_SIZE) {
+			throw new IllegalArgumentException(BAIRRO_INCORRETO);
+		}
+	}
+
+	private void validaRegexBairro(String bairro) {
+		if (!RegexType.isLetrasENumeros(bairro)) {
+			throw new IllegalArgumentException(BAIRRO_INVALIDO);
+		}
 	}
 
 	public String getCidade() {
@@ -111,15 +167,37 @@ public class Endereco {
 	}
 
 	public void setCidade(String cidade) {
+		this.validaCidadeIncorreto(cidade);
+		this.validaRegexCidade(cidade);
 		this.cidade = cidade;
 	}
 
-	public String getEstado() {
+	private void validaCidadeIncorreto(String cidade) {
+		if (cidade == null || cidade.trim().isEmpty() || cidade.length() < CIDADE_MIN_SIZE
+				|| cidade.length() > CIDADE_MAX_SIZE) {
+			throw new IllegalArgumentException(CIDADE_INCORRETO);
+		}
+	}
+
+	private void validaRegexCidade(String cidade) {
+		if (!RegexType.isLetras(cidade)) {
+			throw new IllegalArgumentException(CIDADE_INVALIDA);
+		}
+	}
+
+	public Estado getEstado() {
 		return estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(Estado estado) {
+		this.estadoVazio(estado);
 		this.estado = estado;
+	}
+
+	public void estadoVazio(Estado estado) {
+		if (estado == null) {
+			throw new IllegalArgumentException(ESTADO_VAZIO);
+		}
 	}
 
 	@Override

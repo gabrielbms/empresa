@@ -1,19 +1,9 @@
 package br.com.contmatic.empresa;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
 import static org.junit.runners.MethodSorters.NAME_ASCENDING;
-
-import java.util.Set;
-
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -25,8 +15,7 @@ import org.junit.Test;
 import br.com.contmatic.endereco.Endereco;
 import br.com.contmatic.telefone.Telefone;
 import br.com.contmatic.telefone.TelefoneDDDType;
-import br.com.contmatic.telefone.TipoTelefoneType;
-import br.com.contmatic.util.Constantes;;
+import br.com.contmatic.telefone.TipoTelefoneType;;
 
 @FixMethodOrder(NAME_ASCENDING)
 public class EmpresaTest {
@@ -38,10 +27,6 @@ public class EmpresaTest {
 	private static Empresa empresa;
 	
 	private Telefone telefone;
-	
-	private Validator validator;
-
-	private ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 	
 	Endereco endereco = new Endereco("03208070", 85);
 
@@ -58,78 +43,145 @@ public class EmpresaTest {
 		Endereco endereco = new Endereco("03208070", 79);
 		empresa = new Empresa(cnpj, nome, telefone, endereco);
 	}
-	
-	public boolean isValid(Empresa empresa, String mensagem) {
-		validator = factory.getValidator();
-		boolean valido = true;
-		Set<ConstraintViolation<Empresa>> restricoes = validator.validate(empresa);
-		for (ConstraintViolation<Empresa> constraintViolation : restricoes)
-			if (constraintViolation.getMessage().equalsIgnoreCase(mensagem))
-				valido = false;
-		return valido;
-	}
 
 	@Test
-	public void nao_deve_aceitar_cnpj_nulo() {
-		Empresa empresa = new Empresa("35667373000103");
-		assertNotNull(empresa.getCnpj());
-	}
-
-	@Test
-	public void nao_deve_aceitar_nome_nulo() {
-		empresa.setNome("GB Conserto de computadores");
-		assertNotNull(empresa.getNome());
-	}
-
-	@Test
-	public void nao_deve_aceitar_telefone_nulo() {
-		assertNotNull(empresa.getTelefone());
-	}
-
-	@Test
-	public void nao_deve_aceitar_endereco_nulo() {
-		assertNotNull(empresa.getEndereco());
-	}
-
-	@Test
-	public void deve_testar_o_getCnpj_esta_funcionando_corretamente() {
+	public void deve_testar_se_o_cnpj_aceita_numeros() {
 		empresa.setCnpj("35667373000103");
-		assertEquals(empresa.getCnpj(), "35667373000103");
 	}
-
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cnpj_aceita_null() {
+		empresa.setCnpj(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cnpj_aceita_vazio() {
+		empresa.setCnpj("");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cnpj_aceita_espaco_em_branco() {
+		empresa.setCnpj("  ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cnpj_aceita_letras() {
+		empresa.setCnpj("abcdef");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cnpj_aceita_caracteres_especiais() {
+		empresa.setCnpj("@#$");
+	}
+		
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cnpj_aceita_espaco_no_inicio() {
+		empresa.setCnpj(" 35667373000103");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cnpj_aceita_espaco_no_final() {
+		empresa.setCnpj("35667373000103 ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_cnpj_aceita_muitos_espacos_entre_os_numeros() {
+		empresa.setCnpj("3566737       3000103");
+	}
+	
 	@Test
-	public void deve_testar_o_getNome_esta_funcionando_corretamente() {
-		empresa.setNome("GB Conserto de computadores");
-		assertEquals(empresa.getNome(), "GB Conserto de computadores");
+	public void deve_testar_o_getCnpj() {
+		empresa.setCnpj("35667373000103");
+		assertEquals(empresa.getCnpj(), ("35667373000103"));
 	}
-
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_cnpj_tamanho_menor() {
+		empresa.setCnpj("1313131313131");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_cnpj_tamanho_maior() {
+		empresa.setCnpj("1515151515151515");
+	}
+	
 	@Test
-	public void deve_testar_o_getTelefone_esta_funcionando_corretamente() {
-		telefone.setNumero("41108521");
-		assertEquals(empresa.getTelefone().getNumero(), "41108521");
+	public void deve_testar_se_o_nome_aceita_letras() {
+		empresa.setNome("Gabriel");
 	}
-
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_null() {
+		empresa.setNome(null);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_vazio() {
+		empresa.setNome("");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_espaco_em_branco() {
+		empresa.setNome("          ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_numeros() {
+		empresa.setNome("123456");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_caracteres_especiais() {
+		empresa.setNome("@#$");
+	}
+		
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_espaco_no_inicio() {
+		empresa.setNome(" Gabriel");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_espaco_no_final() {
+		empresa.setNome("Gabriel ");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_se_o_nome_aceita_muitos_espacos_entre_as_palavras() {
+		empresa.setNome("Gabriel         Bueno");
+	}
+	
 	@Test
-	public void deve_testar_o_setEndereco_esta_funcionando_corretamente() {
-		empresa.setEndereco(new Endereco("03208070", 79));
-		assertThat(empresa.getEndereco().toString(), containsString("03208070"));
+	public void deve_testar_se_o_nome_aceita_um_espaco_entre_as_palavras() {
+		empresa.setNome("Gabriel Bueno");
 	}
-
+	
 	@Test
-	public void nao_deve_aceitar_espacos_em_branco_no_cnpj() {
-		assertFalse(empresa.getCnpj().trim().isEmpty());
+	public void deve_testar_o_getNome() {
+		empresa.setNome("Gabriel Bueno");
+		assertEquals(empresa.getNome(), "Gabriel Bueno");
 	}
-
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_nome_tamanho_menor() {
+		empresa.setNome("a");
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_testar_exception_do_nome_tamanho_maior() {
+		empresa.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcaabcabcabcabcabcaabcabcabc"
+				+ "abcabcaabcabcabcabcabcabcabcabcabcabcabxc");
+	}
+	
 	@Test
-	public void nao_deve_aceitar_espacos_em_branco_no_nome() {
-		assertFalse(empresa.getNome().trim().isEmpty());
+	public void deve_testar_o_getTelefone() {
+		empresa.getTelefone();
 	}
-
+	
 	@Test
-	public void nao_deve_aceitar_espacos_em_branco_no_telefone() {
-		assertFalse(empresa.getTelefone().getNumero().trim().isEmpty());
+	public void deve_testar_o_getEndereco() {
+		empresa.getEndereco();
 	}
-
+	
 	@Test
 	public void deve_retornar_true_no_hashCode_com_empresas_iguais() {
 		Empresa Empresa2 = new Empresa("35667373000103", "GB Conserto de computadores", telefone, endereco);
@@ -188,73 +240,6 @@ public class EmpresaTest {
 		Empresa empresaPreenchida = new Empresa("35667373000103", "GB Conserto de computadores", telefone, endereco);
 		String empresaPreenchidaToStringo = empresaPreenchida.toString();
 		assertEquals(empresaPreenchida.toString(), empresaPreenchidaToStringo);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_null() {
-		empresa.setCnpj(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_vazio() {
-		empresa.setCnpj(" ");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_tamanho_menor() {
-		empresa.setCnpj("1313131313131");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_tamanho_maior() {
-		empresa.setCnpj("151515151515151");
-	}
-		
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setNome_null() {
-		empresa.setNome(null);
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setNome_vazio() {
-		empresa.setNome(" ");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setNome_tamanho_menor() {
-		empresa.setNome("a");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setNome_tamanho_maior() {
-		empresa.setNome("abcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcabcaabcabcabcabcabcabcabcabcabcabcabbcabxc");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_o_regex_do_cnpj() {
-		empresa.setCnpj("12345678912234");
-		assertFalse(isValid(empresa, Constantes.CNPJ_INVALIDO));
-	}
-	
-	@Test
-	public void deve_testar_o_regex_do_nome() {
-		empresa.setNome("1234567890");
-		assertFalse(isValid(empresa, Constantes.NOME_INVALIDO));
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_o_isCnpj_invalido() {
-		empresa.setCnpj("12345678912234");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_o_isCnpj_numeros_iguais() {
-		empresa.setCnpj("11111111111111");
-	}
-	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_o_isCnpj_tamanho_incorreto() {
-		empresa.setCnpj("123");
 	}
 
 	@After

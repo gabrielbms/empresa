@@ -1,32 +1,28 @@
 package br.com.contmatic.empresa;
 
 import static br.com.contmatic.util.Constantes.ID_MINIMO;
+import static br.com.contmatic.util.Constantes.NOME_INCORRETO;
 import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
 import static br.com.contmatic.util.Constantes.NOME_MAX_SIZE;
 import static br.com.contmatic.util.Constantes.NOME_MIN_SIZE;
+import static br.com.contmatic.util.Constantes.PRECO_MINIMO_MENSAGEM;
 import static br.com.contmatic.util.Constantes.PREÇO_MINIMO;
 import static br.com.contmatic.util.Constantes.QUANTIDADE_MINIMA;
-import static br.com.contmatic.util.RegexType.LETRAS;
+import static br.com.contmatic.util.Constantes.QUANTIDADE_MINIMA_MENSAGEM;
 
 import java.math.BigDecimal;
 
-import javax.validation.constraints.Pattern;
+import br.com.contmatic.util.RegexType;
 
 public class Produto {
 
 	private Integer id;
 
-	@Pattern(regexp = LETRAS, message = NOME_INVALIDO)
 	private String nome;
 
 	private Integer quantidade;
 
 	private BigDecimal preço;
-
-	public Produto(Integer id, String nome) {
-		this.setId(id);
-		this.setNome(nome);
-	}
 
 	public Produto(Integer id, String nome, Integer quantidade, BigDecimal preço) {
 		this.setId(id);
@@ -56,12 +52,19 @@ public class Produto {
 
 	public void setNome(String nome) {
 		this.validaNomeIncorreto(nome);
+		this.validaRegexNome(nome);
 		this.nome = nome;
 	}
 
 	private void validaNomeIncorreto(String nome) {
 		if (nome == null || nome.trim().isEmpty() || nome.length() < NOME_MIN_SIZE || nome.length() > NOME_MAX_SIZE) {
-			throw new IllegalArgumentException("O nome foi preenchido incorretamente.");
+			throw new IllegalArgumentException(NOME_INCORRETO);
+		}
+	}
+
+	private void validaRegexNome(String nome) {
+		if (!RegexType.isLetrasENumeros(nome)) {
+			throw new IllegalArgumentException(NOME_INVALIDO);
 		}
 	}
 
@@ -76,7 +79,7 @@ public class Produto {
 
 	private void validaQuantidadeIncorreta(Integer quantidade) {
 		if (quantidade < QUANTIDADE_MINIMA) {
-			throw new IllegalArgumentException("A quantidade não pode ser menor que um.");
+			throw new IllegalArgumentException(QUANTIDADE_MINIMA_MENSAGEM);
 		}
 	}
 
@@ -91,7 +94,7 @@ public class Produto {
 
 	private void validaPreçoIncorreto(BigDecimal preço) {
 		if (preço.doubleValue() < PREÇO_MINIMO) {
-			throw new IllegalArgumentException("O preço não pode ser menor que um.");
+			throw new IllegalArgumentException(PRECO_MINIMO_MENSAGEM);
 		}
 	}
 
