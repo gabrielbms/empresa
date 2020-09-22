@@ -54,7 +54,7 @@ public final class Constantes {
 
 	public static final String QUANTIDADE_INVALIDO = "A quantidade informada não é valida.";
 
-	public static final String PREÇO_INVALIDO = "O preço informado não é valido.";
+	public static final String PRECO_INVALIDO = "O preço informado não é valido.";
 
 	public static final String SALARIO_INVALIDO = "O salário informado não é valido.";
 
@@ -134,7 +134,7 @@ public final class Constantes {
 	
 	public static final Integer QUANTIDADE_MINIMA = 1;
 	
-	public static final Double PREÇO_MINIMO = 1.0;
+	public static final Double PRECO_MINIMO = 1.0;
 	
 	public static final Integer NUMERO_MINIMO = 1;
 	
@@ -153,5 +153,5 @@ public final class Constantes {
 	public static final Integer CIDADE_MIN_SIZE = 2;
 	
 	public static final Integer CIDADE_MAX_SIZE = 30;
-
+	
 }

@@ -42,6 +42,7 @@ public class ProdutoTest {
 	@Test
 	public void deve_testar_se_o_nome_aceita_letras() {
 		produto.setNome("Ryzen 5 2600");
+		assertEquals("Ryzen 5 2600", produto.getNome());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -82,12 +83,13 @@ public class ProdutoTest {
 	@Test
 	public void deve_testar_se_o_nome_aceita_um_espaco_entre_as_palavras() {
 		produto.setNome("Ryzen 5 2600");
+		assertEquals("Ryzen 5 2600", produto.getNome());
 	}
 	
 	@Test
 	public void deve_testar_o_getNome() {
 		produto.setNome("Gabriel Bueno");
-		assertEquals(produto.getNome(), "Gabriel Bueno");
+		assertEquals("Gabriel Bueno", produto.getNome());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -114,13 +116,13 @@ public class ProdutoTest {
 	
 	@Test
 	public void nao_deve_aceitar_preço_nulo() {
-		assertNotNull(produto.getPreço());
+		assertNotNull(produto.getPreco());
 	}
 	
 	@Test
 	public void deve_testar_o_getId_esta_funcionando_corretamente() {
 		produto.setId(5);
-		assertTrue(produto.getId().equals(5));
+		assertTrue(produto.getId() == 5);
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
@@ -130,13 +132,13 @@ public class ProdutoTest {
 	
 	@Test
 	public void deve_testar_o_getPreço_esta_funcionando_corretamente() {
-		produto.setPreço(BigDecimal.valueOf(500.00));
-		assertEquals(produto.getPreço(), BigDecimal.valueOf(500.00));
+		produto.setPreco(BigDecimal.valueOf(500.00));
+		assertEquals(produto.getPreco(), BigDecimal.valueOf(500.00));
 	}
 	
 	@Test (expected = IllegalArgumentException.class)
 	public void deve_testar_o_exception_do_setPreço() {
-		produto.setPreço(BigDecimal.valueOf(-500.00));
+		produto.setPreco(BigDecimal.valueOf(-500.00));
 	}
 	
 	@Test 

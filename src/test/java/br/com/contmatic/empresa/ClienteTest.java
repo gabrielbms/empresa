@@ -12,7 +12,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import br.com.contmatic.telefone.Telefone;
@@ -100,7 +99,7 @@ public class ClienteTest {
 	@Test
 	public void deve_testar_o_setCpf() {
 		cliente.setCpf("43701888817");
-		assertEquals(cliente.getCpf(), "43701888817");
+		assertEquals("43701888817", cliente.getCpf());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -122,6 +121,7 @@ public class ClienteTest {
 	@Test
 	public void deve_testar_se_o_nome_aceita_letras() {
 		cliente.setNome("Gabriel");
+		assertEquals("Gabriel", cliente.getNome());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -167,12 +167,13 @@ public class ClienteTest {
 	@Test
 	public void deve_testar_se_o_nome_aceita_um_espaco_entre_as_palavras() {
 		cliente.setNome("Gabriel Bueno");
+		assertEquals("Gabriel Bueno", cliente.getNome());
 	}
 	
 	@Test
 	public void deve_testar_o_getNome() {
 		cliente.setNome("Gabriel Bueno");
-		assertEquals(cliente.getNome(), "Gabriel Bueno");
+		assertEquals("Gabriel Bueno", cliente.getNome());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -193,12 +194,14 @@ public class ClienteTest {
 	
 	@Test
 	public void deve_testar_o_getTelefone() {
-		cliente.getTelefone();
+		cliente.setTelefone(telefone);
+		assertEquals(telefone, cliente.getTelefone());
 	}
 	
 	@Test
 	public void deve_testar_o_getBoleto() {
-		cliente.getBoleto();
+		cliente.setBoleto(boleto);
+		assertEquals(boleto, cliente.getBoleto());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -273,7 +276,6 @@ public class ClienteTest {
 	}
 	
 	@After
-	@Ignore
 	public void tearDown() {
 		cpf = null;
 		nome = null;

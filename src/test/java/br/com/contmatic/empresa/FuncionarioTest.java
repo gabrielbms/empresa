@@ -30,6 +30,8 @@ public class FuncionarioTest {
 	private int idade;
 
 	private Telefone telefone;
+	
+	private Endereco endereco;
 
 	private BigDecimal salario;
 
@@ -49,7 +51,7 @@ public class FuncionarioTest {
 		idade = 25;
 		salario = BigDecimal.valueOf(1500.00);
 		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
-		Endereco endereco = new Endereco("04508010", 274);
+		endereco = new Endereco("04508010", 274);
 		funcionario = new Funcionario(cpf, nome, salario);
 		funcionarioCompleto = new Funcionario(cpf, nome, idade, telefone, endereco, salario);
 	}
@@ -57,6 +59,7 @@ public class FuncionarioTest {
 	@Test
 	public void deve_testar_se_o_cpf_aceita_numeros() {
 		funcionario.setCpf("43701888817");
+		assertEquals("43701888817", funcionario.getCpf());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -102,7 +105,7 @@ public class FuncionarioTest {
 	@Test
 	public void deve_testar_o_getCpf() {
 		funcionario.setCpf("43701888817");
-		assertEquals(funcionario.getCpf(), "43701888817");
+		assertEquals("43701888817", funcionario.getCpf());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -123,6 +126,7 @@ public class FuncionarioTest {
 	@Test
 	public void deve_testar_se_o_nome_aceita_letras() {
 		funcionario.setNome("Gabriel");
+		assertEquals("Gabriel", funcionario.getNome());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -168,12 +172,13 @@ public class FuncionarioTest {
 	@Test
 	public void deve_testar_se_o_nome_aceita_um_espaco_entre_as_palavras() {
 		funcionario.setNome("Gabriel Bueno");
+		assertEquals("Gabriel Bueno", funcionario.getNome());
 	}
 	
 	@Test
-	public void deve_testar_o_getNome() {
+	public void deve_testar_o_setNome() {
 		funcionario.setNome("Gabriel Bueno");
-		assertEquals(funcionario.getNome(), "Gabriel Bueno");
+		assertEquals("Gabriel Bueno", funcionario.getNome());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -189,22 +194,26 @@ public class FuncionarioTest {
 	
 	@Test
 	public void deve_testar_o_getIdade() {
-		funcionario.getIdade();
+		funcionario.setIdade(idade);
+		assertTrue(funcionario.getIdade() == idade);
 	}
 	
 	@Test
 	public void deve_testar_o_getTelefone() {
-		funcionario.getTelefone();
+		funcionario.setTelefone(telefone);
+		assertEquals(funcionario.getTelefone(), telefone);
 	}
 	
 	@Test
 	public void deve_testar_o_getEndereco() {
-		funcionario.getEndereco();
+		funcionario.setEndereco(endereco);
+		assertEquals(funcionario.getEndereco(), endereco);
 	}
 	
 	@Test
 	public void deve_testar_o_getSalario() {
-		funcionario.getSalario();
+		funcionario.setSalario(salario);
+		assertEquals(funcionario.getSalario(), salario);
 	}
 	
 	@Test

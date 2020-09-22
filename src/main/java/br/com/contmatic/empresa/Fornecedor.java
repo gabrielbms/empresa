@@ -16,12 +16,12 @@ import static br.com.contmatic.util.Constantes.TAMANHO_DO_NOME_PEQUENO_DEMAIS;
 import static br.com.contmatic.util.Constantes.TELEFONE_VAZIO;
 import static br.com.contmatic.util.RegexType.isLetrasENumeros;
 import static br.com.contmatic.util.RegexType.isNumeros;
+import static br.com.contmatic.util.Validate.isCNPJ;
 
 import java.util.Set;
 
 import br.com.contmatic.endereco.Endereco;
 import br.com.contmatic.telefone.Telefone;
-import br.com.contmatic.util.Validate;
 
 public class Fornecedor {
 
@@ -60,7 +60,7 @@ public class Fornecedor {
 	}
 
 	private void validaCalculoCnpj(String cnpj) {
-		if (Validate.isCNPJ(cnpj) == false) {
+		if (!isCNPJ(cnpj)) {
 			throw new IllegalStateException(CNPJ_INVALIDO);
 		}
 	}

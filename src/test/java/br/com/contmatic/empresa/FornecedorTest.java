@@ -28,6 +28,8 @@ public class FornecedorTest {
 	private String nome;
 
 	private Telefone telefone;
+	
+	private Endereco endereco;
 
 	private Fornecedor fornecedor;
 	
@@ -50,13 +52,14 @@ public class FornecedorTest {
 		Set<Produto> produtos = new HashSet<>();
 		produtos.add(produto);
 		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
-		Endereco endereco = new Endereco("02708010", 21);
+		endereco = new Endereco("02708010", 21);
 		fornecedor = new Fornecedor(cnpj, nome, telefone, produtos, endereco);
 	}
 
 	@Test
 	public void deve_testar_se_o_cnpj_aceita_numeros() {
 		fornecedor.setCnpj("35667373000103");
+		assertEquals("35667373000103", fornecedor.getCnpj());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -124,6 +127,7 @@ public class FornecedorTest {
 	@Test
 	public void deve_testar_se_o_nome_aceita_letras() {
 		fornecedor.setNome("Gabriel");
+		assertEquals("Gabriel", fornecedor.getNome());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -144,6 +148,7 @@ public class FornecedorTest {
 	@Test
 	public void deve_testar_se_o_nome_aceita_numeros() {
 		fornecedor.setNome("123456");
+		assertEquals("123456", fornecedor.getNome());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -169,12 +174,13 @@ public class FornecedorTest {
 	@Test
 	public void deve_testar_se_o_nome_aceita_um_espaco_entre_as_palavras() {
 		fornecedor.setNome("Gabriel Bueno");
+		assertEquals("Gabriel Bueno", fornecedor.getNome());
 	}
 	
 	@Test
 	public void deve_testar_o_getNome() {
 		fornecedor.setNome("Gabriel Bueno");
-		assertEquals(fornecedor.getNome(), "Gabriel Bueno");
+		assertEquals("Gabriel Bueno", fornecedor.getNome());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -190,17 +196,22 @@ public class FornecedorTest {
 	
 	@Test
 	public void deve_testar_o_getTelefone() {
-		fornecedor.getTelefone();
+		fornecedor.setTelefone(telefone);
+		assertEquals(fornecedor.getTelefone(), telefone);
 	}
 	
 	@Test
 	public void deve_testar_o_getProduto() {
-		fornecedor.getProduto();
+		Set<Produto> produtos = new HashSet<>();
+		produtos.add(produto);
+		fornecedor.setProduto(produtos);
+		assertEquals(fornecedor.getProduto(), produtos);
 	}
 	
 	@Test
 	public void deve_testar_o_getEndereco() {
-		fornecedor.getEndereco();
+		fornecedor.setEndereco(endereco);
+		assertEquals(fornecedor.getEndereco(), endereco);
 	}
 
 	@Test

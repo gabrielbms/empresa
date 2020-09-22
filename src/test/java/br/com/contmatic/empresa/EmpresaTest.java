@@ -47,6 +47,7 @@ public class EmpresaTest {
 	@Test
 	public void deve_testar_se_o_cnpj_aceita_numeros() {
 		empresa.setCnpj("35667373000103");
+		assertEquals("35667373000103", empresa.getCnpj());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -114,6 +115,8 @@ public class EmpresaTest {
 	@Test
 	public void deve_testar_se_o_nome_aceita_letras() {
 		empresa.setNome("Gabriel");
+		assertEquals("Gabriel", empresa.getNome());
+		
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -159,12 +162,13 @@ public class EmpresaTest {
 	@Test
 	public void deve_testar_se_o_nome_aceita_um_espaco_entre_as_palavras() {
 		empresa.setNome("Gabriel Bueno");
+		assertEquals("Gabriel Bueno", empresa.getNome());
 	}
 	
 	@Test
 	public void deve_testar_o_getNome() {
 		empresa.setNome("Gabriel Bueno");
-		assertEquals(empresa.getNome(), "Gabriel Bueno");
+		assertEquals("Gabriel Bueno", empresa.getNome());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -180,12 +184,14 @@ public class EmpresaTest {
 	
 	@Test
 	public void deve_testar_o_getTelefone() {
-		empresa.getTelefone();
+		empresa.setTelefone(telefone);
+		assertEquals(empresa.getTelefone(), telefone);
 	}
 	
 	@Test
 	public void deve_testar_o_getEndereco() {
-		empresa.getEndereco();
+		empresa.setEndereco(endereco);
+		assertEquals(empresa.getEndereco(), endereco);
 	}
 	
 	@Test

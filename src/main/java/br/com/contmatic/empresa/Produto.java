@@ -7,7 +7,7 @@ import static br.com.contmatic.util.Constantes.NOME_MAX_SIZE;
 import static br.com.contmatic.util.Constantes.NOME_MIN_SIZE;
 import static br.com.contmatic.util.Constantes.NOME_VAZIO;
 import static br.com.contmatic.util.Constantes.PRECO_MINIMO_MENSAGEM;
-import static br.com.contmatic.util.Constantes.PREÇO_MINIMO;
+import static br.com.contmatic.util.Constantes.PRECO_MINIMO;
 import static br.com.contmatic.util.Constantes.QUANTIDADE_MINIMA;
 import static br.com.contmatic.util.Constantes.QUANTIDADE_MINIMA_MENSAGEM;
 import static br.com.contmatic.util.Constantes.TAMANHO_DO_NOME_GRANDE_DEMAIS;
@@ -24,13 +24,13 @@ public class Produto {
 
 	private Integer quantidade;
 
-	private BigDecimal preço;
+	private BigDecimal preco;
 
-	public Produto(Integer id, String nome, Integer quantidade, BigDecimal preço) {
+	public Produto(Integer id, String nome, Integer quantidade, BigDecimal preco) {
 		this.setId(id);
 		this.setNome(nome);
 		this.setQuantidade(quantidade);
-		this.setPreço(preço);
+		this.setPreco(preco);
 	}
 
 	public Integer getId() {
@@ -91,17 +91,17 @@ public class Produto {
 		}
 	}
 
-	public BigDecimal getPreço() {
-		return preço;
+	public BigDecimal getPreco() {
+		return preco;
 	}
 
-	public void setPreço(BigDecimal preço) {
-		this.validaPreçoIncorreto(preço);
-		this.preço = preço;
+	public void setPreco(BigDecimal preco) {
+		this.validaPrecoIncorreto(preco);
+		this.preco = preco;
 	}
 
-	private void validaPreçoIncorreto(BigDecimal preço) {
-		if (preço.doubleValue() < PREÇO_MINIMO) {
+	private void validaPrecoIncorreto(BigDecimal preco) {
+		if (preco.doubleValue() < PRECO_MINIMO) {
 			throw new IllegalArgumentException(PRECO_MINIMO_MENSAGEM);
 		}
 	}
@@ -143,8 +143,8 @@ public class Produto {
 		if (this.quantidade != 0) {
 			sb.append(" quantidade= ").append(this.quantidade);
 		}
-		if (this.preço != BigDecimal.valueOf(0)) {
-			sb.append(" preço= ").append(this.preço);
+		if (this.preco != BigDecimal.valueOf(0)) {
+			sb.append(" preço= ").append(this.preco);
 		}
 		return sb.toString();
 	}

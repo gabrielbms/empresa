@@ -1,10 +1,12 @@
 package br.com.contmatic.telefone;
 
+import static br.com.contmatic.telefone.TelefoneDDDType.DDD11;
+import static br.com.contmatic.telefone.TipoTelefoneType.CELULAR;
+import static br.com.contmatic.telefone.TipoTelefoneType.FIXO;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import java.util.Random;
 
@@ -44,7 +46,7 @@ public class TelefoneTest {
 			return TipoTelefoneType.FIXO;
 		}
 		if (numero.length() == 9) {
-			return TipoTelefoneType.CELULAR;
+			return CELULAR;
 		} else {
 			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
 		}
@@ -53,6 +55,7 @@ public class TelefoneTest {
 	@Test
 	public void deve_testar_se_o_cpf_aceita_numeros() {
 		telefone.setNumero("937018888");
+		assertEquals("937018888", telefone.getNumero());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -98,7 +101,7 @@ public class TelefoneTest {
 	@Test
 	public void deve_testar_o_getCpf() {
 		telefone.setNumero("437018888");
-		assertEquals(telefone.getNumero(), "437018888");
+		assertEquals("437018888", telefone.getNumero());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -129,7 +132,7 @@ public class TelefoneTest {
 	@Test
 	public void deve_testar_o_getNumero_esta_funcionando_corretamente() {
 		telefone.setNumero("946756084");
-		assertEquals(telefone.getNumero(), "946756084");
+		assertEquals("946756084", telefone.getNumero());
 	}
 
 	@Test
@@ -140,32 +143,32 @@ public class TelefoneTest {
 	@Test
 	public void deve_testar_se_o_valida_tipo_telefone_esta_funcionando() {
 		telefone.setNumero("27219689");
-		assertEquals(telefone.getTipoTelefone(), TipoTelefoneType.FIXO);
+		assertEquals(FIXO, telefone.getTipoTelefone());
 	}
 
 	@Test
 	public void deve_retornar_true_no_hashCode_com_telefones_iguais() {
-		Telefone telefone1 = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
-		Telefone telefone2 = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
-		assertTrue(telefone1.hashCode() == telefone2.hashCode());
+		Telefone telefone1 = new Telefone(DDD11, "978457845", CELULAR);
+		Telefone telefone2 = new Telefone(DDD11, "978457845", CELULAR);
+		assertEquals(telefone1.hashCode(), telefone2.hashCode());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_hashCode_com_um_telefone_de_numero_null() {
-		Telefone outroTelefone = new Telefone(TelefoneDDDType.DDD11, null, TipoTelefoneType.CELULAR);
-		assertFalse(telefone.hashCode() == outroTelefone.hashCode());
+		Telefone outroTelefone = new Telefone(DDD11, null, CELULAR);
+		assertNotEquals(telefone.hashCode(), outroTelefone.hashCode());
 	}
 
 	@Test
 	public void deve_retornar_true_no_equals_com_telefones_iguais() {
-		Telefone telefone1 = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
-		Telefone telefone2 = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
+		Telefone telefone1 = new Telefone(DDD11, "978457845", CELULAR);
+		Telefone telefone2 = new Telefone(DDD11, "978457845", CELULAR);
 		assertEquals(telefone1, telefone2);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_equals_com_um_telefone_de_numero_null() {
-		Telefone outroTelefone = new Telefone(TelefoneDDDType.DDD11, null, TipoTelefoneType.CELULAR);
+		Telefone outroTelefone = new Telefone(DDD11, null, CELULAR);
 		assertNotEquals(telefone, outroTelefone);
 	}
 
@@ -181,14 +184,14 @@ public class TelefoneTest {
 
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_true_no_equals_comparando_dois_telefone_de_numero_null() {
-		Telefone telefone1 = new Telefone(TelefoneDDDType.DDD11, null, TipoTelefoneType.CELULAR);
-		Telefone telefone2 = new Telefone(TelefoneDDDType.DDD11, null, TipoTelefoneType.CELULAR);
+		Telefone telefone1 = new Telefone(DDD11, null, CELULAR);
+		Telefone telefone2 = new Telefone(DDD11, null, CELULAR);
 		assertEquals(telefone1, telefone2);
 	}
 
 	@Test
 	public void deve_retornar_false_no_equals_com_telefone_de_numeros_diferentes() {
-		Telefone outroTelefone = new Telefone(TelefoneDDDType.DDD11, "978457857", TipoTelefoneType.CELULAR);
+		Telefone outroTelefone = new Telefone(DDD11, "978457857", CELULAR);
 		assertNotEquals(telefone, outroTelefone);
 	}
 
@@ -209,31 +212,37 @@ public class TelefoneTest {
 		String telefoneToString = telefone.toString();
 		assertEquals(telefoneToString, telefone.toString());
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_tentar_setar_o_contrutor_null() {
+		Telefone outroTelefone = new Telefone(null, null, null);
+		assertEquals(null, outroTelefone);
+	}
 
 	@Test
 	public void deve_testar_o_getDdd_do_TelefoneDDDType() {
-		TelefoneDDDType telefoneDDD = TelefoneDDDType.DDD11;
+		TelefoneDDDType telefoneDDD = DDD11;
 		assertEquals(telefoneDDD.getDdd(), 11);
 
 	}
 
 	@Test
 	public void deve_testar_o_getComplemento_do_TelefoneDDDType() {
-		TelefoneDDDType telefoneDddComplemento = TelefoneDDDType.DDD11;
-		assertEquals(telefoneDddComplemento.getComplemento(), "São Paulo – SP");
+		TelefoneDDDType telefoneDddComplemento = DDD11;
+		assertEquals("São Paulo – SP", telefoneDddComplemento.getComplemento());
 	}
 
 	@Test
 	public void deve_testar_o_getDescricao_do_TipoTelefoneType() {
-		TipoTelefoneType telefoneDescricao = TipoTelefoneType.CELULAR;
-		assertEquals(telefoneDescricao.getDescricao(), "Celular");
+		TipoTelefoneType telefoneDescricao = CELULAR;
+		assertEquals("Celular", telefoneDescricao.getDescricao());
 
 	}
 
 	@Test
 	public void deve_testar_o_getTamanho_do_TipoTelefoneType() {
-		TipoTelefoneType telefoneDescricao = TipoTelefoneType.CELULAR;
-		assertEquals(telefoneDescricao.getTamanho(), 9);
+		TipoTelefoneType telefoneDescricao = CELULAR;
+		assertEquals(9, telefoneDescricao.getTamanho());
 	}
 
 	@AfterClass

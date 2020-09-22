@@ -56,7 +56,7 @@ public class Cliente {
 	}
 
 	private void validaCalculoCpf(String cpf) {
-		if (isCPF(cpf) == false) {
+		if (!isCPF(cpf)) {
 			throw new IllegalStateException(CPF_INVALIDO);
 		}
 	}

@@ -1,16 +1,13 @@
 package br.com.contmatic.endereco;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.FixMethodOrder;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
@@ -56,6 +53,7 @@ public class EnderecoTest {
 	@Test
 	public void deve_testar_se_o_cep_aceita_numeros() {
 		endereco.setCep("04517020");
+		assertEquals("04517020", endereco.getCep());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -101,7 +99,7 @@ public class EnderecoTest {
 	@Test
 	public void deve_testar_o_getCep() {
 		endereco.setCep("04517020");
-		assertEquals(endereco.getCep(), "04517020");
+		assertEquals("04517020", endereco.getCep());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -116,7 +114,8 @@ public class EnderecoTest {
 
 	@Test
 	public void deve_testar_se_o_rua_aceita_numeros() {
-		endereco.setRua("04517020");
+		endereco.setRua("Jose Ramon");
+		assertEquals("Jose Ramon", endereco.getRua());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -136,7 +135,8 @@ public class EnderecoTest {
 
 	@Test
 	public void deve_testar_se_o_rua_aceita_letras() {
-		endereco.setRua("abcdefabcde");
+		endereco.setRua("Jose Ramon");
+		assertEquals("Jose Ramon", endereco.getRua());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -162,7 +162,7 @@ public class EnderecoTest {
 	@Test
 	public void deve_testar_o_getRua() {
 		endereco.setRua("Jose Josue");
-		assertEquals(endereco.getRua(), "Jose Josue");
+		assertEquals("Jose Josue", endereco.getRua());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -178,7 +178,8 @@ public class EnderecoTest {
 
 	@Test
 	public void deve_testar_se_o_complemento_aceita_numeros() {
-		enderecoCompleto.setComplemento("04517020");
+		enderecoCompleto.setComplemento("SN");
+		assertEquals("04517020", endereco.getComplemento());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -198,7 +199,8 @@ public class EnderecoTest {
 
 	@Test
 	public void deve_testar_se_o_complemento_aceita_letras() {
-		enderecoCompleto.setComplemento("abcdefabcde");
+		enderecoCompleto.setComplemento("NC");
+		assertEquals("NC", enderecoCompleto.getComplemento());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -224,7 +226,7 @@ public class EnderecoTest {
 	@Test
 	public void deve_testar_o_getComplemento() {
 		enderecoCompleto.setComplemento("Jose Josue");
-		assertEquals(enderecoCompleto.getComplemento(), "Jose Josue");
+		assertEquals("Jose Josue", enderecoCompleto.getCep());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -241,6 +243,7 @@ public class EnderecoTest {
 	@Test
 	public void deve_testar_se_o_bairro_aceita_numeros() {
 		endereco.setBairro("04517020");
+		assertEquals("04517020", endereco.getBairro());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -260,7 +263,8 @@ public class EnderecoTest {
 
 	@Test
 	public void deve_testar_se_o_bairro_aceita_letras() {
-		enderecoCompleto.setBairro("abcdefabcde");
+		enderecoCompleto.setBairro("Jardim Rosangela");
+		assertEquals("Jardim Rosangela", enderecoCompleto.getBairro());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -286,7 +290,7 @@ public class EnderecoTest {
 	@Test
 	public void deve_testar_o_getBairro() {
 		enderecoCompleto.setBairro("Jose Josue");
-		assertEquals(enderecoCompleto.getBairro(), "Jose Josue");
+		assertEquals("Jose Josue", enderecoCompleto.getBairro());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -322,7 +326,8 @@ public class EnderecoTest {
 
 	@Test
 	public void deve_testar_se_o_cidade_aceita_letras() {
-		enderecoCompleto.setCidade("abcdefabcde");
+		enderecoCompleto.setCidade("Curitiba");
+		assertEquals("Curitiba", enderecoCompleto.getCidade());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -348,7 +353,7 @@ public class EnderecoTest {
 	@Test
 	public void deve_testar_o_getCidade() {
 		enderecoCompleto.setCidade("Jose Josue");
-		assertEquals(enderecoCompleto.getCidade(), "Jose Josue");
+		assertEquals("Jose Josue", enderecoCompleto.getCidade());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -369,24 +374,26 @@ public class EnderecoTest {
 
 	@Test
 	public void deve_testar_o_getNumero() {
-		endereco.getNumero();
+		endereco.setNumero(2);
+		assertEquals(2, endereco.getNumero());
 	}
 
 	@Test
 	public void deve_testar_o_getEstado() {
-		endereco.getEstado();
+		endereco.setEstado(estado);
+		assertEquals(estado, endereco.getEstado());
 	}
 
 	@Test
 	public void deve_retornar_true_no_hashCode_com_enderecos_iguais() {
 		Endereco endereco2 = new Endereco("03806040", 777);
-		assertTrue(endereco.hashCode() == endereco2.hashCode());
+		assertEquals(endereco.hashCode(), endereco2.hashCode());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_retornar_false_no_hashCode_com_um_endereco_de_cep_null() {
 		Endereco endereco2 = new Endereco(null, rua, numero, complemento, bairro, cidade, estado);
-		assertFalse(endereco.hashCode() == endereco2.hashCode());
+		assertNotEquals(endereco.hashCode(), endereco2.hashCode());
 	}
 
 	@Test
@@ -429,6 +436,12 @@ public class EnderecoTest {
 	public void deve_retornar_false_no_equals_com_endereco_e_um_numero_aleatorio() {
 		assertNotEquals(endereco, new Object());
 	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void deve_tentar_setar_o_contrutor_null() {
+		Endereco outroEndereco = new Endereco(null, null);
+		assertEquals(null, outroEndereco);
+	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void toString_deve_retornar_null() {
@@ -445,7 +458,6 @@ public class EnderecoTest {
 		assertEquals(enderecoPreenchido.toString(), enderecoPreenchidoToString);
 	}
 
-	@Ignore
 	@After
 	public void tearDown() {
 		cep = null;
