@@ -49,6 +49,7 @@ public class ClienteTest {
 	@Test
 	public void deve_testar_se_o_cpf_aceita_numeros() {
 		cliente.setCpf("43701888817");
+		assertEquals("43701888817", cliente.getCpf());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -69,6 +70,11 @@ public class ClienteTest {
 	@Test(expected = IllegalStateException.class)
 	public void deve_testar_se_o_cpf_aceita_letras() {
 		cliente.setCpf("abcdefabcde");
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void deve_testar_se_o_cpf_aceita_cpf_invalido() {
+		cliente.setCpf("43701888818");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
@@ -92,7 +98,7 @@ public class ClienteTest {
 	}
 	
 	@Test
-	public void deve_testar_o_getCpf() {
+	public void deve_testar_o_setCpf() {
 		cliente.setCpf("43701888817");
 		assertEquals(cliente.getCpf(), "43701888817");
 	}

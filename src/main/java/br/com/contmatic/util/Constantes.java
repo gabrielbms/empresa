@@ -97,6 +97,20 @@ public final class Constantes {
 	public static final String ESTADO_VAZIO = "O estado não foi selecionado.";
 	
 	public static final String NUMERO_INCORRETO = "O numero foi preenchido incorretamente.";
+	
+	public static final String TAMANHO_DO_CPF_PEQUENO_DEMAIS = "O CPF não pode ter menos que 11 numeros.";
+	
+	public static final String TAMANHO_DO_CPF_GRANDE_DEMAIS = "O CPF não pode ter mais que 11 numeros.";
+	
+	public static final String TAMANHO_DO_CNPJ_PEQUENO_DEMAIS = "O CNPJ não pode ter menos que 14 numeros.";
+	
+	public static final String TAMANHO_DO_CNPJ_GRANDE_DEMAIS = "O CNPJ não pode ter mais que 14 numeros.";
+	
+	public static final String CPF_VAZIO = "O CPF não pode ser vazio ou nullo";
+	
+	public static final String CNPJ_VAZIO = "O CNPJ não pode ser vazio ou nullo";
+	
+	public static final String ID_VAZIO = "O ID foi preenchido incorretamente.";
 
 	public static final Integer CPF_SIZE = 11;
 

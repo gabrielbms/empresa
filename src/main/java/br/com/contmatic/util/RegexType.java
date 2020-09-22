@@ -9,6 +9,7 @@ import static br.com.contmatic.util.Constantes.NAO_ACEITA_CARACTERES_ESPECIAIS;
 import static br.com.contmatic.util.Constantes.NAO_ACEITA_ESPACO_NO_INICIO_OU_NO_FIM;
 import static br.com.contmatic.util.Constantes.NAO_ACEITA_LETRAS;
 import static br.com.contmatic.util.Constantes.NAO_ACEITA_MAIS_QUE_UM_ESPACO_ENTRE_AS_PALAVRAS;
+import static java.util.regex.Pattern.compile;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -78,7 +79,7 @@ public class RegexType {
 	}
 
 	private static boolean contemLetras(String string) {
-		Pattern regexLetras = Pattern.compile(LETRAS);
+		Pattern regexLetras = compile(LETRAS);
 		Matcher matcherLetras = regexLetras.matcher(string);
 		return matcherLetras.find();
 	}

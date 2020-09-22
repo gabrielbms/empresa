@@ -1,18 +1,20 @@
 package br.com.contmatic.empresa;
 
 import static br.com.contmatic.util.Constantes.ID_MINIMO;
-import static br.com.contmatic.util.Constantes.NOME_INCORRETO;
+import static br.com.contmatic.util.Constantes.ID_VAZIO;
 import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
 import static br.com.contmatic.util.Constantes.NOME_MAX_SIZE;
 import static br.com.contmatic.util.Constantes.NOME_MIN_SIZE;
+import static br.com.contmatic.util.Constantes.NOME_VAZIO;
 import static br.com.contmatic.util.Constantes.PRECO_MINIMO_MENSAGEM;
 import static br.com.contmatic.util.Constantes.PREÇO_MINIMO;
 import static br.com.contmatic.util.Constantes.QUANTIDADE_MINIMA;
 import static br.com.contmatic.util.Constantes.QUANTIDADE_MINIMA_MENSAGEM;
+import static br.com.contmatic.util.Constantes.TAMANHO_DO_NOME_GRANDE_DEMAIS;
+import static br.com.contmatic.util.Constantes.TAMANHO_DO_NOME_PEQUENO_DEMAIS;
+import static br.com.contmatic.util.RegexType.isLetrasENumeros;
 
 import java.math.BigDecimal;
-
-import br.com.contmatic.util.RegexType;
 
 public class Produto {
 
@@ -42,7 +44,7 @@ public class Produto {
 
 	private void validaIdIncorreto(Integer id) {
 		if (id == null || id.doubleValue() < ID_MINIMO) {
-			throw new IllegalArgumentException("O ID foi preenchido incorretamente.");
+			throw new IllegalArgumentException(ID_VAZIO);
 		}
 	}
 
@@ -57,13 +59,19 @@ public class Produto {
 	}
 
 	private void validaNomeIncorreto(String nome) {
-		if (nome == null || nome.trim().isEmpty() || nome.length() < NOME_MIN_SIZE || nome.length() > NOME_MAX_SIZE) {
-			throw new IllegalArgumentException(NOME_INCORRETO);
+		if (nome == null || nome.trim().isEmpty()) {
+			throw new IllegalArgumentException(NOME_VAZIO);
+		}
+		if (nome.length() < NOME_MIN_SIZE) {
+			throw new IllegalArgumentException(TAMANHO_DO_NOME_PEQUENO_DEMAIS);
+		}
+		if (nome.length() > NOME_MAX_SIZE) {
+			throw new IllegalArgumentException(TAMANHO_DO_NOME_GRANDE_DEMAIS);
 		}
 	}
 
 	private void validaRegexNome(String nome) {
-		if (!RegexType.isLetrasENumeros(nome)) {
+		if (!isLetrasENumeros(nome)) {
 			throw new IllegalArgumentException(NOME_INVALIDO);
 		}
 	}

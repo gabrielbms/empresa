@@ -1,19 +1,24 @@
 package br.com.contmatic.empresa;
 
-import static br.com.contmatic.util.Constantes.CNPJ_INCORRETO;
 import static br.com.contmatic.util.Constantes.CNPJ_INVALIDO;
 import static br.com.contmatic.util.Constantes.CNPJ_SIZE;
+import static br.com.contmatic.util.Constantes.CNPJ_VAZIO;
 import static br.com.contmatic.util.Constantes.ENDERECO_VAZIO;
-import static br.com.contmatic.util.Constantes.NOME_INCORRETO;
 import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
 import static br.com.contmatic.util.Constantes.NOME_MAX_SIZE;
 import static br.com.contmatic.util.Constantes.NOME_MIN_SIZE;
+import static br.com.contmatic.util.Constantes.NOME_VAZIO;
+import static br.com.contmatic.util.Constantes.TAMANHO_DO_CNPJ_GRANDE_DEMAIS;
+import static br.com.contmatic.util.Constantes.TAMANHO_DO_CNPJ_PEQUENO_DEMAIS;
+import static br.com.contmatic.util.Constantes.TAMANHO_DO_NOME_GRANDE_DEMAIS;
+import static br.com.contmatic.util.Constantes.TAMANHO_DO_NOME_PEQUENO_DEMAIS;
 import static br.com.contmatic.util.Constantes.TELEFONE_VAZIO;
+import static br.com.contmatic.util.RegexType.isLetras;
+import static br.com.contmatic.util.RegexType.isNumeros;
+import static br.com.contmatic.util.Validate.isCNPJ;
 
 import br.com.contmatic.endereco.Endereco;
 import br.com.contmatic.telefone.Telefone;
-import br.com.contmatic.util.RegexType;
-import br.com.contmatic.util.Validate;
 
 public class Empresa {
 
@@ -44,19 +49,25 @@ public class Empresa {
 	}
 
 	private void validaCnpjIncorreto(String cnpj) {
-		if (cnpj == null || cnpj.trim().isEmpty() || cnpj.length() < CNPJ_SIZE || cnpj.length() > CNPJ_SIZE) {
-			throw new IllegalArgumentException(CNPJ_INCORRETO);
+		if (cnpj == null || cnpj.trim().isEmpty()) {
+			throw new IllegalArgumentException(CNPJ_VAZIO);
+		}
+		if (cnpj.length() < CNPJ_SIZE) {
+			throw new IllegalArgumentException(TAMANHO_DO_CNPJ_PEQUENO_DEMAIS);
+		}
+		if (cnpj.length() > CNPJ_SIZE) {
+			throw new IllegalArgumentException(TAMANHO_DO_CNPJ_GRANDE_DEMAIS);
 		}
 	}
 
 	private void validaCnpjInvalido(String cnpj) {
-		if (Validate.isCNPJ(cnpj) == false) {
+		if (!isCNPJ(cnpj)) {
 			throw new IllegalStateException(CNPJ_INVALIDO);
 		}
 	}
 
 	private void validaRegexCnpj(String cnpj) {
-		if (!RegexType.isNumeros(cnpj)) {
+		if (!isNumeros(cnpj)) {
 			throw new IllegalArgumentException(CNPJ_INVALIDO);
 		}
 	}
@@ -72,13 +83,19 @@ public class Empresa {
 	}
 
 	private void validaNomeIncorreto(String nome) {
-		if (nome == null || nome.trim().isEmpty() || nome.length() < NOME_MIN_SIZE || nome.length() > NOME_MAX_SIZE) {
-			throw new IllegalArgumentException(NOME_INCORRETO);
+		if (nome == null || nome.trim().isEmpty()) {
+			throw new IllegalArgumentException(NOME_VAZIO);
+		}
+		if (nome.length() < NOME_MIN_SIZE) {
+			throw new IllegalArgumentException(TAMANHO_DO_NOME_PEQUENO_DEMAIS);
+		}
+		if (nome.length() > NOME_MAX_SIZE) {
+			throw new IllegalArgumentException(TAMANHO_DO_NOME_GRANDE_DEMAIS);
 		}
 	}
 
 	private void validaRegexNome(String nome) {
-		if (!RegexType.isLetras(nome)) {
+		if (!isLetras(nome)) {
 			throw new IllegalArgumentException(NOME_INVALIDO);
 		}
 	}
@@ -89,12 +106,11 @@ public class Empresa {
 
 	public void setTelefone(Telefone telefone) {
 		validaTelefoneNullo(telefone);
+		this.telefone = telefone;
 	}
 
 	private void validaTelefoneNullo(Telefone telefone) {
-		if (telefone != null) {
-			this.telefone = telefone;
-		} else {
+		if (telefone == null) {
 			throw new IllegalArgumentException(TELEFONE_VAZIO);
 		}
 	}
@@ -105,12 +121,11 @@ public class Empresa {
 
 	public void setEndereco(Endereco endereco) {
 		validaEnderecoNullo(endereco);
+		this.endereco = endereco;
 	}
 
 	private void validaEnderecoNullo(Endereco endereco) {
 		if (endereco != null) {
-			this.endereco = endereco;
-		} else {
 			throw new IllegalArgumentException(ENDERECO_VAZIO);
 		}
 	}

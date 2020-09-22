@@ -24,11 +24,11 @@ public class EmpresaTest {
 
 	private String nome;
 
-	private static Empresa empresa;
+	private Empresa empresa;
 	
 	private Telefone telefone;
 	
-	Endereco endereco = new Endereco("03208070", 85);
+	private Endereco endereco;
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -40,7 +40,7 @@ public class EmpresaTest {
 		cnpj = "35667373000103";
 		nome = "GB Conserto de computadores";
 		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
-		Endereco endereco = new Endereco("03208070", 79);
+		endereco = new Endereco("03208070", 79);
 		empresa = new Empresa(cnpj, nome, telefone, endereco);
 	}
 
@@ -251,7 +251,6 @@ public class EmpresaTest {
 
 	@AfterClass
 	public static void TearDownAfterClass() {
-		System.out.println(empresa);
 		System.out.println("Finalizamos os testes na classe empresa\n");
 	}
 
