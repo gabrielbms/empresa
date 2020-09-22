@@ -125,7 +125,7 @@ public class Empresa {
 	}
 
 	private void validaEnderecoNullo(Endereco endereco) {
-		if (endereco != null) {
+		if (endereco == null) {
 			throw new IllegalArgumentException(ENDERECO_VAZIO);
 		}
 	}

@@ -33,9 +33,9 @@ public class FuncionarioTest {
 
 	private BigDecimal salario;
 
-	private static Funcionario funcionario;
+	private Funcionario funcionario;
 	
-	private static Funcionario funcionarioCompleto;
+	private Funcionario funcionarioCompleto;
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -113,6 +113,11 @@ public class FuncionarioTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setCpf_tamanho_maior() {
 		funcionario.setCpf("121212121212");
+	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void deve_testar_exception_a_validação_do_cpf() {
+		funcionario.setCpf("43701888818");
 	}
 
 	@Test
@@ -279,7 +284,6 @@ public class FuncionarioTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() {
-		System.out.println(funcionario);
 		System.out.println("Finalizamos os testes na classe funcionario\n");
 	}
 

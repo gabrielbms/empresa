@@ -29,9 +29,9 @@ public class FornecedorTest {
 
 	private Telefone telefone;
 
-	private static Fornecedor fornecedor;
+	private Fornecedor fornecedor;
 	
-	private static Produto produto;
+	private Produto produto;
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -113,6 +113,12 @@ public class FornecedorTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_cnpj_tamanho_maior() {
 		fornecedor.setCnpj("1515151515151515");
+	}
+	
+	
+	@Test(expected = IllegalStateException.class)
+	public void deve_testar_exception_a_validação_do_cnpj() {
+		fornecedor.setCnpj("35667373000104");
 	}
 	
 	@Test
@@ -266,7 +272,6 @@ public class FornecedorTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() {
-		System.out.println(fornecedor);
 		System.out.println("Finalizamos os testes na classe funcionario\n");
 	}
 

@@ -23,7 +23,7 @@ public class ProdutoTest {
 	
 	private BigDecimal preço;
 	
-	private static Produto produto;
+	private Produto produto;
 	
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -222,7 +222,6 @@ public class ProdutoTest {
 
 	@AfterClass
 	public static void tearDownAfterClass() {
-		System.out.println(produto);
 		System.out.println("Finalizamos os testes na classe funcionario\n");
 	}
 

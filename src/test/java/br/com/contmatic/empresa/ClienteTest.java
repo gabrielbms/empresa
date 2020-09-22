@@ -28,9 +28,9 @@ public class ClienteTest {
 
 	private BigDecimal boleto;
 
-	private static Cliente cliente;
+	private Cliente cliente;
 	
-	private static Telefone telefone;
+	private Telefone telefone;
 
 	@BeforeClass
 	public static void setUpBeforeClass() {
@@ -112,6 +112,12 @@ public class ClienteTest {
 	public void deve_testar_exception_do_setCpf_tamanho_maior() {
 		cliente.setCpf("121212121212");
 	}
+	
+	@Test(expected = IllegalStateException.class)
+	public void deve_testar_exception_a_validação_do_cpf() {
+		cliente.setCpf("43701888818");
+	}
+
 
 	@Test
 	public void deve_testar_se_o_nome_aceita_letras() {
@@ -276,7 +282,6 @@ public class ClienteTest {
 
 	@AfterClass
 	public static void TearDownAfterClass() {
-		System.out.println(cliente);
 		System.out.println("Finalizamos os testes na classe cliente\n");
 	}
 }

@@ -3,8 +3,7 @@ package br.com.contmatic.telefone;
 import static br.com.contmatic.util.Constantes.TELEFONE_INVALIDO;
 import static br.com.contmatic.util.Constantes.TEL_MAX_SIZE;
 import static br.com.contmatic.util.Constantes.TEL_MIN_SIZE;
-
-import br.com.contmatic.util.RegexType;
+import static br.com.contmatic.util.RegexType.isNumeros;
 
 public class Telefone {
 
@@ -42,7 +41,7 @@ public class Telefone {
 	}
 
 	private void validaRegexNumero(String numero) {
-		if (!RegexType.isNumeros(numero)) {
+		if (!isNumeros(numero)) {
 			throw new IllegalArgumentException(TELEFONE_INVALIDO);
 		}
 	}

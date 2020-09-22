@@ -22,8 +22,9 @@ import static br.com.contmatic.util.Constantes.RUA_INCORRETO;
 import static br.com.contmatic.util.Constantes.RUA_INVALIDA;
 import static br.com.contmatic.util.Constantes.RUA_MAX_SIZE;
 import static br.com.contmatic.util.Constantes.RUA_MIN_SIZE;
-
-import br.com.contmatic.util.RegexType;
+import static br.com.contmatic.util.RegexType.isLetras;
+import static br.com.contmatic.util.RegexType.isLetrasENumeros;
+import static br.com.contmatic.util.RegexType.isNumeros;
 
 public class Endereco {
 
@@ -74,7 +75,7 @@ public class Endereco {
 	}
 
 	private void validaRegexCep(String cep) {
-		if (!RegexType.isNumeros(cep)) {
+		if (!isNumeros(cep)) {
 			throw new IllegalArgumentException(CEP_INVALIDO);
 		}
 	}
@@ -96,7 +97,7 @@ public class Endereco {
 	}
 
 	private void validaRegexRua(String rua) {
-		if (!RegexType.isLetrasENumeros(rua)) {
+		if (!isLetrasENumeros(rua)) {
 			throw new IllegalArgumentException(RUA_INVALIDA);
 		}
 	}
@@ -134,7 +135,7 @@ public class Endereco {
 	}
 
 	private void validaRegexComplemento(String complemento) {
-		if (!RegexType.isLetrasENumeros(complemento)) {
+		if (!isLetrasENumeros(complemento)) {
 			throw new IllegalArgumentException(COMPLEMENTO_INVALIDO);
 		}
 	}
@@ -157,7 +158,7 @@ public class Endereco {
 	}
 
 	private void validaRegexBairro(String bairro) {
-		if (!RegexType.isLetrasENumeros(bairro)) {
+		if (!isLetrasENumeros(bairro)) {
 			throw new IllegalArgumentException(BAIRRO_INVALIDO);
 		}
 	}
@@ -180,7 +181,7 @@ public class Endereco {
 	}
 
 	private void validaRegexCidade(String cidade) {
-		if (!RegexType.isLetras(cidade)) {
+		if (!isLetras(cidade)) {
 			throw new IllegalArgumentException(CIDADE_INVALIDA);
 		}
 	}

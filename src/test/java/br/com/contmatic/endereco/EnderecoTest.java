@@ -31,9 +31,9 @@ public class EnderecoTest {
 
 	private Estado estado;
 
-	private static Endereco endereco;
+	private Endereco endereco;
 
-	private static Endereco enderecoCompleto;
+	private Endereco enderecoCompleto;
 
 	@BeforeClass
 	public static void InicioDosTestes() {
@@ -57,317 +57,321 @@ public class EnderecoTest {
 	public void deve_testar_se_o_cep_aceita_numeros() {
 		endereco.setCep("04517020");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_cep_aceita_null() {
 		endereco.setCep(null);
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_cep_aceita_vazio() {
 		endereco.setCep("");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_cep_aceita_espaco_em_branco() {
 		endereco.setCep("  ");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_cep_aceita_letras() {
 		endereco.setCep("abcdefabcde");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_cep_aceita_caracteres_especiais() {
 		endereco.setCep("@#$");
 	}
-		
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_cep_aceita_espaco_no_inicio() {
 		endereco.setCep(" 04517020");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_cep_aceita_espaco_no_final() {
 		endereco.setCep("04517020 ");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_cep_aceita_muitos_espacos_entre_os_numeros() {
 		endereco.setCep("0451   7020");
 	}
-	
+
 	@Test
 	public void deve_testar_o_getCep() {
 		endereco.setCep("04517020");
 		assertEquals(endereco.getCep(), "04517020");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setCep_tamanho_menor() {
 		endereco.setCep("666666");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setCep_tamanho_maior() {
 		endereco.setCep("121212121212");
 	}
-	
+
 	@Test
 	public void deve_testar_se_o_rua_aceita_numeros() {
 		endereco.setRua("04517020");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_rua_aceita_null() {
 		endereco.setRua(null);
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_rua_aceita_vazio() {
 		endereco.setRua("");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_rua_aceita_espaco_em_branco() {
 		endereco.setRua("  ");
 	}
-	
+
 	@Test
 	public void deve_testar_se_o_rua_aceita_letras() {
 		endereco.setRua("abcdefabcde");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_rua_aceita_caracteres_especiais() {
 		endereco.setRua("@#$");
 	}
-		
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_rua_aceita_espaco_no_inicio() {
 		endereco.setRua(" 04517020");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_rua_aceita_espaco_no_final() {
 		endereco.setRua("04517020 ");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_rua_aceita_muitos_espacos_entre_os_numeros() {
 		endereco.setRua("0451   7020");
 	}
-	
+
 	@Test
 	public void deve_testar_o_getRua() {
 		endereco.setRua("Jose Josue");
 		assertEquals(endereco.getRua(), "Jose Josue");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setRua_tamanho_menor() {
 		endereco.setRua("z");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setRua_tamanho_maior() {
-		endereco.setRua("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		endereco.setRua(
+				"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 	}
-	
+
 	@Test
 	public void deve_testar_se_o_complemento_aceita_numeros() {
 		enderecoCompleto.setComplemento("04517020");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_complemento_aceita_null() {
 		endereco.setComplemento(null);
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_complemento_aceita_vazio() {
 		endereco.setComplemento("");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_complemento_aceita_espaco_em_branco() {
 		endereco.setComplemento("  ");
 	}
-	
+
 	@Test
 	public void deve_testar_se_o_complemento_aceita_letras() {
 		enderecoCompleto.setComplemento("abcdefabcde");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_complemento_aceita_caracteres_especiais() {
 		endereco.setComplemento("@#$");
 	}
-		
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_complemento_aceita_espaco_no_inicio() {
 		endereco.setComplemento(" 04517020");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_complemento_aceita_espaco_no_final() {
 		endereco.setComplemento("04517020 ");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_complemento_aceita_muitos_espacos_entre_os_numeros() {
 		endereco.setComplemento("0451   7020");
 	}
-	
+
 	@Test
 	public void deve_testar_o_getComplemento() {
 		enderecoCompleto.setComplemento("Jose Josue");
 		assertEquals(enderecoCompleto.getComplemento(), "Jose Josue");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setComplemento_tamanho_menor() {
 		endereco.setComplemento("z");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setComplemento_tamanho_maior() {
-		endereco.setComplemento("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		endereco.setComplemento(
+				"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 	}
-	
+
 	@Test
 	public void deve_testar_se_o_bairro_aceita_numeros() {
 		endereco.setBairro("04517020");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_bairro_aceita_null() {
 		endereco.setBairro(null);
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_bairro_aceita_vazio() {
 		endereco.setBairro("");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_bairro_aceita_espaco_em_branco() {
 		endereco.setBairro("  ");
 	}
-	
+
 	@Test
 	public void deve_testar_se_o_bairro_aceita_letras() {
 		enderecoCompleto.setBairro("abcdefabcde");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_bairro_aceita_caracteres_especiais() {
 		endereco.setBairro("@#$");
 	}
-		
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_bairro_aceita_espaco_no_inicio() {
 		endereco.setBairro(" 04517020");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_bairro_aceita_espaco_no_final() {
 		endereco.setBairro("04517020 ");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_bairro_aceita_muitos_espacos_entre_os_numeros() {
 		endereco.setBairro("0451   7020");
 	}
-	
+
 	@Test
 	public void deve_testar_o_getBairro() {
 		enderecoCompleto.setBairro("Jose Josue");
 		assertEquals(enderecoCompleto.getBairro(), "Jose Josue");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setBairro_tamanho_menor() {
 		endereco.setBairro("z");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setBairro_tamanho_maior() {
-		endereco.setBairro("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		endereco.setBairro(
+				"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_cidade_aceita_numeros() {
 		enderecoCompleto.setCidade("04517020");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_cidade_aceita_null() {
 		endereco.setCidade(null);
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_cidade_aceita_vazio() {
 		endereco.setCidade("");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_cidade_aceita_espaco_em_branco() {
 		endereco.setCidade("  ");
 	}
-	
+
 	@Test
 	public void deve_testar_se_o_cidade_aceita_letras() {
 		enderecoCompleto.setCidade("abcdefabcde");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_cidade_aceita_caracteres_especiais() {
 		endereco.setCidade("@#$");
 	}
-		
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_cidade_aceita_espaco_no_inicio() {
 		endereco.setCidade(" 04517020");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_cidade_aceita_espaco_no_final() {
 		endereco.setCidade("04517020 ");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_cidade_aceita_muitos_espacos_entre_os_numeros() {
 		endereco.setCidade("0451   7020");
 	}
-	
+
 	@Test
 	public void deve_testar_o_getCidade() {
 		enderecoCompleto.setCidade("Jose Josue");
 		assertEquals(enderecoCompleto.getCidade(), "Jose Josue");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setCidade_tamanho_menor() {
 		endereco.setCidade("z");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_exception_do_setCidade_tamanho_maior() {
-		endereco.setCidade("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+		endereco.setCidade(
+				"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
 	}
-	
+
 	@Test(expected = IllegalArgumentException.class)
 	public void deve_testar_se_o_estado_aceita_null() {
 		endereco.setEstado(null);
 	}
-	
+
 	@Test
 	public void deve_testar_o_getNumero() {
 		endereco.getNumero();
 	}
-	
+
 	@Test
 	public void deve_testar_o_getEstado() {
 		endereco.getEstado();
@@ -455,7 +459,6 @@ public class EnderecoTest {
 
 	@AfterClass
 	public static void teste_no_toString() {
-		System.out.println(endereco);
 		System.out.println("Finalizamos os testes na classe endereco\n");
 	}
 

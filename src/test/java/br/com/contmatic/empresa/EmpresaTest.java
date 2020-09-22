@@ -105,6 +105,12 @@ public class EmpresaTest {
 		empresa.setCnpj("1515151515151515");
 	}
 	
+	
+	@Test(expected = IllegalStateException.class)
+	public void deve_testar_exception_a_validação_do_cnpj() {
+		empresa.setCnpj("35667373000104");
+	}
+	
 	@Test
 	public void deve_testar_se_o_nome_aceita_letras() {
 		empresa.setNome("Gabriel");
