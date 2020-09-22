@@ -6,13 +6,13 @@ import static br.com.contmatic.util.Constantes.NOME_INVALIDO;
 import static br.com.contmatic.util.Constantes.NOME_MAX_SIZE;
 import static br.com.contmatic.util.Constantes.NOME_MIN_SIZE;
 import static br.com.contmatic.util.Constantes.NOME_VAZIO;
-import static br.com.contmatic.util.Constantes.PRECO_MINIMO_MENSAGEM;
 import static br.com.contmatic.util.Constantes.PRECO_MINIMO;
+import static br.com.contmatic.util.Constantes.PRECO_MINIMO_MENSAGEM;
 import static br.com.contmatic.util.Constantes.QUANTIDADE_MINIMA;
 import static br.com.contmatic.util.Constantes.QUANTIDADE_MINIMA_MENSAGEM;
 import static br.com.contmatic.util.Constantes.TAMANHO_DO_NOME_GRANDE_DEMAIS;
 import static br.com.contmatic.util.Constantes.TAMANHO_DO_NOME_PEQUENO_DEMAIS;
-import static br.com.contmatic.util.RegexType.isLetrasENumeros;
+import static br.com.contmatic.util.RegexType.isNotLetrasENumeros;
 
 import java.math.BigDecimal;
 
@@ -59,19 +59,31 @@ public class Produto {
 	}
 
 	private void validaNomeIncorreto(String nome) {
-		if (nome == null || nome.trim().isEmpty()) {
-			throw new IllegalArgumentException(NOME_VAZIO);
-		}
-		if (nome.length() < NOME_MIN_SIZE) {
-			throw new IllegalArgumentException(TAMANHO_DO_NOME_PEQUENO_DEMAIS);
-		}
+		validaNomeNulloOuVazio(nome);
+		validaNomePequenoDemais(nome);
+		validaNomeGrandeDemais(nome);
+	}
+
+	private void validaNomeGrandeDemais(String nome) {
 		if (nome.length() > NOME_MAX_SIZE) {
 			throw new IllegalArgumentException(TAMANHO_DO_NOME_GRANDE_DEMAIS);
 		}
 	}
 
+	private void validaNomePequenoDemais(String nome) {
+		if (nome.length() < NOME_MIN_SIZE) {
+			throw new IllegalArgumentException(TAMANHO_DO_NOME_PEQUENO_DEMAIS);
+		}
+	}
+
+	private void validaNomeNulloOuVazio(String nome) {
+		if (nome == null || nome.trim().isEmpty()) {
+			throw new IllegalArgumentException(NOME_VAZIO);
+		}
+	}
+
 	private void validaRegexNome(String nome) {
-		if (!isLetrasENumeros(nome)) {
+		if (isNotLetrasENumeros(nome)) {
 			throw new IllegalArgumentException(NOME_INVALIDO);
 		}
 	}

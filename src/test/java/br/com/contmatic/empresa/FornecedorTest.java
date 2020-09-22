@@ -18,7 +18,7 @@ import org.junit.Test;
 import br.com.contmatic.endereco.Endereco;
 import br.com.contmatic.telefone.Telefone;
 import br.com.contmatic.telefone.TelefoneDDDType;
-import br.com.contmatic.telefone.TipoTelefoneType;;
+import br.com.contmatic.telefone.TelefoneType;;
 
 @FixMethodOrder(NAME_ASCENDING)
 public class FornecedorTest {
@@ -51,7 +51,7 @@ public class FornecedorTest {
 		nome = "CA peças LTDA";
 		Set<Produto> produtos = new HashSet<>();
 		produtos.add(produto);
-		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
+		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TelefoneType.CELULAR);
 		endereco = new Endereco("02708010", 21);
 		fornecedor = new Fornecedor(cnpj, nome, telefone, produtos, endereco);
 	}

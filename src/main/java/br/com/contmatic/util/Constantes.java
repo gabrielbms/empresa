@@ -111,6 +111,12 @@ public final class Constantes {
 	public static final String CNPJ_VAZIO = "O CNPJ não pode ser vazio ou nullo";
 	
 	public static final String ID_VAZIO = "O ID foi preenchido incorretamente.";
+	
+	public static final String DDD_VAZIO = "O DDD foi preenchido incorretamente.";
+	
+	public static final String TIPO_TELEFONE_VAZIO = "O tipo telefone foi preenchido incorretamente.";
+	
+	public static final String TELEFONE_PREENCHIDO_INCORRETAMENTE = "O numero do telefone foi preenchido incorretamente.";
 
 	public static final Integer CPF_SIZE = 11;
 
@@ -153,5 +159,8 @@ public final class Constantes {
 	public static final Integer CIDADE_MIN_SIZE = 2;
 	
 	public static final Integer CIDADE_MAX_SIZE = 30;
+	
+	private Constantes() {
+	}
 	
 }

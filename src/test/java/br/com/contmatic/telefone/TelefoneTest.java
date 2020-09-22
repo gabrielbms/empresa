@@ -1,8 +1,8 @@
 package br.com.contmatic.telefone;
 
 import static br.com.contmatic.telefone.TelefoneDDDType.DDD11;
-import static br.com.contmatic.telefone.TipoTelefoneType.CELULAR;
-import static br.com.contmatic.telefone.TipoTelefoneType.FIXO;
+import static br.com.contmatic.telefone.TelefoneType.CELULAR;
+import static br.com.contmatic.telefone.TelefoneType.FIXO;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
@@ -24,7 +24,7 @@ public class TelefoneTest {
 
 	private String numero;
 
-	private TipoTelefoneType tipoTelefone;
+	private TelefoneType tipoTelefone;
 
 	private Telefone telefone;
 
@@ -41,9 +41,9 @@ public class TelefoneTest {
 		telefone = new Telefone(ddd, numero, tipoTelefone);
 	}
 
-	public TipoTelefoneType validaTipoTelefone(String numero) {
+	public TelefoneType validaTipoTelefone(String numero) {
 		if (numero.length() == 8) {
-			return TipoTelefoneType.FIXO;
+			return TelefoneType.FIXO;
 		}
 		if (numero.length() == 9) {
 			return CELULAR;
@@ -234,14 +234,14 @@ public class TelefoneTest {
 
 	@Test
 	public void deve_testar_o_getDescricao_do_TipoTelefoneType() {
-		TipoTelefoneType telefoneDescricao = CELULAR;
+		TelefoneType telefoneDescricao = CELULAR;
 		assertEquals("Celular", telefoneDescricao.getDescricao());
 
 	}
 
 	@Test
 	public void deve_testar_o_getTamanho_do_TipoTelefoneType() {
-		TipoTelefoneType telefoneDescricao = CELULAR;
+		TelefoneType telefoneDescricao = CELULAR;
 		assertEquals(9, telefoneDescricao.getTamanho());
 	}
 

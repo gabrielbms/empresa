@@ -15,7 +15,7 @@ import org.junit.Test;
 import br.com.contmatic.endereco.Endereco;
 import br.com.contmatic.telefone.Telefone;
 import br.com.contmatic.telefone.TelefoneDDDType;
-import br.com.contmatic.telefone.TipoTelefoneType;;
+import br.com.contmatic.telefone.TelefoneType;;
 
 @FixMethodOrder(NAME_ASCENDING)
 public class EmpresaTest {
@@ -39,7 +39,7 @@ public class EmpresaTest {
 	public void setUp() {
 		cnpj = "35667373000103";
 		nome = "GB Conserto de computadores";
-		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
+		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TelefoneType.CELULAR);
 		endereco = new Endereco("03208070", 79);
 		empresa = new Empresa(cnpj, nome, telefone, endereco);
 	}

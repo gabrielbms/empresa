@@ -5,7 +5,7 @@ package br.com.contmatic.endereco;
  * 
  * @author gabriel.santos
  */
-public enum Estado {
+public enum EstadoType {
     
     /** The sp. */
     SP("São Paulo – SP"),    
@@ -91,7 +91,7 @@ public enum Estado {
     /** The est. */
     private String est;
 
-    private Estado(String estado) {
+    private EstadoType(String estado) {
         this.est = estado;
     }
 

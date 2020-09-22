@@ -26,7 +26,7 @@ public class EnderecoTest {
 
 	private String cidade;
 
-	private Estado estado;
+	private EstadoType estado;
 
 	private Endereco endereco;
 
@@ -45,7 +45,7 @@ public class EnderecoTest {
 		complemento = "Sem complemento";
 		bairro = "Jardim Santo Eduardo";
 		cidade = "São Paulo";
-		estado = Estado.SP;
+		estado = EstadoType.SP;
 		enderecoCompleto = new Endereco(cep, rua, numero, complemento, bairro, cidade, estado);
 		endereco = new Endereco(cep, numero);
 	}
@@ -179,7 +179,7 @@ public class EnderecoTest {
 	@Test
 	public void deve_testar_se_o_complemento_aceita_numeros() {
 		enderecoCompleto.setComplemento("SN");
-		assertEquals("04517020", endereco.getComplemento());
+		assertEquals("SN", enderecoCompleto.getComplemento());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
@@ -226,7 +226,7 @@ public class EnderecoTest {
 	@Test
 	public void deve_testar_o_getComplemento() {
 		enderecoCompleto.setComplemento("Jose Josue");
-		assertEquals("Jose Josue", enderecoCompleto.getCep());
+		assertEquals("Jose Josue", enderecoCompleto.getComplemento());
 	}
 
 	@Test(expected = IllegalArgumentException.class)

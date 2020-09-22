@@ -14,9 +14,9 @@ import static br.com.contmatic.util.Constantes.TAMANHO_DO_CNPJ_PEQUENO_DEMAIS;
 import static br.com.contmatic.util.Constantes.TAMANHO_DO_NOME_GRANDE_DEMAIS;
 import static br.com.contmatic.util.Constantes.TAMANHO_DO_NOME_PEQUENO_DEMAIS;
 import static br.com.contmatic.util.Constantes.TELEFONE_VAZIO;
-import static br.com.contmatic.util.RegexType.isLetrasENumeros;
-import static br.com.contmatic.util.RegexType.isNumeros;
-import static br.com.contmatic.util.Validate.isCNPJ;
+import static br.com.contmatic.util.RegexType.isNotLetrasENumeros;
+import static br.com.contmatic.util.RegexType.isNotNumeros;
+import static br.com.contmatic.util.Validate.isNotCNPJ;
 
 import java.util.Set;
 
@@ -60,25 +60,37 @@ public class Fornecedor {
 	}
 
 	private void validaCalculoCnpj(String cnpj) {
-		if (!isCNPJ(cnpj)) {
+		if (isNotCNPJ(cnpj)) {
 			throw new IllegalStateException(CNPJ_INVALIDO);
 		}
 	}
 
 	private void validaCnpjIncorreto(String cnpj) {
-		if (cnpj == null || cnpj.trim().isEmpty()) {
-			throw new IllegalArgumentException(CNPJ_VAZIO);
-		}
-		if (cnpj.length() < CNPJ_SIZE) {
-			throw new IllegalArgumentException(TAMANHO_DO_CNPJ_PEQUENO_DEMAIS);
-		}
+		validaCnpjNulloOuVazio(cnpj);
+		validaCnpjComTamanhoMenor(cnpj);
+		validaCnpjComTamanhoMaior(cnpj);
+	}
+
+	private void validaCnpjComTamanhoMaior(String cnpj) {
 		if (cnpj.length() > CNPJ_SIZE) {
 			throw new IllegalArgumentException(TAMANHO_DO_CNPJ_GRANDE_DEMAIS);
 		}
 	}
 
+	private void validaCnpjComTamanhoMenor(String cnpj) {
+		if (cnpj.length() < CNPJ_SIZE) {
+			throw new IllegalArgumentException(TAMANHO_DO_CNPJ_PEQUENO_DEMAIS);
+		}
+	}
+
+	private void validaCnpjNulloOuVazio(String cnpj) {
+		if (cnpj == null || cnpj.trim().isEmpty()) {
+			throw new IllegalArgumentException(CNPJ_VAZIO);
+		}
+	}
+
 	private void validaRegexCnpj(String cnpj) {
-		if (!isNumeros(cnpj)) {
+		if (isNotNumeros(cnpj)) {
 			throw new IllegalArgumentException(CNPJ_INVALIDO);
 		}
 	}
@@ -94,18 +106,31 @@ public class Fornecedor {
 	}
 
 	private void validaNomeIncorreto(String nome) {
-		if (nome == null || nome.trim().isEmpty()) {
-			throw new IllegalArgumentException(NOME_VAZIO);
-		}
-		if (nome.length() < NOME_MIN_SIZE) {
-			throw new IllegalArgumentException(TAMANHO_DO_NOME_PEQUENO_DEMAIS);
-		}
+		validaNomeNulloOuVazio(nome);
+		validaNomeMenorQueOTamanhoMinimo(nome);
+		validaNomeMaiorQueOTamanhoMinimo(nome);
+	}
+
+	private void validaNomeMaiorQueOTamanhoMinimo(String nome) {
 		if (nome.length() > NOME_MAX_SIZE) {
 			throw new IllegalArgumentException(TAMANHO_DO_NOME_GRANDE_DEMAIS);
 		}
 	}
+
+	private void validaNomeMenorQueOTamanhoMinimo(String nome) {
+		if (nome.length() < NOME_MIN_SIZE) {
+			throw new IllegalArgumentException(TAMANHO_DO_NOME_PEQUENO_DEMAIS);
+		}
+	}
+
+	private void validaNomeNulloOuVazio(String nome) {
+		if (nome == null || nome.trim().isEmpty()) {
+			throw new IllegalArgumentException(NOME_VAZIO);
+		}
+	}
+
 	private void validaRegexNome(String nome) {
-		if (!isLetrasENumeros(nome)) {
+		if (isNotLetrasENumeros(nome)) {
 			throw new IllegalArgumentException(NOME_INVALIDO);
 		}
 	}
@@ -115,7 +140,7 @@ public class Fornecedor {
 	}
 
 	public void setTelefone(Telefone telefone) {
-		validaTelefoneNullo(telefone);
+		this.validaTelefoneNullo(telefone);
 		this.telefone = telefone;
 	}
 
@@ -130,7 +155,7 @@ public class Fornecedor {
 	}
 
 	public void setProduto(Set<Produto> produto) {
-		validaProdutoNullo(produto);
+		this.validaProdutoNullo(produto);
 		this.produtos = produto;
 	}
 
@@ -152,7 +177,7 @@ public class Fornecedor {
 	private void validaEnderecoNullo(Endereco endereco) {
 		if (endereco == null) {
 			throw new IllegalArgumentException(ENDERECO_VAZIO);
-		} 
+		}
 	}
 
 	@Override

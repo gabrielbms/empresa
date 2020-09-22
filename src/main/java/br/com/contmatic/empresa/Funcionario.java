@@ -17,9 +17,9 @@ import static br.com.contmatic.util.Constantes.TAMANHO_DO_CPF_PEQUENO_DEMAIS;
 import static br.com.contmatic.util.Constantes.TAMANHO_DO_NOME_GRANDE_DEMAIS;
 import static br.com.contmatic.util.Constantes.TAMANHO_DO_NOME_PEQUENO_DEMAIS;
 import static br.com.contmatic.util.Constantes.TELEFONE_VAZIO;
-import static br.com.contmatic.util.RegexType.isLetras;
-import static br.com.contmatic.util.RegexType.isNumeros;
-import static br.com.contmatic.util.Validate.isCPF;
+import static br.com.contmatic.util.RegexType.isNotLetras;
+import static br.com.contmatic.util.RegexType.isNotNumeros;
+import static br.com.contmatic.util.Validate.isNotCPF;
 
 import java.math.BigDecimal;
 
@@ -67,25 +67,37 @@ public class Funcionario {
 	}
 
 	private void validaCalculoCpf(String cpf) {
-		if (!isCPF(cpf)) {
+		if (isNotCPF(cpf)) {
 			throw new IllegalStateException(CPF_INVALIDO);
 		}
 	}
 
 	private void validaCpfIncorreto(String cpf) {
+		validaCpfNulloOuVazio(cpf);
+		validaCpfComTamanhoMenor(cpf);
+		validaCpfComTamanhoMaior(cpf);
+	}
+
+	private void validaCpfNulloOuVazio(String cpf) {
 		if (cpf == null || cpf.trim().isEmpty()) {
 			throw new IllegalArgumentException(CPF_VAZIO);
 		}
+	}
+
+	private void validaCpfComTamanhoMenor(String cpf) {
 		if (cpf.length() < CPF_SIZE) {
 			throw new IllegalArgumentException(TAMANHO_DO_CPF_PEQUENO_DEMAIS);
 		}
+	}
+
+	private void validaCpfComTamanhoMaior(String cpf) {
 		if (cpf.length() > CPF_SIZE) {
 			throw new IllegalArgumentException(TAMANHO_DO_CPF_GRANDE_DEMAIS);
 		}
 	}
 
 	private void validaRegexCpf(String cpf) {
-		if (!isNumeros(cpf)) {
+		if (isNotNumeros(cpf)) {
 			throw new IllegalArgumentException(CPF_INVALIDO);
 		}
 	}
@@ -101,19 +113,31 @@ public class Funcionario {
 	}
 
 	private void validaNomeIncorreto(String nome) {
-		if (nome == null || nome.trim().isEmpty()) {
-			throw new IllegalArgumentException(NOME_VAZIO);
-		}
-		if (nome.length() < NOME_MIN_SIZE) {
-			throw new IllegalArgumentException(TAMANHO_DO_NOME_PEQUENO_DEMAIS);
-		}
+		validaNomeNulloOuVazio(nome);
+		validaNomeMenorQueOTamanhoMinimo(nome);
+		validaNomeMaiorQueOTamanhoMinimo(nome);
+	}
+
+	private void validaNomeMaiorQueOTamanhoMinimo(String nome) {
 		if (nome.length() > NOME_MAX_SIZE) {
 			throw new IllegalArgumentException(TAMANHO_DO_NOME_GRANDE_DEMAIS);
 		}
 	}
 
+	private void validaNomeMenorQueOTamanhoMinimo(String nome) {
+		if (nome.length() < NOME_MIN_SIZE) {
+			throw new IllegalArgumentException(TAMANHO_DO_NOME_PEQUENO_DEMAIS);
+		}
+	}
+
+	private void validaNomeNulloOuVazio(String nome) {
+		if (nome == null || nome.trim().isEmpty()) {
+			throw new IllegalArgumentException(NOME_VAZIO);
+		}
+	}
+
 	private void validaRegexNome(String nome) {
-		if (!isLetras(nome)) {
+		if (isNotLetras(nome)) {
 			throw new IllegalArgumentException(NOME_INVALIDO);
 		}
 	}
@@ -138,7 +162,7 @@ public class Funcionario {
 	}
 
 	public void setTelefone(Telefone telefone) {
-		validaTelefoneNullo(telefone);
+		this.validaTelefoneNullo(telefone);
 		this.telefone = telefone;
 	}
 
@@ -153,7 +177,7 @@ public class Funcionario {
 	}
 
 	public void setEndereco(Endereco endereco) {
-		validaEnderecoNullo(endereco);
+		this.validaEnderecoNullo(endereco);
 		this.endereco = endereco;
 	}
 

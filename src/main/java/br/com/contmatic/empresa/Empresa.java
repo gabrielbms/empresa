@@ -13,9 +13,9 @@ import static br.com.contmatic.util.Constantes.TAMANHO_DO_CNPJ_PEQUENO_DEMAIS;
 import static br.com.contmatic.util.Constantes.TAMANHO_DO_NOME_GRANDE_DEMAIS;
 import static br.com.contmatic.util.Constantes.TAMANHO_DO_NOME_PEQUENO_DEMAIS;
 import static br.com.contmatic.util.Constantes.TELEFONE_VAZIO;
-import static br.com.contmatic.util.RegexType.isLetras;
-import static br.com.contmatic.util.RegexType.isNumeros;
-import static br.com.contmatic.util.Validate.isCNPJ;
+import static br.com.contmatic.util.RegexType.isNotLetras;
+import static br.com.contmatic.util.RegexType.isNotNumeros;
+import static br.com.contmatic.util.Validate.isNotCNPJ;
 
 import br.com.contmatic.endereco.Endereco;
 import br.com.contmatic.telefone.Telefone;
@@ -49,25 +49,37 @@ public class Empresa {
 	}
 
 	private void validaCnpjIncorreto(String cnpj) {
-		if (cnpj == null || cnpj.trim().isEmpty()) {
-			throw new IllegalArgumentException(CNPJ_VAZIO);
-		}
-		if (cnpj.length() < CNPJ_SIZE) {
-			throw new IllegalArgumentException(TAMANHO_DO_CNPJ_PEQUENO_DEMAIS);
-		}
+		validaCnpjNulloOuVazio(cnpj);
+		validaCnpjComTamanhoMenor(cnpj);
+		validaCnpjComTamanhoMaior(cnpj);
+	}
+
+	private void validaCnpjComTamanhoMaior(String cnpj) {
 		if (cnpj.length() > CNPJ_SIZE) {
 			throw new IllegalArgumentException(TAMANHO_DO_CNPJ_GRANDE_DEMAIS);
 		}
 	}
 
+	private void validaCnpjComTamanhoMenor(String cnpj) {
+		if (cnpj.length() < CNPJ_SIZE) {
+			throw new IllegalArgumentException(TAMANHO_DO_CNPJ_PEQUENO_DEMAIS);
+		}
+	}
+
+	private void validaCnpjNulloOuVazio(String cnpj) {
+		if (cnpj == null || cnpj.trim().isEmpty()) {
+			throw new IllegalArgumentException(CNPJ_VAZIO);
+		}
+	}
+
 	private void validaCnpjInvalido(String cnpj) {
-		if (!isCNPJ(cnpj)) {
+		if (isNotCNPJ(cnpj)) {
 			throw new IllegalStateException(CNPJ_INVALIDO);
 		}
 	}
 
 	private void validaRegexCnpj(String cnpj) {
-		if (!isNumeros(cnpj)) {
+		if (isNotNumeros(cnpj)) {
 			throw new IllegalArgumentException(CNPJ_INVALIDO);
 		}
 	}
@@ -83,19 +95,31 @@ public class Empresa {
 	}
 
 	private void validaNomeIncorreto(String nome) {
-		if (nome == null || nome.trim().isEmpty()) {
-			throw new IllegalArgumentException(NOME_VAZIO);
-		}
-		if (nome.length() < NOME_MIN_SIZE) {
-			throw new IllegalArgumentException(TAMANHO_DO_NOME_PEQUENO_DEMAIS);
-		}
+		validaNomeNulloOuIncorreto(nome);
+		validaNomeMenorQueOTamanhoMinimo(nome);
+		validaNomeMaiorQueOTamanhoMinimo(nome);
+	}
+
+	private void validaNomeMaiorQueOTamanhoMinimo(String nome) {
 		if (nome.length() > NOME_MAX_SIZE) {
 			throw new IllegalArgumentException(TAMANHO_DO_NOME_GRANDE_DEMAIS);
 		}
 	}
 
+	private void validaNomeMenorQueOTamanhoMinimo(String nome) {
+		if (nome.length() < NOME_MIN_SIZE) {
+			throw new IllegalArgumentException(TAMANHO_DO_NOME_PEQUENO_DEMAIS);
+		}
+	}
+
+	private void validaNomeNulloOuIncorreto(String nome) {
+		if (nome == null || nome.trim().isEmpty()) {
+			throw new IllegalArgumentException(NOME_VAZIO);
+		}
+	}
+
 	private void validaRegexNome(String nome) {
-		if (!isLetras(nome)) {
+		if (isNotLetras(nome)) {
 			throw new IllegalArgumentException(NOME_INVALIDO);
 		}
 	}
@@ -105,7 +129,7 @@ public class Empresa {
 	}
 
 	public void setTelefone(Telefone telefone) {
-		validaTelefoneNullo(telefone);
+		this.validaTelefoneNullo(telefone);
 		this.telefone = telefone;
 	}
 
@@ -120,7 +144,7 @@ public class Empresa {
 	}
 
 	public void setEndereco(Endereco endereco) {
-		validaEnderecoNullo(endereco);
+		this.validaEnderecoNullo(endereco);
 		this.endereco = endereco;
 	}
 

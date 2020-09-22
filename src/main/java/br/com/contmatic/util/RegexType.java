@@ -14,7 +14,7 @@ import static java.util.regex.Pattern.compile;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RegexType {
+public final class RegexType {
 
 	public static final String LETRAS = "[A-Za-záÁ-úÚÇÑ \\s]{2,15}$";
 
@@ -42,6 +42,10 @@ public class RegexType {
 		return true;
 	}
 	
+	public static boolean isNotLetras(String string) {
+		return !isLetras(string);
+	}
+	
 	public static boolean isNumeros(String string) {
 		try {
 			verificaSeTemNumeros(string);
@@ -55,6 +59,11 @@ public class RegexType {
 		return true;
 	}
 	
+	public static boolean isNotNumeros(String string) {
+		return !isNumeros(string);
+	}
+	
+	
 	public static boolean isLetrasENumeros(String string) {
 		try {
 			verificaSeNaoTemCaracteresEspeciais(string);
@@ -64,6 +73,10 @@ public class RegexType {
 			throw e;
 		} 
 		return true;
+	}
+	
+	public static boolean isNotLetrasENumeros(String string) {
+		return !isLetrasENumeros(string);
 	}
 
 	public static void verificaSeTemLetras(String string) {

@@ -2,10 +2,17 @@ package br.com.contmatic.util;
 
 import java.util.InputMismatchException;
 
-public class Validate {
+public final class Validate {
+	
+	private Validate() {
+	}
 
 	public static boolean isCPF(String CPF) {
 		return validaCpf(CPF);
+	}
+	
+	public static boolean isNotCPF(String CPF) {
+		return !isCPF(CPF);
 	}
 
 	private static boolean validaCpf(String CPF) {
@@ -69,6 +76,10 @@ public class Validate {
 
 	public static boolean isCNPJ(String CNPJ) {
 		return validaCnpj(CNPJ);
+	}
+	
+	public static boolean isNotCNPJ(String CPF) {
+		return !isCNPJ(CPF);
 	}
 
 	private static boolean validaCnpj(String CNPJ) {

@@ -18,7 +18,7 @@ import org.junit.Test;
 import br.com.contmatic.endereco.Endereco;
 import br.com.contmatic.telefone.Telefone;
 import br.com.contmatic.telefone.TelefoneDDDType;
-import br.com.contmatic.telefone.TipoTelefoneType;
+import br.com.contmatic.telefone.TelefoneType;
 
 @FixMethodOrder(NAME_ASCENDING)
 public class FuncionarioTest {
@@ -50,7 +50,7 @@ public class FuncionarioTest {
 		nome = "Gabriel Bueno";
 		idade = 25;
 		salario = BigDecimal.valueOf(1500.00);
-		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
+		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TelefoneType.CELULAR);
 		endereco = new Endereco("04508010", 274);
 		funcionario = new Funcionario(cpf, nome, salario);
 		funcionarioCompleto = new Funcionario(cpf, nome, idade, telefone, endereco, salario);

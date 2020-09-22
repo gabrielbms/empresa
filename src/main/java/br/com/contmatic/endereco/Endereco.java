@@ -22,9 +22,9 @@ import static br.com.contmatic.util.Constantes.RUA_INCORRETO;
 import static br.com.contmatic.util.Constantes.RUA_INVALIDA;
 import static br.com.contmatic.util.Constantes.RUA_MAX_SIZE;
 import static br.com.contmatic.util.Constantes.RUA_MIN_SIZE;
-import static br.com.contmatic.util.RegexType.isLetras;
-import static br.com.contmatic.util.RegexType.isLetrasENumeros;
-import static br.com.contmatic.util.RegexType.isNumeros;
+import static br.com.contmatic.util.RegexType.isNotLetras;
+import static br.com.contmatic.util.RegexType.isNotLetrasENumeros;
+import static br.com.contmatic.util.RegexType.isNotNumeros;
 
 public class Endereco {
 
@@ -40,7 +40,7 @@ public class Endereco {
 
 	private String cidade;
 
-	private Estado estado;
+	private EstadoType estado;
 
 	public Endereco(String cep, Integer numero) {
 		this.setCep(cep);
@@ -48,7 +48,7 @@ public class Endereco {
 	}
 
 	public Endereco(String cep, String rua, Integer numero, String complemento, String bairro, String cidade,
-			Estado estado) {
+			EstadoType estado) {
 		this.setCep(cep);
 		this.setRua(rua);
 		this.setNumero(numero);
@@ -75,7 +75,7 @@ public class Endereco {
 	}
 
 	private void validaRegexCep(String cep) {
-		if (!isNumeros(cep)) {
+		if (isNotNumeros(cep)) {
 			throw new IllegalArgumentException(CEP_INVALIDO);
 		}
 	}
@@ -97,7 +97,7 @@ public class Endereco {
 	}
 
 	private void validaRegexRua(String rua) {
-		if (!isLetrasENumeros(rua)) {
+		if (isNotLetrasENumeros(rua)) {
 			throw new IllegalArgumentException(RUA_INVALIDA);
 		}
 	}
@@ -135,7 +135,7 @@ public class Endereco {
 	}
 
 	private void validaRegexComplemento(String complemento) {
-		if (!isLetrasENumeros(complemento)) {
+		if (isNotLetrasENumeros(complemento)) {
 			throw new IllegalArgumentException(COMPLEMENTO_INVALIDO);
 		}
 	}
@@ -158,7 +158,7 @@ public class Endereco {
 	}
 
 	private void validaRegexBairro(String bairro) {
-		if (!isLetrasENumeros(bairro)) {
+		if (isNotLetrasENumeros(bairro)) {
 			throw new IllegalArgumentException(BAIRRO_INVALIDO);
 		}
 	}
@@ -181,21 +181,21 @@ public class Endereco {
 	}
 
 	private void validaRegexCidade(String cidade) {
-		if (!isLetras(cidade)) {
+		if (isNotLetras(cidade)) {
 			throw new IllegalArgumentException(CIDADE_INVALIDA);
 		}
 	}
 
-	public Estado getEstado() {
+	public EstadoType getEstado() {
 		return estado;
 	}
 
-	public void setEstado(Estado estado) {
+	public void setEstado(EstadoType estado) {
 		this.estadoVazio(estado);
 		this.estado = estado;
 	}
 
-	public void estadoVazio(Estado estado) {
+	public void estadoVazio(EstadoType estado) {
 		if (estado == null) {
 			throw new IllegalArgumentException(ESTADO_VAZIO);
 		}

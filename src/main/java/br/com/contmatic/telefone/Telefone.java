@@ -1,9 +1,12 @@
 package br.com.contmatic.telefone;
 
+import static br.com.contmatic.util.Constantes.DDD_VAZIO;
 import static br.com.contmatic.util.Constantes.TELEFONE_INVALIDO;
+import static br.com.contmatic.util.Constantes.TELEFONE_PREENCHIDO_INCORRETAMENTE;
 import static br.com.contmatic.util.Constantes.TEL_MAX_SIZE;
 import static br.com.contmatic.util.Constantes.TEL_MIN_SIZE;
-import static br.com.contmatic.util.RegexType.isNumeros;
+import static br.com.contmatic.util.Constantes.TIPO_TELEFONE_VAZIO;
+import static br.com.contmatic.util.RegexType.isNotNumeros;
 
 public class Telefone {
 
@@ -11,16 +14,27 @@ public class Telefone {
 
 	private String numero;
 
-	private TipoTelefoneType tipoTelefone;
+	private TelefoneType tipoTelefone;
 
-	public Telefone(TelefoneDDDType ddd, String numero, TipoTelefoneType tipoTelefone) {
-		this.ddd = ddd;
+	public Telefone(TelefoneDDDType ddd, String numero, TelefoneType tipoTelefone) {
+		this.setDdd(ddd);
 		this.setNumero(numero);
-		this.tipoTelefone = tipoTelefone;
+		this.setTipoTelefone(tipoTelefone);
 	}
 
 	public TelefoneDDDType getDdd() {
 		return ddd;
+	}
+	
+	public void setDdd(TelefoneDDDType ddd) {
+		this.dddVazio(ddd);
+		this.ddd = ddd;
+	}
+	
+	public void dddVazio(TelefoneDDDType ddd) {
+		if (ddd == null) {
+			throw new IllegalArgumentException(DDD_VAZIO);
+		}
 	}
 
 	public String getNumero() {
@@ -36,28 +50,39 @@ public class Telefone {
 	private void validaNumetoTelefoneIncorreto(String numero) {
 		if (numero == null || numero.trim().isEmpty() || numero.length() < TEL_MIN_SIZE
 				|| numero.length() > TEL_MAX_SIZE) {
-			throw new IllegalArgumentException("O numero do telefone foi preenchido incorretamente.");
+			throw new IllegalArgumentException(TELEFONE_PREENCHIDO_INCORRETAMENTE);
 		}
 	}
 
 	private void validaRegexNumero(String numero) {
-		if (!isNumeros(numero)) {
+		if (isNotNumeros(numero)) {
 			throw new IllegalArgumentException(TELEFONE_INVALIDO);
 		}
 	}
 
-	public TipoTelefoneType getTipoTelefone() {
+	public TelefoneType getTipoTelefone() {
 		return validaTipoTelefone(numero);
 	}
+	
+	public void setTipoTelefone(TelefoneType tipoTelefone) {
+		this.tipoTelefoneVazio(tipoTelefone);
+		this.tipoTelefone = tipoTelefone;
+	}
+	
+	public void tipoTelefoneVazio(TelefoneType tipoTelefone) {
+		if (tipoTelefone == null) {
+			throw new IllegalArgumentException(TIPO_TELEFONE_VAZIO);
+		}
+	}
 
-	private TipoTelefoneType validaTipoTelefone(String numero) {
+	private TelefoneType validaTipoTelefone(String numero) {
 		if (numero.length() == TEL_MAX_SIZE) {
-			return TipoTelefoneType.CELULAR;
+			return TelefoneType.CELULAR;
 		}
 		if (numero.length() == TEL_MIN_SIZE) {
-			return TipoTelefoneType.FIXO;
+			return TelefoneType.FIXO;
 		} else {
-			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
+			throw new IllegalArgumentException(TELEFONE_INVALIDO);
 		}
 	}
 

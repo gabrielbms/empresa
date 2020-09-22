@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import br.com.contmatic.telefone.Telefone;
 import br.com.contmatic.telefone.TelefoneDDDType;
-import br.com.contmatic.telefone.TipoTelefoneType;
+import br.com.contmatic.telefone.TelefoneType;
 
 @FixMethodOrder(NAME_ASCENDING)
 public class ClienteTest {
@@ -42,7 +42,7 @@ public class ClienteTest {
 		nome = "Gabriel";
 		boleto = BigDecimal.valueOf(250.00);
 		cliente = new Cliente(cpf, nome, boleto);
-		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TipoTelefoneType.CELULAR);
+		telefone = new Telefone(TelefoneDDDType.DDD11, "978457845", TelefoneType.CELULAR);
 	}
 	
 	@Test
@@ -116,7 +116,6 @@ public class ClienteTest {
 	public void deve_testar_exception_a_validação_do_cpf() {
 		cliente.setCpf("43701888818");
 	}
-
 
 	@Test
 	public void deve_testar_se_o_nome_aceita_letras() {
