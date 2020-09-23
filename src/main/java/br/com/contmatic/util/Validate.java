@@ -48,7 +48,7 @@ public final class Validate {
 		int soma = 0;
 		int loop = peso - 1;
 		for (int i = 0; i < loop; i++) {
-			int num = (int) (cpf.charAt(i) - 48);
+			int num = (cpf.charAt(i) - 48);
 			soma = soma + (num * peso);
 			peso = peso - 1;
 		}
@@ -67,7 +67,7 @@ public final class Validate {
 	}
 
 	private static boolean verificaPosicaoDosDigitosDoCpf(String cpf, char dig10, char dig11) {
-		if ((dig10 == cpf.charAt(9)) && (dig11 == cpf.charAt(10))) {
+		if (dig10 == cpf.charAt(9) && dig11 == cpf.charAt(10)) {
 			return true;
 		} else {
 			return false;
@@ -115,7 +115,7 @@ public final class Validate {
 		int soma = 0;
 		int peso = 2;
 		for (int i = dig - 2; i >= 0; i--) {
-			int num = (int) (cnpj.charAt(i) - 48);
+			int num = (cnpj.charAt(i) - 48);
 			soma = soma + (num * peso);
 			peso = peso + 1;
 			if (peso == 10) {
@@ -137,7 +137,7 @@ public final class Validate {
 	}
 
 	private static boolean verificaPosicaoDosDigitosDoCnpj(String cnpj, char dig13, char dig14) {
-		if ((dig13 == cnpj.charAt(12)) && (dig14 == cnpj.charAt(13))) {
+		if (dig13 == cnpj.charAt(12) && dig14 == cnpj.charAt(13)) {
 			return true;
 		} else {
 			return false;

@@ -222,7 +222,7 @@ public class TelefoneTest {
 	@Test
 	public void deve_testar_o_getDdd_do_TelefoneDDDType() {
 		TelefoneDDDType telefoneDDD = DDD11;
-		assertEquals(telefoneDDD.getDdd(), 11);
+		assertEquals(11, telefoneDDD.getDdd());
 
 	}
 
