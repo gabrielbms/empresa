@@ -152,18 +152,18 @@ public final class RegexType {
 	}
 	
 	public static void verificaSeTemMaisQueUmEspacoEntreAsPalavras(String string) {
-		if (!ContemMaisQueUmEspacoEntreAsPalavras(string)) {
+		if (!contemMaisQueUmEspacoEntreAsPalavras(string)) {
 			throw new IllegalArgumentException(ACEITA_MAIS_QUE_UM_ESPACO_ENTRE_AS_PALAVRAS);
 		}
 	}
 	
 	public static void verificaSeNaoTemMaisQueUmEspacoEntreAsPalavras(String string) {
-		if (ContemMaisQueUmEspacoEntreAsPalavras(string)) {
+		if (contemMaisQueUmEspacoEntreAsPalavras(string)) {
 			throw new IllegalArgumentException(NAO_ACEITA_MAIS_QUE_UM_ESPACO_ENTRE_AS_PALAVRAS);
 		}
 	}
 
-	public static boolean ContemMaisQueUmEspacoEntreAsPalavras(String string) {
+	public static boolean contemMaisQueUmEspacoEntreAsPalavras(String string) {
 		String patternStr = ESPACOS_DUPLICADOS;
 		Pattern pattern = Pattern.compile(patternStr);
 		Matcher matcher = pattern.matcher(string);

@@ -7,48 +7,48 @@ public final class Validate {
 	private Validate() {
 	}
 
-	public static boolean isCPF(String CPF) {
-		return validaCpf(CPF);
+	public static boolean isCPF(String cpf) {
+		return validaCpf(cpf);
 	}
 	
-	public static boolean isNotCPF(String CPF) {
-		return !isCPF(CPF);
+	public static boolean isNotCPF(String cpf) {
+		return !isCPF(cpf);
 	}
 
-	private static boolean validaCpf(String CPF) {
-		if (verificaCpfIncorreto(CPF)) {
+	private static boolean validaCpf(String cpf) {
+		if (verificaCpfIncorreto(cpf)) {
 			return false;
 		}
-		return realizaCalculoDoDigitoVerificadorDoCpf(CPF);
+		return realizaCalculoDoDigitoVerificadorDoCpf(cpf);
 	}
 
-	private static boolean verificaCpfIncorreto(String CPF) {
-		return CPF.equals("00000000000") || CPF.equals("11111111111") || CPF.equals("22222222222")
-				|| CPF.equals("33333333333") || CPF.equals("44444444444") || CPF.equals("55555555555")
-				|| CPF.equals("66666666666") || CPF.equals("77777777777") || CPF.equals("88888888888")
-				|| CPF.equals("99999999999") || (CPF.length() != 11);
+	private static boolean verificaCpfIncorreto(String cpf) {
+		return cpf.equals("00000000000") || cpf.equals("11111111111") || cpf.equals("22222222222")
+				|| cpf.equals("33333333333") || cpf.equals("44444444444") || cpf.equals("55555555555")
+				|| cpf.equals("66666666666") || cpf.equals("77777777777") || cpf.equals("88888888888")
+				|| cpf.equals("99999999999") || (cpf.length() != 11);
 	}
 
-	private static boolean realizaCalculoDoDigitoVerificadorDoCpf(String CPF) {
+	private static boolean realizaCalculoDoDigitoVerificadorDoCpf(String cpf) {
 		try {
-			char dig10 = calculoDosDigitosVerificadoresDoCpf(CPF, 10);
-			char dig11 = calculoDosDigitosVerificadoresDoCpf(CPF, 11);
-			return verificaPosicaoDosDigitosDoCpf(CPF, dig10, dig11);
+			char dig10 = calculoDosDigitosVerificadoresDoCpf(cpf, 10);
+			char dig11 = calculoDosDigitosVerificadoresDoCpf(cpf, 11);
+			return verificaPosicaoDosDigitosDoCpf(cpf, dig10, dig11);
 		} catch (InputMismatchException erro) {
 			return (false);
 		}
 	}
 
-	private static char calculoDosDigitosVerificadoresDoCpf(String CPF, int peso) {
-		int soma = realizaContaDoDigitoVerificadorDoCpf(CPF, peso);
+	private static char calculoDosDigitosVerificadoresDoCpf(String cpf, int peso) {
+		int soma = realizaContaDoDigitoVerificadorDoCpf(cpf, peso);
 		return verificaResultadoDaContaDoDigitoVerificadorDoCpf(soma);
 	}
 
-	private static int realizaContaDoDigitoVerificadorDoCpf(String CPF, int peso) {
+	private static int realizaContaDoDigitoVerificadorDoCpf(String cpf, int peso) {
 		int soma = 0;
 		int loop = peso - 1;
 		for (int i = 0; i < loop; i++) {
-			int num = (int) (CPF.charAt(i) - 48);
+			int num = (int) (cpf.charAt(i) - 48);
 			soma = soma + (num * peso);
 			peso = peso - 1;
 		}
@@ -66,56 +66,56 @@ public final class Validate {
 		return dig;
 	}
 
-	private static boolean verificaPosicaoDosDigitosDoCpf(String CPF, char dig10, char dig11) {
-		if ((dig10 == CPF.charAt(9)) && (dig11 == CPF.charAt(10))) {
+	private static boolean verificaPosicaoDosDigitosDoCpf(String cpf, char dig10, char dig11) {
+		if ((dig10 == cpf.charAt(9)) && (dig11 == cpf.charAt(10))) {
 			return true;
 		} else {
 			return false;
 		}
 	}
 
-	public static boolean isCNPJ(String CNPJ) {
-		return validaCnpj(CNPJ);
+	public static boolean isCNPJ(String cnpj) {
+		return validaCnpj(cnpj);
 	}
 	
-	public static boolean isNotCNPJ(String CPF) {
-		return !isCNPJ(CPF);
+	public static boolean isNotCNPJ(String cnpj) {
+		return !isCNPJ(cnpj);
 	}
 
-	private static boolean validaCnpj(String CNPJ) {
-		if (verificaCnpjIncorreto(CNPJ)) {
+	private static boolean validaCnpj(String cnpj) {
+		if (verificaCnpjIncorreto(cnpj)) {
 			return false;
 		}
-		return realizaCalculoDoDigitoVerificadorDoCnpj(CNPJ);
+		return realizaCalculoDoDigitoVerificadorDoCnpj(cnpj);
 	}
 
-	private static boolean verificaCnpjIncorreto(String CNPJ) {
-		return CNPJ.equals("00000000000000") || CNPJ.equals("11111111111111") || CNPJ.equals("22222222222222")
-				|| CNPJ.equals("33333333333333") || CNPJ.equals("44444444444444") || CNPJ.equals("55555555555555")
-				|| CNPJ.equals("66666666666666") || CNPJ.equals("77777777777777") || CNPJ.equals("88888888888888")
-				|| CNPJ.equals("99999999999999") || (CNPJ.length() != 14);
+	private static boolean verificaCnpjIncorreto(String cnpj) {
+		return cnpj.equals("00000000000000") || cnpj.equals("11111111111111") || cnpj.equals("22222222222222")
+				|| cnpj.equals("33333333333333") || cnpj.equals("44444444444444") || cnpj.equals("55555555555555")
+				|| cnpj.equals("66666666666666") || cnpj.equals("77777777777777") || cnpj.equals("88888888888888")
+				|| cnpj.equals("99999999999999") || (cnpj.length() != 14);
 	}
 
-	private static boolean realizaCalculoDoDigitoVerificadorDoCnpj(String CNPJ) {
+	private static boolean realizaCalculoDoDigitoVerificadorDoCnpj(String cnpj) {
 		try {
-			char dig13 = calculoDosDigitosVerificadoresDoCnpj(CNPJ, 13);
-			char dig14 = calculoDosDigitosVerificadoresDoCnpj(CNPJ, 14);
-			return verificaPosicaoDosDigitosDoCnpj(CNPJ, dig13, dig14);
+			char dig13 = calculoDosDigitosVerificadoresDoCnpj(cnpj, 13);
+			char dig14 = calculoDosDigitosVerificadoresDoCnpj(cnpj, 14);
+			return verificaPosicaoDosDigitosDoCnpj(cnpj, dig13, dig14);
 		} catch (InputMismatchException erro) {
 			return (false);
 		}
 	}
 
-	private static char calculoDosDigitosVerificadoresDoCnpj(String CNPJ, int dig) {
-		int soma = realizaContaDoDigitoVerificadorDoCnpj(CNPJ, dig);
+	private static char calculoDosDigitosVerificadoresDoCnpj(String cnpj, int dig) {
+		int soma = realizaContaDoDigitoVerificadorDoCnpj(cnpj, dig);
 		return verificaResultadoDaContaDoDigitoVerificadorDoCnpj(soma);
 	}
 
-	private static int realizaContaDoDigitoVerificadorDoCnpj(String CNPJ, int dig) {
+	private static int realizaContaDoDigitoVerificadorDoCnpj(String cnpj, int dig) {
 		int soma = 0;
 		int peso = 2;
 		for (int i = dig - 2; i >= 0; i--) {
-			int num = (int) (CNPJ.charAt(i) - 48);
+			int num = (int) (cnpj.charAt(i) - 48);
 			soma = soma + (num * peso);
 			peso = peso + 1;
 			if (peso == 10) {
@@ -136,8 +136,8 @@ public final class Validate {
 		return dig;
 	}
 
-	private static boolean verificaPosicaoDosDigitosDoCnpj(String CNPJ, char dig13, char dig14) {
-		if ((dig13 == CNPJ.charAt(12)) && (dig14 == CNPJ.charAt(13))) {
+	private static boolean verificaPosicaoDosDigitosDoCnpj(String cnpj, char dig13, char dig14) {
+		if ((dig13 == cnpj.charAt(12)) && (dig14 == cnpj.charAt(13))) {
 			return true;
 		} else {
 			return false;
