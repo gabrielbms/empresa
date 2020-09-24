@@ -73,9 +73,9 @@ public class Funcionario {
 	}
 
 	private void validaCpfIncorreto(String cpf) {
-		validaCpfNulloOuVazio(cpf);
-		validaCpfComTamanhoMenor(cpf);
-		validaCpfComTamanhoMaior(cpf);
+		this.validaCpfNulloOuVazio(cpf);
+		this.validaCpfComTamanhoMenor(cpf);
+		this.validaCpfComTamanhoMaior(cpf);
 	}
 
 	private void validaCpfNulloOuVazio(String cpf) {
@@ -113,9 +113,9 @@ public class Funcionario {
 	}
 
 	private void validaNomeIncorreto(String nome) {
-		validaNomeNulloOuVazio(nome);
-		validaNomeMenorQueOTamanhoMinimo(nome);
-		validaNomeMaiorQueOTamanhoMinimo(nome);
+		this.validaNomeNulloOuVazio(nome);
+		this.validaNomeMenorQueOTamanhoMinimo(nome);
+		this.validaNomeMaiorQueOTamanhoMinimo(nome);
 	}
 
 	private void validaNomeMaiorQueOTamanhoMinimo(String nome) {

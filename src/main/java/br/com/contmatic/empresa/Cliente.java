@@ -62,9 +62,9 @@ public class Cliente {
 	}
 
 	private void validaCpfIncorreto(String cpf) {
-		validaCpfNulloOuVazio(cpf);
-		validaCpfComTamanhoMenor(cpf);
-		validaCpfComTamanhoMaior(cpf);
+		this.validaCpfNulloOuVazio(cpf);
+		this.validaCpfComTamanhoMenor(cpf);
+		this.validaCpfComTamanhoMaior(cpf);
 	}
 
 	private void validaCpfComTamanhoMaior(String cpf) {
@@ -102,9 +102,9 @@ public class Cliente {
 	}
 
 	private void validaNomeIncorreto(String nome) {
-		validaNomeNulloOuVazio(nome);
-		validaNomeMenorQueOTamanhoMinimo(nome);
-		validaNomeMaiorQueOTamanhoMinimo(nome);
+		this.validaNomeNulloOuVazio(nome);
+		this.validaNomeMenorQueOTamanhoMinimo(nome);
+		this.validaNomeMaiorQueOTamanhoMinimo(nome);
 	}
 
 	private void validaNomeMaiorQueOTamanhoMinimo(String nome) {
@@ -136,7 +136,7 @@ public class Cliente {
 	}
 
 	public void setTelefone(Telefone telefone) {
-		validaTelefoneNullo(telefone);
+		this.validaTelefoneNullo(telefone);
 		this.telefone = telefone;
 	}
 

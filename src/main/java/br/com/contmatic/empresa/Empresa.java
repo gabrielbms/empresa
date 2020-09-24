@@ -49,9 +49,9 @@ public class Empresa {
 	}
 
 	private void validaCnpjIncorreto(String cnpj) {
-		validaCnpjNulloOuVazio(cnpj);
-		validaCnpjComTamanhoMenor(cnpj);
-		validaCnpjComTamanhoMaior(cnpj);
+		this.validaCnpjNulloOuVazio(cnpj);
+		this.validaCnpjComTamanhoMenor(cnpj);
+		this.validaCnpjComTamanhoMaior(cnpj);
 	}
 
 	private void validaCnpjComTamanhoMaior(String cnpj) {
@@ -95,9 +95,9 @@ public class Empresa {
 	}
 
 	private void validaNomeIncorreto(String nome) {
-		validaNomeNulloOuIncorreto(nome);
-		validaNomeMenorQueOTamanhoMinimo(nome);
-		validaNomeMaiorQueOTamanhoMinimo(nome);
+		this.validaNomeNulloOuIncorreto(nome);
+		this.validaNomeMenorQueOTamanhoMinimo(nome);
+		this.validaNomeMaiorQueOTamanhoMinimo(nome);
 	}
 
 	private void validaNomeMaiorQueOTamanhoMinimo(String nome) {

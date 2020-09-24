@@ -66,7 +66,7 @@ public class Telefone {
 	
 	public void setTipoTelefone(TelefoneType tipoTelefone) {
 		this.tipoTelefoneVazio(tipoTelefone);
-		this.tipoTelefone = tipoTelefone;
+		this.validaTipoTelefone(numero);
 	}
 	
 	public void tipoTelefoneVazio(TelefoneType tipoTelefone) {

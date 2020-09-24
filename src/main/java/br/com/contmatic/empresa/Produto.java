@@ -59,9 +59,9 @@ public class Produto {
 	}
 
 	private void validaNomeIncorreto(String nome) {
-		validaNomeNulloOuVazio(nome);
-		validaNomePequenoDemais(nome);
-		validaNomeGrandeDemais(nome);
+		this.validaNomeNulloOuVazio(nome);
+		this.validaNomePequenoDemais(nome);
+		this.validaNomeGrandeDemais(nome);
 	}
 
 	private void validaNomeGrandeDemais(String nome) {

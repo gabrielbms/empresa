@@ -52,68 +52,68 @@ public class ClienteTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_null() {
+	public void nao_deve_aceitar_null_no_cpf() {
 		cliente.setCpf(null);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_vazio() {
+	public void nao_deve_aceitar_vazio_no_cpf() {
 		cliente.setCpf("");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_espaco_em_branco() {
+	public void nao_deve_aceitar_espacos_em_branco_no_cpf() {
 		cliente.setCpf("  ");
 	}
 	
 	@Test(expected = IllegalStateException.class)
-	public void deve_testar_se_o_cpf_aceita_letras() {
+	public void nao_deve_aceitar_letras_no_cpf() {
 		cliente.setCpf("abcdefabcde");
 	}
 	
 	@Test(expected = IllegalStateException.class)
-	public void deve_testar_se_o_cpf_aceita_cpf_invalido() {
+	public void nao_deve_aceitar_cpf_invalido() {
 		cliente.setCpf("43701888818");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_caracteres_especiais() {
+	public void nao_deve_aceitar_caracteres_especiais_no_cpf() {
 		cliente.setCpf("@#$");
 	}
 		
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_espaco_no_inicio() {
+	public void nao_deve_aceitar_espacos_no_inicio_do_cpf() {
 		cliente.setCpf(" 43701888817");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_espaco_no_final() {
+	public void nao_deve_aceitar_espacos_no_fim_do_cpf() {
 		cliente.setCpf("43701888817 ");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_muitos_espacos_entre_os_numeros() {
+	public void nao_deve_aceitar_espacos_no_meio_do_cpf() {
 		cliente.setCpf("437018      88817");
 	}
 	
 	@Test
-	public void deve_testar_o_setCpf() {
+	public void deve_testar_o_getCpf() {
 		cliente.setCpf("43701888817");
 		assertEquals("43701888817", cliente.getCpf());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_tamanho_menor() {
+	public void nao_deve_aceitar_tamanho_menor_no_cpf() {
 		cliente.setCpf("1010101010");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_exception_do_setCpf_tamanho_maior() {
+	public void nao_deve_aceitar_tamanho_maior_no_cpf() {
 		cliente.setCpf("121212121212");
 	}
 	
 	@Test(expected = IllegalStateException.class)
-	public void deve_testar_exception_a_validação_do_cpf() {
+	public void deve_testar_exception_da_validação_do_cpf() {
 		cliente.setCpf("43701888818");
 	}
 
@@ -124,42 +124,42 @@ public class ClienteTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_null() {
+	public void nao_deve_aceitar_null_no_nome() {
 		cliente.setNome(null);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_vazio() {
+	public void nao_deve_aceitar_vazio_no_nome() {
 		cliente.setNome("");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_espaco_em_branco() {
+	public void nao_deve_aceitar_espacos_no_nome() {
 		cliente.setNome("          ");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_numeros() {
+	public void nao_deve_aceitar_numeros_no_nome() {
 		cliente.setNome("123456");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_caracteres_especiais() {
+	public void nao_deve_aceitar_caracteres_especiais_no_nome() {
 		cliente.setNome("@#$");
 	}
 		
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_espaco_no_inicio() {
+	public void nao_deve_aceitar_espacos_no_inicio_do_nome() {
 		cliente.setNome(" Gabriel");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_espaco_no_final() {
+	public void nao_deve_aceitar_espacos_no_final_do_nome() {
 		cliente.setNome("Gabriel ");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_muitos_espacos_entre_as_palavras() {
+	public void nao_deve_aceitar_mais_que_dois_espacos_no_meio_do_nome() {
 		cliente.setNome("Gabriel         Bueno");
 	}
 	

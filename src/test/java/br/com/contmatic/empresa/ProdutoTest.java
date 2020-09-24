@@ -46,37 +46,37 @@ public class ProdutoTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_null() {
+	public void nao_deve_aceitar_null_no_nome() {
 		produto.setNome(null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_vazio() {
+	public void nao_deve_aceitar_vazio_no_nome() {
 		produto.setNome("");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_espaco_em_branco() {
+	public void nao_deve_aceitar_espacos_em_brancos_no_nome() {
 		produto.setNome("          ");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_caracteres_especiais() {
+	public void nao_deve_aceitar_caracteres_especiais_no_nome() {
 		produto.setNome("@#$");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_espaco_no_inicio() {
+	public void nao_deve_aceitar_espaco_no_inicio_do_nome() {
 		produto.setNome(" Ryzen 5 2600");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_espaco_no_final() {
+	public void nao_deve_aceitar_espaco_no_final_do_nome() {
 		produto.setNome("Ryzen 5 2600 ");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_muitos_espacos_entre_as_palavras() {
+	public void nao_deve_aceitar_espacos_no_meio_do_nome() {
 		produto.setNome("Ryzen 5        2600");
 	}
 
@@ -87,7 +87,7 @@ public class ProdutoTest {
 	}
 
 	@Test
-	public void deve_testar_o_getNome() {
+	public void deve_testar_o_setNome() {
 		produto.setNome("Gabriel Bueno");
 		assertEquals("Gabriel Bueno", produto.getNome());
 	}

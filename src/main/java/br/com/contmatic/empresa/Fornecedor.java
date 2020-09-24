@@ -66,9 +66,9 @@ public class Fornecedor {
 	}
 
 	private void validaCnpjIncorreto(String cnpj) {
-		validaCnpjNulloOuVazio(cnpj);
-		validaCnpjComTamanhoMenor(cnpj);
-		validaCnpjComTamanhoMaior(cnpj);
+		this.validaCnpjNulloOuVazio(cnpj);
+		this.validaCnpjComTamanhoMenor(cnpj);
+		this.validaCnpjComTamanhoMaior(cnpj);
 	}
 
 	private void validaCnpjComTamanhoMaior(String cnpj) {
@@ -106,9 +106,9 @@ public class Fornecedor {
 	}
 
 	private void validaNomeIncorreto(String nome) {
-		validaNomeNulloOuVazio(nome);
-		validaNomeMenorQueOTamanhoMinimo(nome);
-		validaNomeMaiorQueOTamanhoMinimo(nome);
+		this.validaNomeNulloOuVazio(nome);
+		this.validaNomeMenorQueOTamanhoMinimo(nome);
+		this.validaNomeMaiorQueOTamanhoMinimo(nome);
 	}
 
 	private void validaNomeMaiorQueOTamanhoMinimo(String nome) {
@@ -170,7 +170,7 @@ public class Fornecedor {
 	}
 
 	public void setEndereco(Endereco endereco) {
-		validaEnderecoNullo(endereco);
+		this.validaEnderecoNullo(endereco);
 		this.endereco = endereco;
 	}
 

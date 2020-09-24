@@ -51,37 +51,37 @@ public class EmpresaTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cnpj_aceita_null() {
+	public void nao_deve_aceitar_null_no_cnpj() {
 		empresa.setCnpj(null);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cnpj_aceita_vazio() {
+	public void nao_deve_aceitar_vazio_no_cnpj() {
 		empresa.setCnpj("");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cnpj_aceita_espaco_em_branco() {
+	public void nao_deve_aceitar_espacos_no_cnpj() {
 		empresa.setCnpj("  ");
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cnpj_aceita_letras() {
-		empresa.setCnpj("abcdef");
+	@Test(expected = IllegalStateException.class)
+	public void nao_deve_aceitar_letras_no_cnpj() {
+		empresa.setCnpj("abcdefabcadgef");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cnpj_aceita_caracteres_especiais() {
+	public void nao_deve_aceitar_caracteres_especiais_no_cnpj() {
 		empresa.setCnpj("@#$");
 	}
 		
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cnpj_aceita_espaco_no_inicio() {
+	public void nao_deve_aceitar_espacos_no_inicio_do_cnpj() {
 		empresa.setCnpj(" 35667373000103");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cnpj_aceita_espaco_no_final() {
+	public void nao_deve_aceitar_espacos_no_fim_do_cnpj() {
 		empresa.setCnpj("35667373000103 ");
 	}
 	
@@ -120,42 +120,42 @@ public class EmpresaTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_null() {
+	public void nao_deve_aceitar_null_no_nome() {
 		empresa.setNome(null);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_vazio() {
+	public void nao_deve_aceitar_vazio_no_nome() {
 		empresa.setNome("");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_espaco_em_branco() {
+	public void nao_deve_aceitar_espacos_no_nome() {
 		empresa.setNome("          ");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_numeros() {
+	public void nao_deve_aceitar_numeros_no_nome() {
 		empresa.setNome("123456");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_caracteres_especiais() {
+	public void nao_deve_aceitar_caracteres_especiais_no_nome() {
 		empresa.setNome("@#$");
 	}
 		
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_espaco_no_inicio() {
+	public void nao_deve_aceitar_espaco_no_inicio_do_nome() {
 		empresa.setNome(" Gabriel");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_espaco_no_final() {
+	public void nao_deve_aceitar_espaco_no_fim_do_nome() {
 		empresa.setNome("Gabriel ");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_muitos_espacos_entre_as_palavras() {
+	public void nao_deve_aceitar_espaco_no_meio_do_nome() {
 		empresa.setNome("Gabriel         Bueno");
 	}
 	

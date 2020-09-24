@@ -63,47 +63,47 @@ public class FornecedorTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cnpj_aceita_null() {
+	public void nao_deve_aceitar_null_no_cnpj() {
 		fornecedor.setCnpj(null);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cnpj_aceita_vazio() {
+	public void nao_deve_aceitar_vazio_no_cnpj() {
 		fornecedor.setCnpj("");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cnpj_aceita_espaco_em_branco() {
+	public void nao_deve_aceitar_espacos_em_branco_no_cnpj() {
 		fornecedor.setCnpj("  ");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cnpj_aceita_letras() {
+	public void nao_deve_aceitar_letras_no_cnpj() {
 		fornecedor.setCnpj("abcdef");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cnpj_aceita_caracteres_especiais() {
+	public void nao_deve_aceitar_caracteres_especiais_no_cnpj() {
 		fornecedor.setCnpj("@#$");
 	}
 		
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cnpj_aceita_espaco_no_inicio() {
+	public void nao_deve_aceitar_espaco_no_inicio_do_cnpj() {
 		fornecedor.setCnpj(" 35667373000103");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cnpj_aceita_espaco_no_final() {
+	public void nao_deve_aceitar_espacos_no_final_do_cnpj() {
 		fornecedor.setCnpj("35667373000103 ");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cnpj_aceita_muitos_espacos_entre_os_numeros() {
+	public void nao_deve_aceitar_espacos_no_meio_do_cnpj() {
 		fornecedor.setCnpj("3566737       3000103");
 	}
 	
 	@Test
-	public void deve_testar_o_getCnpj() {
+	public void deve_testar_o_setCnpj() {
 		fornecedor.setCnpj("35667373000103");
 		assertEquals(fornecedor.getCnpj(), ("35667373000103"));
 	}
@@ -131,43 +131,43 @@ public class FornecedorTest {
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_null() {
+	public void nao_deve_aceitar_null_no_nome() {
 		fornecedor.setNome(null);
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_vazio() {
+	public void nao_deve_aceitar_vazio_no_nome() {
 		fornecedor.setNome("");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_espaco_em_branco() {
+	public void nao_deve_aceitar_espacos_no_nome() {
 		fornecedor.setNome("          ");
 	}
 	
 	@Test
-	public void deve_testar_se_o_nome_aceita_numeros() {
+	public void nao_deve_aceitar_numeros_no_nome() {
 		fornecedor.setNome("123456");
 		assertEquals("123456", fornecedor.getNome());
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_caracteres_especiais() {
+	public void nao_deve_aceitar_caracteres_especiais_no_nome() {
 		fornecedor.setNome("@#$");
 	}
 		
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_espaco_no_inicio() {
+	public void nao_deve_aceitar_espaco_no_inicio_do_nome() {
 		fornecedor.setNome(" Gabriel");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_espaco_no_final() {
+	public void nao_deve_aceitar_espaco_no_final_do_nome() {
 		fornecedor.setNome("Gabriel ");
 	}
 	
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_muitos_espacos_entre_as_palavras() {
+	public void nao_deve_aceitar_espacos_no_meio_do_nome() {
 		fornecedor.setNome("Gabriel         Bueno");
 	}
 	
@@ -178,7 +178,7 @@ public class FornecedorTest {
 	}
 	
 	@Test
-	public void deve_testar_o_getNome() {
+	public void deve_testar_o_setNome() {
 		fornecedor.setNome("Gabriel Bueno");
 		assertEquals("Gabriel Bueno", fornecedor.getNome());
 	}

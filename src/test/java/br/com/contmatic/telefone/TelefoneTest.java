@@ -3,10 +3,11 @@ package br.com.contmatic.telefone;
 import static br.com.contmatic.telefone.TelefoneDDDType.DDD11;
 import static br.com.contmatic.telefone.TelefoneType.CELULAR;
 import static br.com.contmatic.telefone.TelefoneType.FIXO;
+import static br.com.contmatic.util.Constantes.TELEFONE_INVALIDO;
+import static br.com.contmatic.util.Constantes.TEL_MAX_SIZE;
+import static br.com.contmatic.util.Constantes.TEL_MIN_SIZE;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
 
 import java.util.Random;
 
@@ -32,6 +33,17 @@ public class TelefoneTest {
 	public static void InicioDosTestes() {
 		System.out.println("Iniciamos os testes na classe telefone");
 	}
+	
+	private TelefoneType validaTipoTelefone(String numero) {
+		if (numero.length() == TEL_MAX_SIZE) {
+			return TelefoneType.CELULAR;
+		}
+		if (numero.length() == TEL_MIN_SIZE) {
+			return TelefoneType.FIXO;
+		} else {
+			throw new IllegalArgumentException(TELEFONE_INVALIDO);
+		}
+	}
 
 	@Before
 	public void setUp() {
@@ -41,65 +53,54 @@ public class TelefoneTest {
 		telefone = new Telefone(ddd, numero, tipoTelefone);
 	}
 
-	public TelefoneType validaTipoTelefone(String numero) {
-		if (numero.length() == 8) {
-			return TelefoneType.FIXO;
-		}
-		if (numero.length() == 9) {
-			return CELULAR;
-		} else {
-			throw new IllegalArgumentException("O telefone foi preenchido incorretamente.");
-		}
-	}
-
 	@Test
-	public void deve_testar_se_o_cpf_aceita_numeros() {
+	public void deve_testar_se_o_numero_aceita_numeros() {
 		telefone.setNumero("937018888");
 		assertEquals("937018888", telefone.getNumero());
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_null() {
+	public void nao_deve_aceitar_null_no_numero() {
 		telefone.setNumero(null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_vazio() {
+	public void nao_deve_aceitar_vazio_no_numero() {
 		telefone.setNumero("");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_espaco_em_branco() {
+	public void nao_deve_aceitar_espacos_em_branco_no_numero() {
 		telefone.setNumero("  ");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_letras() {
+	public void nao_deve_aceitar_letras_no_numero() {
 		telefone.setNumero("abcdefabcde");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_caracteres_especiais() {
+	public void nao_deve_aceitar_caracteres_especiais_no_numero() {
 		telefone.setNumero("@#$");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_espaco_no_inicio() {
+	public void nao_deve_aceitar_espaco_no_inicio_do_numero() {
 		telefone.setNumero(" 43701888817");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_espaco_no_final() {
+	public void nao_deve_aceitar_espaco_no_final_do_numero() {
 		telefone.setNumero("43701888817 ");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_muitos_espacos_entre_os_numeros() {
+	public void nao_deve_aceitar_espacos_no_meio_do_numero() {
 		telefone.setNumero("437018      88817");
 	}
 
 	@Test
-	public void deve_testar_o_getCpf() {
+	public void deve_testar_o_setNumero() {
 		telefone.setNumero("437018888");
 		assertEquals("437018888", telefone.getNumero());
 	}
@@ -115,29 +116,9 @@ public class TelefoneTest {
 	}
 
 	@Test
-	public void nao_deve_aceitar_ddd_nulo() {
-		assertNotNull(telefone.getDdd());
-	}
-
-	@Test
-	public void nao_deve_aceitar_numero_nulo() {
-		assertNotNull(telefone.getNumero());
-	}
-
-	@Test
-	public void nao_deve_aceitar_tipoTelefone_nulo() {
-		assertNotNull(telefone.getTipoTelefone());
-	}
-
-	@Test
 	public void deve_testar_o_getNumero_esta_funcionando_corretamente() {
 		telefone.setNumero("946756084");
 		assertEquals("946756084", telefone.getNumero());
-	}
-
-	@Test
-	public void nao_deve_aceitar_espacos_em_branco_no_numero() {
-		assertFalse(telefone.getNumero().trim().isEmpty());
 	}
 
 	@Test
@@ -243,6 +224,12 @@ public class TelefoneTest {
 	public void deve_testar_o_getTamanho_do_TipoTelefoneType() {
 		TelefoneType telefoneDescricao = CELULAR;
 		assertEquals(9, telefoneDescricao.getTamanho());
+	}
+	
+	@Test
+	public void deve_testar_o_getDdd() {
+		telefone.setDdd(DDD11);
+		assertEquals(DDD11, telefone.getDdd());
 	}
 
 	@AfterClass

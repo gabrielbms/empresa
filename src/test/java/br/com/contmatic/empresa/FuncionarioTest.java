@@ -64,47 +64,47 @@ public class FuncionarioTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_null() {
+	public void nao_deve_aceitar_null_no_cpf() {
 		funcionario.setCpf(null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_vazio() {
+	public void nao_deve_aceitar_vazio_no_cpf() {
 		funcionario.setCpf("");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_espaco_em_branco() {
+	public void nao_deve_aceitar_espacos_em_branco_no_cpf() {
 		funcionario.setCpf("  ");
 	}
 
 	@Test(expected = IllegalStateException.class)
-	public void deve_testar_se_o_cpf_aceita_letras() {
+	public void nao_deve_aceitar_letras_no_cpf() {
 		funcionario.setCpf("abcdefabcde");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_caracteres_especiais() {
+	public void nao_deve_aceitar_caracteres_especiais_no_cpf() {
 		funcionario.setCpf("@#$");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_espaco_no_inicio() {
+	public void nao_deve_aceitar_espaco_no_inicio_do_cpf() {
 		funcionario.setCpf(" 43701888817");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_espaco_no_final() {
+	public void nao_deve_aceitar_espaco_no_final_do_cpf() {
 		funcionario.setCpf("43701888817 ");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_cpf_aceita_muitos_espacos_entre_os_numeros() {
+	public void nao_deve_aceitar_espacos_no_meio_do_cpf() {
 		funcionario.setCpf("437018      88817");
 	}
 
 	@Test
-	public void deve_testar_o_getCpf() {
+	public void deve_testar_o_setCpf() {
 		funcionario.setCpf("43701888817");
 		assertEquals("43701888817", funcionario.getCpf());
 	}
@@ -131,42 +131,42 @@ public class FuncionarioTest {
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_null() {
+	public void nao_deve_aceitar_null_no_nome() {
 		funcionario.setNome(null);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_vazio() {
+	public void nao_deve_aceitar_vazio_no_nome() {
 		funcionario.setNome("");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_espaco_em_branco() {
+	public void nao_deve_aceitar_espacos_em_branco_no_nome() {
 		funcionario.setNome("          ");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_numeros() {
+	public void nao_deve_aceitar_numeros_no_nome() {
 		funcionario.setNome("123456");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_caracteres_especiais() {
+	public void nao_deve_aceitar_caracteres_especiais_no_nome() {
 		funcionario.setNome("@#$");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_espaco_no_inicio() {
+	public void nao_deve_aceitar_espaco_no_inicio_do_nome() {
 		funcionario.setNome(" Gabriel");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_espaco_no_final() {
+	public void nao_deve_aceitar_espaco_no_final_do_nome() {
 		funcionario.setNome("Gabriel ");
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void deve_testar_se_o_nome_aceita_muitos_espacos_entre_as_palavras() {
+	public void nao_deve_aceitar_espacos_no_meio_do_nome() {
 		funcionario.setNome("Gabriel         Bueno");
 	}
 
